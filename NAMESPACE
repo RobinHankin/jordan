@@ -1,0 +1,14 @@
+exportPattern("^[^\\.]")
+
+
+S3method(Ops, spin)
+S3method(print, spin)
+S3method(length, spin)
+S3method("[", spin)
+S3method("[<-", spin)
+S3method(dim,spin)
+
+importFrom(emulator,quad.3form)
+
+
+
