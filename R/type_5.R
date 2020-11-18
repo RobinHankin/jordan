@@ -44,6 +44,16 @@ setGeneric("dim")
 
 `length.spin` <- function(x){ncol(unclass(x))}
 
+setGeneric("names")
+`names.spin` <- function(x){colnames(unclass(x))}
+
+setGeneric("names<-")
+`names<-.spin` <- function(x,value){
+  a <- r1(x)
+  names(a) <- value
+  return(spin(a,rn(x)))
+}
+
 `r1` <- function(x){unclass(x)[ 1,,drop=TRUE ]}
 `rn` <- function(x){unclass(x)[-1,,drop=FALSE]}
 
