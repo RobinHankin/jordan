@@ -60,13 +60,12 @@ setGeneric("names<-")
 `rspin` <- function(n=5,d=7){ spin(round(rnorm(n),2),matrix(round(rnorm(n*d),2),d,n))}
 
 `print.spin` <- function(x){
-
-  out <- rbind(r1(x),"--",rn(x))
-  out[] <- format(c(out),width=max(nchar(c(out))),justify="right")
-  jj <- c("1","",paste("[",seq_len(nrow(rn(x))),"]",sep=""))
-  rownames(out) <- format(jj,width=max(nchar(jj)),justify="right")
-
-  print(noquote(out))
+  jj <- capture.output(unclass(x))
+  substr(jj[2],1,6) <- " r    "
+  jj <- c(jj[1:2],paste(rep("-",nchar(jj[1])),collapse=""),jj[-(1:2)])
+  for(i in jj){
+    cat(paste(i,"\n"))
+  }
   return(x)
 }
 
