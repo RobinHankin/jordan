@@ -9,7 +9,7 @@ S3method("[<-", spin)
 S3method(dim,spin)
 S3method(names,spin)
 S3method("names<-",spin)
-
+S3method("sum",spin)
 importFrom(emulator,quad.3form)
 
 

@@ -229,3 +229,5 @@ setGeneric("names<-")
   as.spin(x)
 }
 
+`sum.spin` <- function(x,na.rm=FALSE){ as.spin(cbind(rowSums(unclass(x)))) }
+  
