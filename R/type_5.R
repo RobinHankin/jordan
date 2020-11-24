@@ -57,7 +57,7 @@ setGeneric("names<-")
 `r1` <- function(x){unclass(x)[ 1,,drop=TRUE ]}
 `rn` <- function(x){unclass(x)[-1,,drop=FALSE]}
 
-`rspin` <- function(n=5,d=7,s=9){ spin(sample(s,n,replace=TRUE),matrix(sample(s,n*d,replace=TRUE),d,n))}
+`rspin` <- function(n=5,d=7){ spin(round(rnorm(n),2),matrix(round(rnorm(n*d),2),d,n))}
 
 `print.spin` <- function(x){
 
