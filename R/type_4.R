@@ -239,10 +239,10 @@ syncAL <- function(e1,e2){
   herm_onion_mat(rep(x,3),onions=as.octonion(rep(0,3)))
 }
 
-scalars_to_albertmatrix <- function(x){
+scalars_to_albert <- function(x){
   out <- matrix(0,27,length(x))
   for(i in seq_along(x)){
-    out[i,] <- real_to_albertmatrix(x[i])
+    out[,i] <- albertmatrix_to_v27(real_to_albertmatrix(x[i]))
   }
   return(as.albert(out))
 }
