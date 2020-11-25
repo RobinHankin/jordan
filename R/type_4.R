@@ -15,7 +15,7 @@
   } else if(is.matrix(x)){
     return(albert(x))
   } else if(is.vector(x)){
-    if(is.single){
+    if(single){
       return(albert(x))
     } else {
       return(scalars_to_albert(x))
