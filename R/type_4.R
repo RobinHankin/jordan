@@ -246,4 +246,6 @@ scalars_to_albert <- function(x){
   }
   return(as.albert(out))
 }
-         
+
+setGeneric("as.list")
+`as.list.albert` <-  function(a){apply(a,2,v27_to_albertmatrix)}
