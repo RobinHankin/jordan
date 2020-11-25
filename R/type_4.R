@@ -31,7 +31,7 @@ setGeneric("names")
 `names.albert` <- function(x){colnames(unclass(x))}
 
 `names<-.albert` <- function(x,value){
-  x <- unclass(a)
+  x <- unclass(x)
   colnames(x) <- value
   return(albert(x))
 }
