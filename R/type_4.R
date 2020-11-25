@@ -9,7 +9,7 @@
 }
 `is.albert` <- function(x){inherits(x,"albert")}
 
-`as.albert` <- function(x,sigle=FALSE){  # single modelled on as.onion()
+`as.albert` <- function(x,single=FALSE){  # single modelled on as.onion()
   if(is.albert(x)){
     return(x)
   } else if(is.matrix(x)){
