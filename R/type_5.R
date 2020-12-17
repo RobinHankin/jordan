@@ -168,7 +168,7 @@ setMethod("Arith",signature(e1 = "spin", e2="numeric"),
           function(e1,e2){
             switch(.Generic,
          "+" = spin_plus_numeric(e1,e2),
-         "-" = spin_plus_numeric(e1,e2),
+         "-" = spin_plus_numeric(e1,-e2),
          "*" = spin_prod_numeric(e1,e2),
          "/" = spin_prod_numeric(e1,1/e2),
          "^" = spin_power_numeric(e1,  e2),
