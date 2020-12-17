@@ -1,3 +1,19 @@
+`spin` <- function(a,V){
+  stopifnot(is.numeric(a))
+  stopifnot(is.matrix(V))
+  new("spin",x=rbind(a,V))  # this is the only place new("spin",...) is called
+}
+
+`r1` <- function(x){x@x[1,,drop=FALSE]}
+`rn` <- function(x){x@x[-1,,drop=FALSE]}
+
+setAs(from="spin",to="matrix",function(from){from@x})
+## Accessor methods end
+
+setGeneric("length")
+setMethod("length","spin",function(x){length(r1(x))})
+
+
 `quadraticform` <- function(M){ # modelled on lorentz::sol()
   if(missing(M)){  # return quadratic form
     jj <- getOption("quadraticform")
@@ -15,25 +31,16 @@
   }
 }
 
-`spin` <- function(a,V){
-  stopifnot(is.numeric(a))
-  stopifnot(is.matrix(V))
-  out <- rbind(a,V)
-  rownames(out) <- NULL
-  class(out) <- "spin"   # this is the only place that class spin is assigned
-  return(out)
-}
-
 `is.spin` <- function(x){inherits(x,"spin")}
 `as.spin` <- function(x,d){
   if(is.spin(x)){
     return(x)
   } else if(is.matrix(x)){
-    return(spin(x[1,,drop=TRUE],x[-1,,drop=FALSE]))
+    return(spin(a=x[1,,drop=TRUE],V=x[-1,,drop=FALSE]))
   } else if(is.numeric(x) & is.vector(x)){
-    return(spin(x,matrix(0,d,length(x))))
+    return(spin(a=x,V=matrix(0,d,length(x))))
   } else if(is.list(x)){
-    return(spin(x[[1]],x[[2]]))
+    return(spin(a=x[[1]],V=x[[2]]))
   } else {
     stop("not recognised")
   }
@@ -54,14 +61,14 @@ setGeneric("names<-")
   return(spin(a,rn(x)))
 }
 
-`r1` <- function(x){unclass(x)[ 1,,drop=TRUE ]}
-`rn` <- function(x){unclass(x)[-1,,drop=FALSE]}
+`rspin` <- function(n=5,d=7){spin(round(rnorm(n),2),matrix(round(rnorm(n*d),2),d,n))}
 
-`rspin` <- function(n=5,d=7){ spin(round(rnorm(n),2),matrix(round(rnorm(n*d),2),d,n))}
+setMethod("show", "spin", function(object){spin_show(object)})
 
-`print.spin` <- function(x){
-  jj <- capture.output(unclass(x))
-  substr(jj[2],1,6) <- " r    "
+`spin_show` <- function(x){
+  x <- as(x,"matrix")
+  jj <- capture.output(x)
+  substr(jj[2],1,2) <- "r "
   jj <- c(jj[1:2],paste(rep("-",nchar(jj[1])),collapse=""),jj[-(1:2)])
   for(i in jj){
     cat(paste(i,"\n"))
@@ -69,134 +76,51 @@ setGeneric("names<-")
   return(x)
 }
 
-`Ops.spin` <-
-  function (e1, e2 = NULL) 
-{
-  f <- function(...){stop("odd---neither argument has class spin?")}
-  unary <- nargs() == 1
-  lclass <- nchar(.Method[1]) > 0
-  rclass <- !unary && (nchar(.Method[2]) > 0)
-
-  if(lclass & rclass){stopifnot(dim(e1) == dim(e2))}
-  
-  if(unary){
-    if (.Generic == "+") {
-      return(e1)
-    } else if (.Generic == "-") {
-      return(Sneg(e1))
-    } else {
-      stop("Unary operator '", .Generic, "' is not implemented for spin objects")
-    }
-  }
-  if (!is.element(.Generic, c("+", "-", "*", "/", "^", "==", "!="))){
-    stop("operator '", .Generic, "' is not implemented for spin objects")
-  }
-
-  if (.Generic == "*") {
-    if (lclass && rclass) {
-      return(SprodS(e1, e2))
-    } else if (lclass) {
-      return(SprodS(e1, as.spin(e2,dim(e1))))
-    } else if (rclass) {
-      return(SprodS(as.spin(e1,dim(e2)), e2))
-    } else {
-      f()
-    }
-
-  } else if (.Generic == "+") { 
-    if (lclass && rclass) {
-      return(SplusS(e1, e2))
-    } else if (lclass) {
-      return(SplusS(e1, as.spin(e2,dim(e1))))
-    } else if (rclass) {
-      return(SplusS(as.spin(e1,dim(e2)), e2))
-    } else {
-      f()
-    }
-
-  } else if (.Generic == "-") { 
-    if (lclass && rclass) {
-      return(SplusS(e1, Sneg(e2)))
-    } else if (lclass) {
-      return(SplusS(e1, as.spin(-e2,dim(e1))))
-    } else if (rclass) {
-      return(SplusS(as.spin(-e1,dim(e2)), e2))
-    } else {
-      f()
-    }
-
-  } else if (.Generic == "/") {
-    if (lclass && rclass) {
-      return(SdivS(e1,e2))    # error
-    } else if (lclass) {
-      return(SprodS(e1,as.spin(1/e2,dim(e1)))) # works 
-    } else if (rclass) {
-      return(SdivS(e1,e2))    # error
-    } else {
-      f()
-    }
-    
-  } else if (.Generic == "^") {
-    if (lclass && rclass) {
-      return(SpowerS(e1,e2)) # error  
-    } else if (lclass) {
-      return(SpowerN(e1,e2)) # works
-    } else if (rclass) {
-      return(SpowerS(e1,e2)) # error
-    } else {
-      f()
-    }
-
-  } else if (.Generic == "==") {
-    return(S.eq.S(e1,e2))
-  } else if (.Generic == "!=") {
-    return(!S.eq.S(e1,e2))
-  } else {
-    stop("should not reach here")
-  }
-}
-
-`sync` <- function(e1,e2){
+`harmonize_spin_spin` <- function(e1,e2){ # e1,e2: spin objects
   jj <- rbind(seq_along(e1),seq_along(e2))
-  e1 <- unclass(e1)
-  e2 <- unclass(e2)
-  e1 <- e1[,jj[1,],drop=FALSE]
-  e2 <- e2[,jj[2,],drop=FALSE]
   list(
-      s1 = e1[ 1,,drop=TRUE ],
-      s2 = e2[ 1,,drop=TRUE ],
-      v1 = e1[-1,,drop=FALSE],
-      v2 = e2[-1,,drop=FALSE]
+      s1 = r1(e1)[ jj[1,]           ],
+      s2 = r1(e2)[ jj[2,]           ],
+      v1 = rn(e1)[,jj[1,],drop=FALSE],
+      v2 = rn(e2)[,jj[2,],drop=FALSE]
   )
 }
 
-`SprodS`  <- function(e1,e2){
-  if(is.null(getOption("quadraticform"))){
-    innerprod <- function(v1,v2){colSums(v1*v2)}
-  } else {
-    innerprod <- function(v1,v2){emulator::quad.3diag(quadraticform(),v1,v2)}
-  }
-
-  with(sync(e1,e2), spin(s1*s2+innerprod(v1,v2), sweep(v2,2,s1,"*")+sweep(v1,2,s2,"*")))
+`harmonize_spin_numeric` <- function(e1,e2){ # e1: spin, e2: numeric
+  jj <- rbind(seq_along(e1),seq_along(e2))
+  list(
+      s1 = r1(e1)[ jj[1,]],
+      s2 =    e2 [ jj[2,]],
+      v1 = rn(e1)[,jj[1,],drop=FALSE]
+  )
 }
 
-`Sneg`    <- function(e1){ spin(-r1(e1),-rn(e1))  }
-`SplusS`  <- function(e1,e2){ with(sync(e1,e2), spin(s1+s2,v1+v2)) }
-`S.eq.S`  <- function(e1,e2){  with(sync(e1,e2), (s1==s2) & apply(v2==v2,2,all)) }
+`spin_prod_spin`  <- function(e1,e2){
+  with(harmonize_spin_spin(e1,e2),{
+    return(spin(a=s1*s2, V=v1*v2 + sweep(v2,2,s1,"*")+sweep(v1,2,s2,"*")))  } )
+}
 
-`SdivS`   <- function(...){ stop("not a division algebra") }
-`SpowerS` <- function(...){ stop("spin^spin not defined") }
+`spin_prod_numeric`  <- function(e1,e2){with(harmonize_spin_numeric(e1,e2),{return(spin(a=s1*s2,V=sweep(v1,2,s2,"*")))})}
 
-`Spower_single_n` <- function(e1,n){
+`spin_negative`  <- function(e1){spin(-r1(e1),-rn(e1))}
+
+`spin_plus_spin`  <- function(e1,e2){with(harmonize_spin_spin(e1,e2),{return(spin(s1+s2,v1+v2))})}
+
+`spin_equal_spin`  <- function(e1,e2){with(harmonize_spin_spin(e1,e2),{return(spin(s1+s2,v1+v2))})}
+
+`spin_inverse`   <- function(...){ stop("not a division algebra") }
+`spin_power_spin` <- function(...){ stop("spin^spin not defined") }
+
+`spin_power_single_n` <- function(e1,n){  # n a length-one nonnegative integer
   stopifnot(n==round(n))
   stopifnot(n>=0)
   stopifnot(length(n)==1)
   if(n==0){
-    return(1+e1*0)
+    return(spin(a=1+0*r1(e1),V=rn(e1)*0)) # 1
   } else if(n==1){
     return(e1)
   } else { 
-    ## return(e1*Recall(e1,e2-1))  # inefficient
+    ## return(e1*Recall(e1,n-1))  #  this would be inefficient
     out <- e1
     for(i in seq_len(n-1)){  # NB: n>=2
       out <- out*e1
@@ -205,29 +129,98 @@ setGeneric("names<-")
   }
 }
 
-`SpowerN` <- function(e1,e2){
+`spin_power_numeric` <- function(e1,e2){
+  stop("not yet implemented (it makes sense but I have not got round to implementing it yet")
   n <- e2  # yes it's redundant but using e2 for n drives me nuts
   if(length(n)==1){
-    return(Spower_single_n(e1,n))
+    return(spin_power_single_n(e1,n))
   } else {
-    jj <- rbind(seq_along(e1),seq_along(n))
-    e1 <- unclass(e1)
-    e1 <- e1[,jj[1,],drop=FALSE]
-    n  <-  n[ jj[2,],drop=FALSE]
-    for(i in seq_len(ncol(e1))){
-      e1[,i] <- unclass(Spower_single_n(as.spin(e1[,i,drop=FALSE]),n[i]))
+    jj <- harmonize_spin_numeric(e1,n)
+
     }
     return(as.spin(e1))
   }
-}
 
-`[.spin` <- function(x, ...){ spin(r1(x)[...],rn(x)[,...,drop=FALSE]) }
+setMethod("Arith",signature(e1 = "spin", e2="missing"),
+          function(e1,e2){
+            switch(.Generic,
+                   "+" = e1,
+                   "-" = spin_negative(e1),
+                   stop(paste("Unary operator", .Generic,
+                              "not allowed on spin objects"))
+                   )
+          } )
 
-`[<-.spin` <- function(x,index,value){
-  x <- unclass(x)
-  x[,index] <- unclass(as.spin(value,nrow(x)-1))
-  as.spin(x)
-}
+## binary operators:
 
-`sum.spin` <- function(x,na.rm=FALSE){ as.spin(cbind(rowSums(unclass(x)))) }
+setMethod("Arith",signature(e1 = "spin", e2="spin"),
+          function(e1,e2){
+            switch(.Generic,
+         "+" = spin_plus_spin(e1,  e2),
+         "-" = spin_plus_spin(e1, spin_negative(e2)),
+         "*" = spin_prod_spin(e1,  e2),
+         "/" = stop("1/spin not defined"),
+         "^" = stop("x^spin not defined"),
+         stop(paste("binary operator \"", .Generic, "\" not defined for spin objects"))
+         )})
+
+setMethod("Arith",signature(e1 = "spin", e2="numeric"),
+          function(e1,e2){
+            switch(.Generic,
+         "+" = spin_plus_numeric(e1,e2),
+         "-" = spin_plus_numeric(e1,e2),
+         "*" = spin_prod_numeric(e1,e2),
+         "/" = spin_prod_numeric(e1,1/e2),
+         "^" = spin_power_numeric(e1,  e2),
+         stop(paste("binary operator \"", .Generic, "\" not defined for onions"))
+         )})
+
+setMethod("Arith",signature(e1 = "numeric", e2="spin"),
+          function(e1,e2){
+            switch(.Generic,
+         "+" = spin_plus_numeric(e1,e2),
+         "-" = spin_plus_numeric(e1,e2),
+         "*" = spin_prod_numeric(e2,e1),
+         "/" = stop("1/spin not defined"),
+         "^" = stop("x^spin not defined"),
+         stop(paste("binary operator \"", .Generic, "\" not defined for onions"))
+         )})
+
+
+setClassUnion("index", members =  c("numeric", "logical", "character")) # taken from the Matrix package.
+setMethod("[", signature("spin",i="index",j="missing"),function(x,i,j,drop){spin(a=r1(x)[i],V=rn(x)[,i,drop=FALSE])})
+setMethod("[", signature("spin",i="missing",j="index"),function(x,i,j,drop){stop()})
+setMethod("[", signature("spin",i="missing",j="missing"),function(x,i,j,drop){x})
+  
+setReplaceMethod("[",signature(x="spin",i="index",j="missing",value="spin"),
+                 function(x,i,j,value){
+                   outa <- r1(x)
+                   outa[i] <- r1(value)
+                   outV <- rn(x)
+                   outV[,i] <- rn(value)
+                   return(spin(a=outa,V=outV))
+                 } )
+
+setReplaceMethod("[",signature(x="spin",i="index",j="missing",value="numeric"),
+                 function(x,i,j,value){
+                   outa <- r1(x)
+                   outa[i] <- r1(value)
+                   outV <- rn(x)
+                   outV[,i] <- 0 # the meat
+                   return(spin(a=outa,V=outV))
+                 } )
+
+setReplaceMethod("[",signature(x="spin",i="ANY"  ,j="missing",value="ANY"),function(x,i,j,value){stop()})
+setReplaceMethod("[",signature(x="spin",i="index"  ,j="index"  ,value="ANY"),function(x,i,j,value){stop()})
+setReplaceMethod("[",signature(x="spin",i="missing",j="ANY"    ,value="numeric"),function(x,i,j,value){stop()})
+setReplaceMethod("[",signature(x="spin",i="missing",j="missing",value="spin"),function(x,i,j,value){
+
+  })
+setReplaceMethod("[",signature(x="spin",i="missing",j="missing",value="numeric"),function(x,i,j,value){
+
+  })
+  
+
+
+
   
