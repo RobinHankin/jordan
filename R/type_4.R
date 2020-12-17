@@ -1,12 +1,6 @@
  ## Albert algebras
 
-`albert` <- function(M){
-  M <- cbind(M)
-  stopifnot(is.matrix(M))
-  stopifnot(nrow(M) == 27)
-  class(M) <- "albert"   # this is the only place class albert is assigned
-  return(M)
-}
+`albert` <- function(M){new("albert",x=cbind(M))}  # this is the only place new("albert",...) is called
 `is.albert` <- function(x){inherits(x,"albert")}
 
 `as.albert` <- function(x,single=FALSE){  # single modelled on as.onion()
@@ -25,16 +19,6 @@
   }
 }
 
-`length.albert` <- function(x){ncol(unclass(x))}
-
-setGeneric("names")
-`names.albert` <- function(x){colnames(unclass(x))}
-
-`names<-.albert` <- function(x,value){
-  x <- unclass(x)
-  colnames(x) <- value
-  return(albert(x))
-}
 
 `ralbert` <- function(n=5){albert(matrix(round(rnorm(n*27),2),nrow=27))}
 
