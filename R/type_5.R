@@ -4,7 +4,7 @@
   new("spin",x=rbind(a,V))  # this is the only place new("spin",...) is called
 }
 
-`r1` <- function(x){x@x[1,,drop=FALSE]}
+`r1` <- function(x){x@x[1,,drop=TRUE]}
 `rn` <- function(x){x@x[-1,,drop=FALSE]}
 
 setAs(from="spin",to="matrix",function(from){from@x})
