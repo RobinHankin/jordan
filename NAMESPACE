@@ -7,7 +7,6 @@ importFrom(emulator,quad.3form)
 
 
 
-S3method(Ops,albert)
 S3method("[",albert)
 S3method("[<-",albert)
 S3method("sum",albert)

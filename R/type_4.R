@@ -1,7 +1,22 @@
- ## Albert algebras
+ ## Albert algebras; setClass("albert") is in  aaa_allclasses.R
 
 `albert` <- function(M){new("albert",x=cbind(M))}  # this is the only place new("albert",...) is called
 `is.albert` <- function(x){inherits(x,"albert")}
+
+`valid_albert` <- function(object){
+  x <- object@x
+  if(!is.numeric(x)){
+    return("not numeric")
+  } else if(!is.matrix(x)){
+    return("not a matrix")
+  } else if(nrow(x) != 27){
+    return("must have 27 rows")
+  } else {
+    return(TRUE)
+  }
+}
+
+setValidity("albert", valid_albert)
 
 `as.albert` <- function(x,single=FALSE){  # single modelled on as.onion()
   if(is.albert(x)){
@@ -19,9 +34,7 @@
   }
 }
 
-
 `ralbert` <- function(n=5){albert(matrix(round(rnorm(n*27),2),nrow=27))}
-
 
 setMethod("show", "albert", function(object){albert_show(object)})
 `albert_show` <- function(x){
@@ -36,90 +49,18 @@ setMethod("show", "albert", function(object){albert_show(object)})
   return(x)
 }
 
-`Ops.albert` <-
-  function (e1, e2 = NULL) 
-{
-  f <- function(...){stop("odd---neither argument has class albert?")}
-  unary <- nargs() == 1
-  lclass <- nchar(.Method[1]) > 0
-  rclass <- !unary && (nchar(.Method[2]) > 0)
+setMethod("Arith",signature(e1 = "albert", e2="missing"),
+          function(e1,e2){
+            switch(.Generic,
+                   "+" = e1,
+                   "-" = albert_negative(e1),
+                   stop(paste("Unary operator", .Generic,
+                              "not allowed on alberts"))
+                   )
+          } )
 
-  if(unary){
-    if (.Generic == "+") {
-      return(e1)
-    } else if (.Generic == "-") {
-      return(ALneg(e1))
-    } else {
-      stop("Unary operator '", .Generic, "' is not implemented for albert objects")
-    }
-  }
-  if (!is.element(.Generic, c("+", "-", "*", "/", "^", "==", "!="))){
-    stop("operator '", .Generic, "' is not implemented for albert objects")
-  }
-
-  if (.Generic == "*") {
-    if (lclass && rclass) {
-      return(ALprodAL(e1, e2))
-    } else if (lclass) {
-      return(ALprodS(e1, e2))
-    } else if (rclass) {
-      return(ALprodS(e2, e1))
-    } else {
-      f()
-    }
-
-  } else if (.Generic == "+") { 
-    if (lclass && rclass) {
-      return(ALplusAL(e1, e2))
-    } else if (lclass) {
-      return(ALplusS(e1, e2))
-    } else if (rclass) {
-      return(ALplusS(e2, e1))
-    } else {
-      f()
-    }
-
-  } else if (.Generic == "-") { 
-    if (lclass && rclass) {
-      return(ALplusAL(e1, ALneg(e2)))
-    } else if (lclass) {
-      return(ALplusS(e1, -e2))
-    } else if (rclass) {
-      return(ALplusS(e2, -e1))
-    } else {
-      f()
-    }
-
-  } else if (.Generic == "/") {
-    if (lclass && rclass) {
-      return(ALdivAL(e1,e2))   # error
-    } else if (lclass) {
-      return(ALprodS(e1,1/e2)) # works
-    } else if (rclass) {
-      return(ALdivAL(e1,e2))   # error
-    } else {
-      f()
-    }
-    
-  } else if (.Generic == "^") {
-    if (lclass && rclass) {
-      return(ALpowerAL(e1,e2)) # error  
-    } else if (lclass) {
-      return(ALpowerN(e1,e2)) # works
-    } else if (rclass) {
-      return(ALpowerAL(e1,e2)) # error
-    } else {
-      f()
-    }
-
-  } else if (.Generic == "==") {
-    return(AL.eq.AL(e1,e2))
-  } else if (.Generic == "!=") {
-    return(!AL.eq.AL(e1,e2))
-  } else {
-    stop("should not reach here")
-  }
-}
+## unary operators:
+`albert_negative` <- function(z){albert(-as.matrix(z))}
 
 syncAL <- function(e1,e2){
   jj <- rbind(seq_along(e1),seq_along(e2))
@@ -204,7 +145,8 @@ syncAL <- function(e1,e2){
 `sum.albert` <- function(x,na.rm=FALSE){ as.albert(cbind(rowSums(unclass(x)))) }
    
 `v27_to_albertmatrix` <- function(x){
-  herm_onion_mat(x[1:3], as.octonion(matrix(x[-(1:3)],8,3)))
+    stopifnot(length(x)==27)
+    herm_onion_mat(x[1:3], as.octonion(matrix(x[-(1:3)],8,3)))
 }
 
 `v27_albertprod_v27` <- function(x,y){

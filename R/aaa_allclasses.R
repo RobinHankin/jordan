@@ -33,27 +33,12 @@ setClassUnion("jordan_special", # everything except albert
               c("spin","real_symmetric_matrix", "complex_herm_matrix",
                 "quaternion_herm_matrix"))
 
-`valid_albert` <- function(object){
-  x <- object@x
-  if(!is.numeric(x)){
-    return("not numeric")
-  } else if(!is.matrix(x)){
-    return("not a matrix")
-  } else if(nrow(x) != 27){
-    return("must have 27 rows")
-  } else {
-    return(TRUE)
-  }
-}
 
-setValidity("albert", valid_albert)
+`is.jordan` <- function(x){is(x,"jordan")}
 
-`is.jordan` <- function(x){inherits(x,"jordan")}
-
-setAs(from="jordan",to="matrix",def=function(from){from@x})
 setAs(from="jordan_matrix",to="matrix",def=function(from){from@x})
-setMethod("as.matrix","jordan",function(x){as(x,"matrix")})
-setMethod("as.matrix","jordan_matrix",function(x){as(x,"matrix")})
+setGeneric("as.matrix")
+setMethod("as.matrix",signature(x="jordan_matrix"),function(x){as(x,"matrix")})
 
 setGeneric("length")
 setMethod("length","jordan",function(x){ncol(as(x,"matrix"))})
