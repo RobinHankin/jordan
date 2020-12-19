@@ -22,8 +22,10 @@
 
 `ralbert` <- function(n=5){albert(matrix(round(rnorm(n*27),2),nrow=27))}
 
-`print.albert` <- function(x){
-  jj <- unclass(x)
+
+setMethod("show", "albert", function(object){albert_show(object)})
+`albert_show` <- function(x){
+  jj <- as(x,"matrix")
   rownames(jj) <-
     c("    d1","    d2","    d3",
       "Re(o1)"," i(o1)"," j(o1)"," k(o1)"," l(o1)","il(o1)","jl(o1)","kl(o1)",

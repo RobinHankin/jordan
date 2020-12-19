@@ -48,8 +48,12 @@ setClassUnion("jordan_special", # everything except albert
 
 setValidity("albert", valid_albert)
 
+`is.jordan` <- function(x){inherits(x,"jordan")}
+
 setAs(from="jordan",to="matrix",def=function(from){from@x})
+setAs(from="jordan_matrix",to="matrix",def=function(from){from@x})
 setMethod("as.matrix","jordan",function(x){as(x,"matrix")})
+setMethod("as.matrix","jordan_matrix",function(x){as(x,"matrix")})
 
 setGeneric("length")
 setMethod("length","jordan",function(x){ncol(as(x,"matrix"))})
@@ -65,6 +69,18 @@ setReplaceMethod("names","jordan",
                    return(albert(jj))
                  } )
 
+`jordan_compare` <- function(e1,e2){
+  stopifnot(is.jordan(e1) | is.jordan(e2))
+  jj <- harmonize_oo(e1,e2)
+  out <- apply(jj[[1]]==jj[[2]],2,all)
 
+  switch(.Generic,
+         "==" =  out,
+         "!=" = !out,
+         stop(paste("comparision operator \"", .Generic, "\" not defined for jordans"))
+         )
+}
 
-                     
+setMethod("Compare",signature(e1 = "jordan" , e2="jordan" ), jordan_compare)
+setMethod("Compare",signature(e1 = "jordan" , e2="numeric"), jordan_compare)
+setMethod("Compare",signature(e1 = "numeric", e2="jordan" ), jordan_compare)
