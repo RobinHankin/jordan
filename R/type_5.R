@@ -7,13 +7,6 @@
 `r1` <- function(x){x@x[1,,drop=TRUE]}
 `rn` <- function(x){x@x[-1,,drop=FALSE]}
 
-setAs(from="spin",to="matrix",function(from){from@x})
-## Accessor methods end
-
-setGeneric("length")
-setMethod("length","spin",function(x){length(r1(x))})
-
-
 `quadraticform` <- function(M){ # modelled on lorentz::sol()
   if(missing(M)){  # return quadratic form
     jj <- getOption("quadraticform")
@@ -51,22 +44,16 @@ setGeneric("dim")
 
 `length.spin` <- function(x){ncol(unclass(x))}
 
-setGeneric("names")
-`names.spin` <- function(x){colnames(unclass(x))}
-
-setGeneric("names<-")
-`names<-.spin` <- function(x,value){
-  a <- r1(x)
-  names(a) <- value
-  return(spin(a,rn(x)))
-}
-
+# names() defined for jordan objects
 `rspin` <- function(n=5,d=7){spin(round(rnorm(n),2),matrix(round(rnorm(n*d),2),d,n))}
 
 setMethod("show", "spin", function(object){spin_show(object)})
 
 `spin_show` <- function(x){
   x <- as(x,"matrix")
+  if(is.null(colnames(x))){
+      colnames(x) <- paste("[",seq_len(ncol(x)),"]",sep="")
+  }
   jj <- capture.output(x)
   substr(jj[2],1,2) <- "r "
   jj <- c(jj[1:2],paste(rep("-",nchar(jj[1])),collapse=""),jj[-(1:2)])

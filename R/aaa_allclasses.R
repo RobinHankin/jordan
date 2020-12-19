@@ -25,7 +25,13 @@ setClass("albert",
          contains = "jordan"
          )
 
+setClassUnion("jordan_matrix", # everything except spin
+              c("real_symmetric_matrix", "complex_herm_matrix",
+                "quaternion_herm_matrix", "albert"))
 
+setClassUnion("jordan_special", # everything except albert
+              c("spin","real_symmetric_matrix", "complex_herm_matrix",
+                "quaternion_herm_matrix"))
 
 `valid_albert` <- function(object){
   x <- object@x
@@ -43,13 +49,14 @@ setClass("albert",
 setValidity("albert", valid_albert)
 
 setAs(from="jordan",to="matrix",def=function(from){from@x})
-setMethod("as.matrix","jordan",function(x){x@x})
+setMethod("as.matrix","jordan",function(x){as(x,"matrix")})
 
 setGeneric("length")
-setMethod("length","jordan",function(x){ncol(as.matrix(x))})
+setMethod("length","jordan",function(x){ncol(as(x,"matrix"))})
 
 setGeneric("names")
-setMethod("names","jordan",function(x){names(as.matrix(x))})
+setMethod("names","jordan",function(x){colnames(as(x,"matrix"))})
+
 setGeneric("names<-")
 setReplaceMethod("names","jordan",
                  function(x,value){
