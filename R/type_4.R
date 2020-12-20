@@ -122,7 +122,6 @@ setMethod("Arith",signature(e1 = "albert", e2="missing"),
                    )
           } )
 
-
 setMethod("Arith",signature(e1="albert" ,e2="albert" ), albert_arith_albert )
 setMethod("Arith",signature(e1="albert" ,e2="numeric"), albert_arith_numeric)
 setMethod("Arith",signature(e1="numeric",e2="albert" ),numeric_arith_albert )
@@ -203,6 +202,13 @@ scalars_to_albert <- function(x){
 
 setGeneric("as.list")
 setMethod("as.list","albert", function(x){apply(as.matrix(x),2,v27_to_albertmatrix)})
+
+setMethod("[",signature(x="albert",i="index",j="missing",drop="logical"),
+          function(x,i,j,drop){
+              out <- as.matrix(x)[,i,drop=FALSE]
+              if(ncol(out)==1){return(v27_to_albertmatrix(c(out)))} else {stop("for >1 element, use as.list()")}
+          } )
+              
 
 setReplaceMethod("[",signature(x="albert",i="index",j="missing",value="numeric"),
                  function(x,i,j,value){
