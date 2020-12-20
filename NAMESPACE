@@ -4,10 +4,3 @@ exportPattern("^[^\\.]")
 S3method(length, spin)
 S3method(dim,spin)
 importFrom(emulator,quad.3form)
-
-
-
-S3method("[",albert)
-S3method("[<-",albert)
-S3method("sum",albert)
-S3method("as.list",albert)

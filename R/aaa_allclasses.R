@@ -33,7 +33,6 @@ setClassUnion("jordan_special", # everything except albert
               c("spin","real_symmetric_matrix", "complex_herm_matrix",
                 "quaternion_herm_matrix"))
 
-
 `is.jordan` <- function(x){is(x,"jordan")}
 
 setAs(from="jordan_matrix",to="matrix",def=function(from){from@x})
@@ -69,3 +68,7 @@ setReplaceMethod("names","jordan",
 setMethod("Compare",signature(e1 = "jordan" , e2="jordan" ), jordan_compare)
 setMethod("Compare",signature(e1 = "jordan" , e2="numeric"), jordan_compare)
 setMethod("Compare",signature(e1 = "numeric", e2="jordan" ), jordan_compare)
+
+setMethod("[", signature("jordan",i="index",j="missing",drop="ANY"),function(x,i,j,drop){as.albert(as.matrix(x)[,i,drop=FALSE])})
+setMethod("[", signature("jordan",i="index",j="ANY",drop="ANY"),function(x,i,j,drop){stop("second indexing argument not needed")})
+

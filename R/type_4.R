@@ -49,6 +49,54 @@ setMethod("show", "albert", function(object){albert_show(object)})
   return(x)
 }
 
+
+## unary operators:
+`albert_negative` <- function(z){albert(-as.matrix(z))}
+`albert_inverse` <- function(z){stop("inverses not implemented")}
+
+## binary operators:
+`albert_plus_albert`  <- function(e1,e2){
+    jj <- harmonize_oo(e1,e2)
+    return(albert(jj[[1]] + jj[[2]]))
+}
+
+`albert_prod_albert`  <- function(e1,e2){
+    jj <- harmonize_oo(e1,e2)
+    out <- jj[[1]]*0
+    for(i in seq_len(ncol(out))){
+        out[,i] <- v27_albertprod_v27(jj[[1]][,i],jj[[2]][,i])
+    }
+    return(albert(out))
+}
+
+`albert_plus_numeric` <- function(e1,e2){stop("not defined")}
+`albert_prod_numeric` <- function(e1,e2){
+    jj <- harmonize_on(e1,e2)
+    as.albert(sweep(jj[[1]],2,jj[[2]],"*"))
+}
+
+`albert_arith_albert` <- function(e1,e2){
+  switch(.Generic,
+         "+" = albert_plus_albert(e1, e2),
+         "-" = albert_plus_albert(e1,albert_negative(e2)),
+         "*" = albert_prod_albert(e1, e2),
+         "/" = albert_prod_albert(e1, albert_inverse(e2)), # fails
+         "^" = stop("albert^albert not defined"),
+         stop(paste("binary operator \"", .Generic, "\" not defined for alberts"))
+         )
+}
+
+`albert_arith_numeric` <- function(e1,e2){
+  switch(.Generic,
+         "+" = albert_plus_numeric(e1, e2),  # fails
+         "-" = albert_plus_numeric(e1,-e2),  # fails
+         "*" = albert_prod_numeric(e1, e2),
+         "/" = albert_prod_numeric(e1, 1/e2),
+         "^" = albert_power_numeric(e1, e2),
+         stop(paste("binary operator \"", .Generic, "\" not defined for alberts"))
+         )
+}
+
 setMethod("Arith",signature(e1 = "albert", e2="missing"),
           function(e1,e2){
             switch(.Generic,
@@ -59,32 +107,13 @@ setMethod("Arith",signature(e1 = "albert", e2="missing"),
                    )
           } )
 
-## unary operators:
-`albert_negative` <- function(z){albert(-as.matrix(z))}
 
-syncAL <- function(e1,e2){
-  jj <- rbind(seq_along(e1),seq_along(e2))
-  e1 <- unclass(e1)
-  e2 <- unclass(e2)
-  list(
-      x1=e1[,jj[1,],drop=FALSE],
-      x2=e2[,jj[2,],drop=FALSE]
-       )
-}
+setMethod("Arith",signature(e1 = "albert",e2="albert"),albert_arith_albert)
+setMethod("Arith",signature(e1 = "albert",e2="numeric"),albert_arith_numeric)
+setMethod("Arith",signature(e1 = "albert",e2="albert"),albert_arith_albert)
 
-`ALplusAL`  <- function(e1,e2){with(syncAL(e1,e2), albert(x1+x2))}
 
-`ALprodAL`  <- function(e1,e2){
-  with(syncAL(e1,e2), {
-    out <- x1*0
-    for(i in seq_len(ncol(out))){
-      out[,i] <- v27_albertprod_v27(x1[,i],x2[,i])
-    }
-    return(albert(out))
-  })
-}
 
-`ALneg`    <- function(e1){albert(-unclass(e1))}
 `AL.eq.AL`  <- function(e1,e2){apply(unclass(e1) == unclass(e2),2,all)}
 `ALprodS` <- function(e1,e2){ albert(unclass(e1)*e2)}
 
@@ -125,23 +154,6 @@ syncAL <- function(e1,e2){
   }
 }
 
-`[.albert` <- function(x, ...){
-  out <- unclass(x)
-  out <- out[, ..., drop=FALSE]
-  albert(out)
-}
-
-`[<-.albert` <- function(x,index,value){
-  out <- unclass(x)
-  if(is.vector(value)){
-    value <- kronecker(t(value),c(1,rep(0,nrow(x)-1)))
-    value[2,] <- value[1,]
-    value[3,] <- value[1,]
-  }
-  out[,index] <- value
-  albert(out)
-}
-
 `sum.albert` <- function(x,na.rm=FALSE){ as.albert(cbind(rowSums(unclass(x)))) }
    
 `v27_to_albertmatrix` <- function(x){
@@ -152,7 +164,7 @@ syncAL <- function(e1,e2){
 `v27_albertprod_v27` <- function(x,y){
   xmat <- v27_to_albertmatrix(x)
   ymat <- v27_to_albertmatrix(y)
-  albertmatrix_to_v27(onionmatprod(xmat,ymat) + onionmatprod(ymat,xmat))/2 ## xmat %*% ymat + ymat %*% xmat)/2
+  albertmatrix_to_v27(cprod(xmat,ymat) + cprod(ymat,xmat))/2 ## xmat %*% ymat + ymat %*% xmat)/2
 }
 
 `albertmatrix_to_v27` <- function(H){
@@ -176,4 +188,18 @@ scalars_to_albert <- function(x){
 }
 
 setGeneric("as.list")
-`as.list.albert` <-  function(a){apply(a,2,v27_to_albertmatrix)}
+setMethod("as.list","albert", function(x){apply(as.matrix(x),2,v27_to_albertmatrix)})
+
+setReplaceMethod("[",signature(x="albert",i="index",j="missing",value="numeric"),
+                 function(x,i,j,value){
+                     out <- as.matrix(x)
+                     out[,i] <-  as.matrix(as.albert(value))  # the meat
+                     return(as.albert(out))
+                 } )
+
+setReplaceMethod("[",signature(x="albert",i="index",j="missing",value="albert"),
+                 function(x,i,j,value){
+                   out <- as.matrix(x)
+                   out[,i] <- as.matrix(value)  # the meat
+                   return(as.albert(out))
+                 } )
