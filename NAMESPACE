@@ -1,6 +1,4 @@
 exportPattern("^[^\\.]")
 
 
-S3method(length, spin)
-S3method(dim,spin)
 importFrom(emulator,quad.3form)

@@ -35,9 +35,9 @@ setClassUnion("jordan_special", # everything except albert
 
 `is.jordan` <- function(x){is(x,"jordan")}
 
-setAs(from="jordan_matrix",to="matrix",def=function(from){from@x})
+setAs(from="jordan",to="matrix",def=function(from){from@x})
 setGeneric("as.matrix")
-setMethod("as.matrix",signature(x="jordan_matrix"),function(x){as(x,"matrix")})
+setMethod("as.matrix",signature(x="jordan"),function(x){as(x,"matrix")})
 
 setGeneric("length")
 setMethod("length","jordan",function(x){ncol(as(x,"matrix"))})
