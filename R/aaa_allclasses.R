@@ -34,23 +34,34 @@ setClassUnion("jordan_special", # everything except albert
                 "quaternion_herm_matrix"))
 
 `is.jordan` <- function(x){is(x,"jordan")}
+`as.jordan` <- function(x,class){
+    if(missing(class) & is.jordan(x)){return(x)}
+    switch(class,
+           real_symmetric_matrix = as.real_symmetric_matrix(x),
+           complex_herm_matrix = as.complex_herm_matrix(x),
+           quaternion_herm_matrix = as.quaternion_herm_matrix(x),
+           albert = as.albert(x),
+           spin = as.spin(x),
+           stop("not recognised")
+           )
+}
 
 setAs(from="jordan",to="matrix",def=function(from){from@x})
 setGeneric("as.matrix")
 setMethod("as.matrix",signature(x="jordan"),function(x){as(x,"matrix")})
 
 setGeneric("length")
-setMethod("length","jordan",function(x){ncol(as(x,"matrix"))})
+setMethod("length","jordan",function(x){ncol(as.matrix(x))})
 
 setGeneric("names")
-setMethod("names","jordan",function(x){colnames(as(x,"matrix"))})
+setMethod("names","jordan",function(x){colnames(as.matrix(x))})
 
 setGeneric("names<-")
 setReplaceMethod("names","jordan",
                  function(x,value){
                    jj <- as.matrix(x)
                    colnames(jj) <- value
-                   return(albert(jj))
+                   return(as.jordan(jj,as.character(class(x))))
                  } )
 
 `jordan_compare` <- function(e1,e2){
