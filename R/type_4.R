@@ -69,7 +69,11 @@ setMethod("show", "albert", function(object){albert_show(object)})
     return(albert(out))
 }
 
-`albert_plus_numeric` <- function(e1,e2){stop("not defined")}
+`albert_plus_numeric` <- function(e1,e2){
+    jj <- harmonize_on(e1,e2)
+    as.albert(jj[[1]] + as.matrix(scalars_to_albert(jj[[2]])))
+}
+    
 `albert_prod_numeric` <- function(e1,e2){
     jj <- harmonize_on(e1,e2)
     as.albert(sweep(jj[[1]],2,jj[[2]],"*"))
@@ -88,11 +92,22 @@ setMethod("show", "albert", function(object){albert_show(object)})
 
 `albert_arith_numeric` <- function(e1,e2){
   switch(.Generic,
-         "+" = albert_plus_numeric(e1, e2),  # fails
-         "-" = albert_plus_numeric(e1,-e2),  # fails
+         "+" = albert_plus_numeric(e1, e2),  
+         "-" = albert_plus_numeric(e1,-e2),  
          "*" = albert_prod_numeric(e1, e2),
          "/" = albert_prod_numeric(e1, 1/e2),
          "^" = albert_power_numeric(e1, e2),
+         stop(paste("binary operator \"", .Generic, "\" not defined for alberts"))
+         )
+}
+
+`numeric_arith_albert` <- function(e1,e2){
+  switch(.Generic,
+         "+" = albert_plus_numeric(e2, e1),  
+         "-" = albert_plus_numeric(-e2,e1),  
+         "*" = albert_prod_numeric(e2, e1),
+         "/" = albert_prod_numeric(e2, 1/e1),
+         "^" = albert_power_albert(e1, e2),
          stop(paste("binary operator \"", .Generic, "\" not defined for alberts"))
          )
 }
@@ -108,49 +123,45 @@ setMethod("Arith",signature(e1 = "albert", e2="missing"),
           } )
 
 
-setMethod("Arith",signature(e1 = "albert",e2="albert"),albert_arith_albert)
-setMethod("Arith",signature(e1 = "albert",e2="numeric"),albert_arith_numeric)
-setMethod("Arith",signature(e1 = "albert",e2="albert"),albert_arith_albert)
-
-
+setMethod("Arith",signature(e1="albert" ,e2="albert" ), albert_arith_albert )
+setMethod("Arith",signature(e1="albert" ,e2="numeric"), albert_arith_numeric)
+setMethod("Arith",signature(e1="numeric",e2="albert" ),numeric_arith_albert )
 
 `AL.eq.AL`  <- function(e1,e2){apply(unclass(e1) == unclass(e2),2,all)}
-`ALprodS` <- function(e1,e2){ albert(unclass(e1)*e2)}
 
-`AldivAL`   <- function(...){ stop("albert algebra not a division algebra") }
-`AlpowerAL` <- function(...){ stop("albert^albert not defined") }
+`albert_power_albert` <- function(...){ stop("albert^albert not defined") }
 
-`ALpower_single_n` <- function(e1,n){
-  stopifnot(n==round(n))
-  stopifnot(n>=0)
-  stopifnot(length(n)==1)
-  if(n==0){
-    return(1+e1*0)
-  } else if(n==1){
-    return(e1)
-  } else { 
-    ## return(e1*Recall(e1,e2-1))  # inefficient
-    out <- e1
-    for(i in seq_len(n-1)){  # NB: n>=2
-      out <- out*e1
+`albert_power_single_n` <- function(e1,n){
+    stopifnot(is.albert(e1))
+    stopifnot(n==round(n))
+    stopifnot(n>=0)
+    stopifnot(length(n)==1)
+    if(n==0){
+        return(1+e1*0)
+    } else if(n==1){
+        return(e1)
+    } else { 
+        ## return(e1*Recall(e1,e2-1))  # inefficient
+        out <- e1
+        for(i in seq_len(n-1)){  # NB: n>=2
+            out <- out*e1  # slightly inefficient as it does to matrix multiplications
+        }
+        return(out)
     }
-    return(out)
-  }
 }
 
-`ALpowerN` <- function(e1,e2){
-  n <- e2  # yes it's redundant but using e2 for n drives me nuts
-  if(length(n)==1){
-    return(Spower_single_n(e1,n))
+`albert_power_numeric` <- function(e1,e2){
+  if(length(e2)==1){
+    return(albert_power_single_n(e1,n=e2))
   } else {
-    jj <- rbind(seq_along(e1),seq_along(n))
-    e1 <- unclass(e1)
-    e1 <- e1[,jj[1,],drop=FALSE]
-    n  <-  n[ jj[2,],drop=FALSE]
-    for(i in seq_len(ncol(e1))){
-      e1[,i] <- unclass(Spower_single_n(as.albert(e1[,i,drop=FALSE]),n[i]))
-    }
-    return(as.albert(e1))
+      jj <- harmonize_on(e1,e2)
+      out <- as.albert(jj[[1]])
+      n <- jj[[2]]
+      
+      for(i in seq_along(out)){
+          out[i] <- albert_power_single_n(out[i],n[i])
+      }
+      return(out)
   }
 }
 
@@ -203,3 +214,5 @@ setReplaceMethod("[",signature(x="albert",i="index",j="missing",value="albert"),
                    out[,i] <- as.matrix(value)  # the meat
                    return(as.albert(out))
                  } )
+
+setReplaceMethod("[",signature(x="albert",i="index",j="ANY",value="ANY"),function(x,i,j,value){stop("second argument redundant")})
