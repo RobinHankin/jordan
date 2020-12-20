@@ -127,7 +127,10 @@ setMethod("Arith",signature(e1="albert" ,e2="albert" ), albert_arith_albert )
 setMethod("Arith",signature(e1="albert" ,e2="numeric"), albert_arith_numeric)
 setMethod("Arith",signature(e1="numeric",e2="albert" ),numeric_arith_albert )
 
-`AL.eq.AL`  <- function(e1,e2){apply(unclass(e1) == unclass(e2),2,all)}
+
+
+
+
 
 `albert_power_albert` <- function(...){ stop("albert^albert not defined") }
 
