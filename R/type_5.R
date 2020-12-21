@@ -40,9 +40,10 @@
 }
 
 setGeneric("dim")
-`dim.spin` <- function(x){ nrow(rn(x)) }
+setMethod("dim","spin",function(x){ nrow(rn(x)) })
 
-`length.spin` <- function(x){ncol(unclass(x))}
+
+
 
 # names() defined for jordan objects
 `rspin` <- function(n=5,d=7){spin(round(rnorm(n),2),matrix(round(rnorm(n*d),2),d,n))}

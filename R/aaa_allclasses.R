@@ -81,10 +81,8 @@ setMethod("Compare",signature(e1 = "jordan" , e2="jordan" ), jordan_compare)
 setMethod("Compare",signature(e1 = "jordan" , e2="numeric"), jordan_compare)
 setMethod("Compare",signature(e1 = "numeric", e2="jordan" ), jordan_compare)
 
-setMethod("[", signature("jordan",i="index",j="missing",drop="ANY"),function(x,i,j,drop){as.albert(as.matrix(x)[,i,drop=FALSE])})
+setMethod("[", signature("jordan",i="index",j="missing",drop="ANY"),function(x,i,j,drop){as.jordan(as.matrix(x)[,i,drop=FALSE],x)})
 setMethod("[", signature("jordan",i="index",j="ANY",drop="ANY"),function(x,i,j,drop){stop("second indexing argument not needed")})
-
-
 
 `jordan_compare` <- function(e1,e2){
     stopifnot(is.jordan(e1) | is.jordan(e2))
@@ -104,3 +102,39 @@ setMethod("[", signature("jordan",i="index",j="ANY",drop="ANY"),function(x,i,j,d
 setMethod("Compare",signature(e1="jordan" ,e2="jordan" ), jordan_compare)
 setMethod("Compare",signature(e1="jordan" ,e2="numeric"), jordan_compare)
 setMethod("Compare",signature(e1="numeric",e2="jordan" ), jordan_compare)
+
+
+## unary operators:
+`jordan_negative` <- function(z){as.jordan(-as.matrix(z),z)}
+`jordan_inverse` <- function(z){stop("inverses not implemented")}
+
+
+## binary operators:
+`jordan_plus_jordan`  <- function(e1,e2){
+    jj <- harmonize_oo(e1,e2)
+    as.jordan(jj[[1]] + jj[[2]],e1)
+}
+
+`jordan_plus_numeric`  <- function(e1,e2){
+    jj <- harmonize_on(e1,e2)
+    as.jordan(sweep(jj[[1]],2,jj[[2]],"+"),e1)
+}
+
+`jordan_prod_numeric` <- function(e1,e2){
+    jj <- harmonize_on(e1,e2)
+    as.jordan(sweep(jj[[1]],2,jj[[2]],"*"),e1)
+}
+
+`jordan_matrix_show` <- function(x){
+  jj <- as(x,"matrix")
+  print(jj)
+  return(x)
+}
+
+setGeneric("length")
+setMethod("length","jordan",function(x){ncol(as.matrix(x))})
+
+setGeneric("sum")
+setMethod("sum","jordan",function(x,na.rm=FALSE){as.jordan(cbind(rowSums(as.matrix(x))),x)}
+   
+setGeneric("as.1matrix")

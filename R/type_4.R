@@ -49,17 +49,6 @@ setMethod("show", "albert", function(object){albert_show(object)})
   return(x)
 }
 
-
-## unary operators:
-`albert_negative` <- function(z){albert(-as.matrix(z))}
-`albert_inverse` <- function(z){stop("inverses not implemented")}
-
-## binary operators:
-`albert_plus_albert`  <- function(e1,e2){
-    jj <- harmonize_oo(e1,e2)
-    return(albert(jj[[1]] + jj[[2]]))
-}
-
 `albert_prod_albert`  <- function(e1,e2){
     jj <- harmonize_oo(e1,e2)
     out <- jj[[1]]*0
@@ -69,20 +58,10 @@ setMethod("show", "albert", function(object){albert_show(object)})
     return(albert(out))
 }
 
-`albert_plus_numeric` <- function(e1,e2){
-    jj <- harmonize_on(e1,e2)
-    as.albert(jj[[1]] + as.matrix(scalars_to_albert(jj[[2]])))
-}
-    
-`albert_prod_numeric` <- function(e1,e2){
-    jj <- harmonize_on(e1,e2)
-    as.albert(sweep(jj[[1]],2,jj[[2]],"*"))
-}
-
 `albert_arith_albert` <- function(e1,e2){
   switch(.Generic,
-         "+" = albert_plus_albert(e1, e2),
-         "-" = albert_plus_albert(e1,albert_negative(e2)),
+         "+" = jordan_plus_jordan(e1, e2),
+         "-" = jordan_plus_jordan(e1,jordan_negative(e2)),
          "*" = albert_prod_albert(e1, e2),
          "/" = albert_prod_albert(e1, albert_inverse(e2)), # fails
          "^" = stop("albert^albert not defined"),
@@ -92,10 +71,10 @@ setMethod("show", "albert", function(object){albert_show(object)})
 
 `albert_arith_numeric` <- function(e1,e2){
   switch(.Generic,
-         "+" = albert_plus_numeric(e1, e2),  
-         "-" = albert_plus_numeric(e1,-e2),  
-         "*" = albert_prod_numeric(e1, e2),
-         "/" = albert_prod_numeric(e1, 1/e2),
+         "+" = jordan_plus_numeric(e1, e2),  
+         "-" = jordan_plus_numeric(e1,-e2),  
+         "*" = jordan_prod_numeric(e1, e2),
+         "/" = jordan_prod_numeric(e1, 1/e2),
          "^" = albert_power_numeric(e1, e2),
          stop(paste("binary operator \"", .Generic, "\" not defined for alberts"))
          )
@@ -103,10 +82,10 @@ setMethod("show", "albert", function(object){albert_show(object)})
 
 `numeric_arith_albert` <- function(e1,e2){
   switch(.Generic,
-         "+" = albert_plus_numeric(e2, e1),  
-         "-" = albert_plus_numeric(-e2,e1),  
-         "*" = albert_prod_numeric(e2, e1),
-         "/" = albert_prod_numeric(e2, 1/e1),
+         "+" = jordan_plus_numeric(e2, e1),  
+         "-" = jordan_plus_numeric(-e2,e1),  
+         "*" = jordan_prod_numeric(e2, e1),
+         "/" = jordan_prod_numeric(e2, 1/e1),
          "^" = albert_power_albert(e1, e2),
          stop(paste("binary operator \"", .Generic, "\" not defined for alberts"))
          )
@@ -116,7 +95,7 @@ setMethod("Arith",signature(e1 = "albert", e2="missing"),
           function(e1,e2){
             switch(.Generic,
                    "+" = e1,
-                   "-" = albert_negative(e1),
+                   "-" = jordan_negative(e1),
                    stop(paste("Unary operator", .Generic,
                               "not allowed on alberts"))
                    )
@@ -125,11 +104,6 @@ setMethod("Arith",signature(e1 = "albert", e2="missing"),
 setMethod("Arith",signature(e1="albert" ,e2="albert" ), albert_arith_albert )
 setMethod("Arith",signature(e1="albert" ,e2="numeric"), albert_arith_numeric)
 setMethod("Arith",signature(e1="numeric",e2="albert" ),numeric_arith_albert )
-
-
-
-
-
 
 `albert_power_albert` <- function(...){ stop("albert^albert not defined") }
 
@@ -167,11 +141,15 @@ setMethod("Arith",signature(e1="numeric",e2="albert" ),numeric_arith_albert )
   }
 }
 
-`sum.albert` <- function(x,na.rm=FALSE){ as.albert(cbind(rowSums(unclass(x)))) }
-   
 `v27_to_albertmatrix` <- function(x){
     stopifnot(length(x)==27)
     herm_onion_mat(x[1:3], as.octonion(matrix(x[-(1:3)],8,3)))
+}
+
+setMethod("as.1matrix","albert",function(x,drop=TRUE){
+    out <- apply(as.matrix(x,2,v27_to_albertmatrix))
+    if((ncol(x)==1) & drop){out <- out[[1]]}
+    return(out)
 }
 
 `v27_albertprod_v27` <- function(x,y){
@@ -187,26 +165,21 @@ setMethod("Arith",signature(e1="numeric",e2="albert" ),numeric_arith_albert )
   )
 }
 
-`real_to_albertmatrix` <- function(x){ 
-  stopifnot(length(x)==1)
-  herm_onion_mat(rep(x,3),onions=as.octonion(rep(0,3)))
-}
-
-scalars_to_albert <- function(x){
-  out <- matrix(0,27,length(x))
-  for(i in seq_along(x)){
-    out[,i] <- albertmatrix_to_v27(real_to_albertmatrix(x[i]))
-  }
-  return(as.albert(out))
-}
-
 setGeneric("as.list")
 setMethod("as.list","albert", function(x){apply(as.matrix(x),2,v27_to_albertmatrix)})
 
 setMethod("[",signature(x="albert",i="index",j="missing",drop="logical"),
           function(x,i,j,drop){
               out <- as.matrix(x)[,i,drop=FALSE]
-              if(ncol(out)==1){return(v27_to_albertmatrix(c(out)))} else {stop("for >1 element, use as.list()")}
+              if(drop){
+                  if(ncol(out)==1){
+                      return(v27_to_albertmatrix(c(out)))
+                  } else {
+                      stop("for >1 element, use as.list()")
+                  } 
+              } else {
+                  return(as.albert(out))
+              }
           } )
               
 
