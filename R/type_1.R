@@ -1,4 +1,4 @@
- ## real symmetric matrices; setClass("real_symmetric_matrix") is in  aaa_allclasses.R
+## real symmetric matrices; setClass("real_symmetric_matrix") is in  aaa_allclasses.R
 
 `real_symmetric_matrix` <- function(M){new("real_symmetric_matrix",x=cbind(M))}  # this is the only place new("real_symmetric_matrix",...) is called
 `is.real_symmetric_matrix` <- function(x){inherits(x,"real_symmetric_matrix")}
@@ -63,6 +63,11 @@ setValidity("real_symmetric_matrix", valid_rsm)
     return(jj[upper.tri(jj,TRUE)])
 }
 
+setMethod("as.1matrix","real_symmetric_matrix",function(x,drop=TRUE){
+    out <- lapply(seq_along(x), function(i){x[i,drop=TRUE]})
+    if((length(x)==1) & drop){out <- out[[1]]}
+    return(out)
+} )
 
 `rsm_prod_rsm`  <- function(e1,e2){
     jj <- harmonize_oo(e1,e2)
@@ -73,11 +78,6 @@ setValidity("real_symmetric_matrix", valid_rsm)
     return(as.jordan(out,e1))
 }
 
-`rsm_plus_numeric` <- function(e1,e2){
-    jj <- harmonize_on(e1,e2)
-    as.albert(jj[[1]] + as.matrix(scalars_to_albert(jj[[2]])))
-}
-    
 `rsm_arith_rsm` <- function(e1,e2){
   switch(.Generic,
          "+" = jordan_plus_jordan(e1, e2),
@@ -91,10 +91,10 @@ setValidity("real_symmetric_matrix", valid_rsm)
 
 `rsm_arith_numeric` <- function(e1,e2){
   switch(.Generic,
-         "+" = rsm_plus_numeric(e1, e2),  
-         "-" = rsm_plus_numeric(e1,-e2),  
-         "*" = rsm_prod_numeric(e1, e2),
-         "/" = rsm_prod_numeric(e1, 1/e2),
+         "+" = jordan_plus_numeric(e1, e2),  
+         "-" = jordan_plus_numeric(e1,-e2),  
+         "*" = jordan_prod_numeric(e1, e2),
+         "/" = jordan_prod_numeric(e1, 1/e2),
          "^" = rsm_power_numeric(e1, e2),
          stop(paste("binary operator \"", .Generic, "\" not defined for alberts"))
          )
@@ -102,10 +102,10 @@ setValidity("real_symmetric_matrix", valid_rsm)
 
 `numeric_arith_rsm` <- function(e1,e2){
   switch(.Generic,
-         "+" = rsm_plus_numeric(e2, e1),  
-         "-" = rsm_plus_numeric(-e2,e1),  
-         "*" = rsm_prod_numeric(e2, e1),
-         "/" = rsm_prod_numeric(e2, 1/e1),
+         "+" = jordan_plus_numeric(e2, e1),  
+         "-" = jordan_plus_numeric(-e2,e1),  
+         "*" = jordan_prod_numeric(e2, e1),
+         "/" = jordan_prod_numeric(e2, 1/e1),
          "^" = jordan_power_jordan(e2, e1),
          stop(paste("binary operator \"", .Generic, "\" not defined for alberts"))
          )
@@ -115,7 +115,7 @@ setMethod("Arith",signature(e1 = "real_symmetric_matrix", e2="missing"),
           function(e1,e2){
             switch(.Generic,
                    "+" = e1,
-                   "-" = jordanmatrix_negative(e1),
+                   "-" = jordan_negative(e1),
                    stop(paste("Unary operator", .Generic,
                               "not allowed on alberts"))
                    )

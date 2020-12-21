@@ -147,10 +147,10 @@ setMethod("Arith",signature(e1="numeric",e2="albert" ),numeric_arith_albert )
 }
 
 setMethod("as.1matrix","albert",function(x,drop=TRUE){
-    out <- apply(as.matrix(x,2,v27_to_albertmatrix))
-    if((ncol(x)==1) & drop){out <- out[[1]]}
+    out <- apply(as.matrix(x),2,v27_to_albertmatrix,simplify=FALSE)
+    if((length(x)==1) & drop){out <- out[[1]]}
     return(out)
-}
+} )
 
 `v27_albertprod_v27` <- function(x,y){
   xmat <- v27_to_albertmatrix(x)

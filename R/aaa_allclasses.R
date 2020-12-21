@@ -135,6 +135,7 @@ setGeneric("length")
 setMethod("length","jordan",function(x){ncol(as.matrix(x))})
 
 setGeneric("sum")
-setMethod("sum","jordan",function(x,na.rm=FALSE){as.jordan(cbind(rowSums(as.matrix(x))),x)}
+setMethod("sum","jordan",function(x,na.rm=FALSE){as.jordan(cbind(rowSums(as.matrix(x))),x)})
    
-setGeneric("as.1matrix")
+
+setGeneric("as.1matrix",function(x,...){x})
