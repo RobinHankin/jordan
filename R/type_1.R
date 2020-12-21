@@ -1,7 +1,6 @@
  ## real symmetric matrices; setClass("real_symmetric_matrix") is in  aaa_allclasses.R
 
 `real_symmetric_matrix` <- function(M){new("real_symmetric_matrix",x=cbind(M))}  # this is the only place new("real_symmetric_matrix",...) is called
-
 `is.real_symmetric_matrix` <- function(x){inherits(x,"real_symmetric_matrix")}
 
 `is_ok_rsm` <- function(r){ # 'r' = number of rows in [rowwise] matrix
@@ -46,13 +45,32 @@ setValidity("real_symmetric_matrix", valid_rsm)
 
 `rrsm` <- function(n=3){real_symmetric_matrix(matrix(round(rnorm(n*10),2),nrow=10))}
 
+`vec_to_rsm1` <- function(x){
+   r <- length(x)
+   n <- (sqrt(1+8*r)-1)/2
+   stopifnot(n==round(n))
+   out <- matrix(0,n,n)
+   out[upper.tri(out,TRUE)] <- x
+   out <- out + t(out)
+   diag(out) <- diag(out)/2
+   return(out)
+}    
+
+`vec_rsmprod_vec` <- function(x,y){
+    x <- vec_to_rsm1(x)
+    y <- vec_to_rsm1(y)
+    jj <- (cprod(x,y)+cprod(y,x))/2
+    return(jj[upper.tri(jj,TRUE)])
+}
+
+
 `rsm_prod_rsm`  <- function(e1,e2){
     jj <- harmonize_oo(e1,e2)
     out <- jj[[1]]*0
     for(i in seq_len(ncol(out))){
         out[,i] <- vec_rsmprod_vec(jj[[1]][,i],jj[[2]][,i])
     }
-    return(albert(out))
+    return(as.jordan(out,e1))
 }
 
 `rsm_plus_numeric` <- function(e1,e2){
@@ -62,8 +80,8 @@ setValidity("real_symmetric_matrix", valid_rsm)
     
 `rsm_arith_rsm` <- function(e1,e2){
   switch(.Generic,
-         "+" = rsm_plus_rsm(e1, e2),
-         "-" = rsm_plus_rsm(e1,jordan_matrix_negative(e2)),
+         "+" = jordan_plus_jordan(e1, e2),
+         "-" = jordan_plus_jordan(e1,jordan_negative(e2)),
          "*" = rsm_prod_rsm(e1, e2),
          "/" = rsm_prod_rsm(e1, jordan_matrix_inverse(e2)), # fails
          "^" = stop("rsm^rsm not defined"),
@@ -112,28 +130,22 @@ setMethod("[",signature(x="real_symmetric_matrix",i="index",j="missing",drop="lo
               out <- as.matrix(x)[,i,drop=FALSE]
               if(drop){
                   if(ncol(out)==1){
-                      return(v27_to_albertmatrix(c(out)))
+                      return(vec_to_rsm1(c(out)))
                   } else {
                       stop("for >1 element, use as.list()")
                   } 
               } else {
-                  return(as.albert(out))
+                  return(as.jordan(out,x))
               }
           } )
               
 
-setReplaceMethod("[",signature(x="albert",i="index",j="missing",value="numeric"),
-                 function(x,i,j,value){
-                     out <- as.matrix(x)
-                     out[,i] <-  as.matrix(as.albert(value))  # the meat
-                     return(as.albert(out))
-                 } )
-
-setReplaceMethod("[",signature(x="albert",i="index",j="missing",value="albert"),
+setReplaceMethod("[",signature(x="real_symmetric_matrix",i="index",j="missing",value="numeric"),function(x,i,j,value){stop("not defined")})
+setReplaceMethod("[",signature(x="real_symmetric_matrix",i="index",j="missing",value="real_symmetric_matrix"),
                  function(x,i,j,value){
                    out <- as.matrix(x)
                    out[,i] <- as.matrix(value)  # the meat
-                   return(as.albert(out))
+                   return(as.jordan(out,x))
                  } )
 
-setReplaceMethod("[",signature(x="albert",i="index",j="ANY",value="ANY"),function(x,i,j,value){stop("second argument redundant")})
+setReplaceMethod("[",signature(x="real_symmetric_matrix",i="index",j="ANY",value="ANY"),function(x,i,j,value){stop("second argument redundant")})
