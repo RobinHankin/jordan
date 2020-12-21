@@ -85,7 +85,7 @@ setMethod("as.1matrix","real_symmetric_matrix",function(x,drop=TRUE){
          "*" = rsm_prod_rsm(e1, e2),
          "/" = rsm_prod_rsm(e1, jordan_matrix_inverse(e2)), # fails
          "^" = stop("rsm^rsm not defined"),
-         stop(paste("binary operator \"", .Generic, "\" not defined for alberts"))
+         stop(paste("binary operator \"", .Generic, "\" not defined for rsm"))
          )
 }
 
@@ -96,7 +96,7 @@ setMethod("as.1matrix","real_symmetric_matrix",function(x,drop=TRUE){
          "*" = jordan_prod_numeric(e1, e2),
          "/" = jordan_prod_numeric(e1, 1/e2),
          "^" = rsm_power_numeric(e1, e2),
-         stop(paste("binary operator \"", .Generic, "\" not defined for alberts"))
+         stop(paste("binary operator \"", .Generic, "\" not defined for rsm"))
          )
 }
 
@@ -107,7 +107,7 @@ setMethod("as.1matrix","real_symmetric_matrix",function(x,drop=TRUE){
          "*" = jordan_prod_numeric(e2, e1),
          "/" = jordan_prod_numeric(e2, 1/e1),
          "^" = jordan_power_jordan(e2, e1),
-         stop(paste("binary operator \"", .Generic, "\" not defined for alberts"))
+         stop(paste("binary operator \"", .Generic, "\" not defined for rsm"))
          )
 }
 
@@ -117,7 +117,7 @@ setMethod("Arith",signature(e1 = "real_symmetric_matrix", e2="missing"),
                    "+" = e1,
                    "-" = jordan_negative(e1),
                    stop(paste("Unary operator", .Generic,
-                              "not allowed on alberts"))
+                              "not allowed on rsm objects"))
                    )
           } )
 
