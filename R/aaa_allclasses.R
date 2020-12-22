@@ -125,11 +125,15 @@ setMethod("Compare",signature(e1="numeric",e2="jordan" ), jordan_compare)
     as.jordan(sweep(jj[[1]],2,jj[[2]],"*"),e1)
 }
 
-`jordan_matrix_show` <- function(x){
-  jj <- as(x,"matrix")
-  print(jj)
-  return(x)
-}
+setMethod("show","jordan_matrix",
+          function(x){
+              x <- as.matrix(x)
+              if(is.null(colnames(x))){
+                  colnames(x) <- paste("[",seq_len(ncol(x)),"]",sep="")
+                  }
+              print(as.matrix(x))
+              return(x)
+          } )
 
 setGeneric("length")
 setMethod("length","jordan",function(x){ncol(as.matrix(x))})
