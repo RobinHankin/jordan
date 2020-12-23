@@ -1,4 +1,4 @@
- ## Albert algebras; setClass("albert") is in  aaa_allclasses.R
+## Albert algebras; setClass("albert") is in  aaa_allclasses.R
 
 `albert` <- function(M){new("albert",x=cbind(M))}  # this is the only place new("albert",...) is called
 `is.albert` <- function(x){inherits(x,"albert")}
@@ -53,7 +53,7 @@ setMethod("show", "albert", function(object){albert_show(object)})
     jj <- harmonize_oo(e1,e2)
     out <- jj[[1]]*0
     for(i in seq_len(ncol(out))){
-        out[,i] <- v27_albertprod_v27(jj[[1]][,i],jj[[2]][,i])
+        out[,i] <- vec_albertprod_vec(jj[[1]][,i],jj[[2]][,i])
     }
     return(albert(out))
 }
@@ -141,24 +141,24 @@ setMethod("Arith",signature(e1="numeric",e2="albert" ),numeric_arith_albert )
   }
 }
 
-`v27_to_albertmatrix` <- function(x){
+`vec_to_albert1` <- function(x){
     stopifnot(length(x)==27)
     herm_onion_mat(x[1:3], as.octonion(matrix(x[-(1:3)],8,3)))
 }
 
 setMethod("as.1matrix","albert",function(x,drop=TRUE){
-    out <- apply(as.matrix(x),2,v27_to_albertmatrix,simplify=FALSE)
+    out <- apply(as.matrix(x),2,vec_to_albert1,simplify=FALSE)
     if((length(x)==1) & drop){out <- out[[1]]}
     return(out)
 } )
 
-`v27_albertprod_v27` <- function(x,y){
-  xmat <- v27_to_albertmatrix(x)
-  ymat <- v27_to_albertmatrix(y)
-  albertmatrix_to_v27(cprod(xmat,ymat) + cprod(ymat,xmat))/2 ## xmat %*% ymat + ymat %*% xmat)/2
+`vec_albertprod_vec` <- function(x,y){
+  xmat <- vec_to_albert1(x)
+  ymat <- vec_to_albert1(y)
+  albert1_to_vec(cprod(xmat,ymat) + cprod(ymat,xmat))/2 ## xmat %*% ymat + ymat %*% xmat)/2
 }
 
-`albertmatrix_to_v27` <- function(H){
+`albert1_to_vec` <- function(H){
   c(
       Re(c(H[1,1],H[2,2],H[3,3])),
       as.matrix(H[upper.tri(getM(H))])  # onion::getM()
@@ -166,14 +166,14 @@ setMethod("as.1matrix","albert",function(x,drop=TRUE){
 }
 
 setGeneric("as.list")
-setMethod("as.list","albert", function(x){apply(as.matrix(x),2,v27_to_albertmatrix)})
+setMethod("as.list","albert", function(x){apply(as.matrix(x),2,vec_to_albert1)})
 
 setMethod("[",signature(x="albert",i="index",j="missing",drop="logical"),
           function(x,i,j,drop){
               out <- as.matrix(x)[,i,drop=FALSE]
               if(drop){
                   if(ncol(out)==1){
-                      return(v27_to_albertmatrix(c(out)))
+                      return(vec_to_albert1(c(out)))
                   } else {
                       stop("for >1 element, use as.list()")
                   } 

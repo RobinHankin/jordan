@@ -56,11 +56,13 @@ setValidity("real_symmetric_matrix", valid_rsm)
    return(out)
 }
 
+`rsm1_to_vec` <- function(M){M[upper.tri(M,TRUE)]}
+
 `vec_rsmprod_vec` <- function(x,y){
     x <- vec_to_rsm1(x)
     y <- vec_to_rsm1(y)
     jj <- (cprod(x,y)+cprod(y,x))/2
-    return(jj[upper.tri(jj,TRUE)])
+    return(rsm1_to_vec(jj))
 }
 
 setMethod("as.1matrix","real_symmetric_matrix",function(x,drop=TRUE){

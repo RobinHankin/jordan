@@ -58,12 +58,12 @@ setValidity("quaternion_herm_matrix", valid_qhm)
 
 `qhm1_to_vec` <- function(M){
     ind <- upper.tri(M,FALSE)
-    c(Re(diag(M)),c(matrix(t(c(
-                      Re(M[ind]),
-                      i (M[ind]),
-                      j (M[ind]),
-                      k (M[ind])
-                  )))))
+    c(Re(diag(M)),
+      t(cbind(Re(M[ind]),
+              i (M[ind]),
+              j (M[ind]),
+              k (M[ind])
+              ) ) ) 
 }
 
 `vec_qhmprod_vec` <- function(x,y){
