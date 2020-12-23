@@ -183,13 +183,6 @@ setMethod("[",signature(x="albert",i="index",j="missing",drop="logical"),
           } )
               
 
-setReplaceMethod("[",signature(x="albert",i="index",j="missing",value="numeric"),
-                 function(x,i,j,value){
-                     out <- as.matrix(x)
-                     out[,i] <-  as.matrix(as.albert(value))  # the meat
-                     return(as.albert(out))
-                 } )
-
 setReplaceMethod("[",signature(x="albert",i="index",j="missing",value="albert"),
                  function(x,i,j,value){
                    out <- as.matrix(x)
@@ -197,4 +190,3 @@ setReplaceMethod("[",signature(x="albert",i="index",j="missing",value="albert"),
                    return(as.albert(out))
                  } )
 
-setReplaceMethod("[",signature(x="albert",i="index",j="ANY",value="ANY"),function(x,i,j,value){stop("second argument redundant")})

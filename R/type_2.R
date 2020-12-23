@@ -43,7 +43,7 @@ setValidity("complex_herm_matrix", valid_chm)
     }
 }
 
-`ralbert` <- function(n=3){albert(matrix(round(rnorm(n*27),2),ncol=n))}
+`rchm` <- function(n=3,d=5){complex_herm_matrix(matrix(round(rnorm(n*(d*d)),2),ncol=n))}
 
 `vec_to_chm1` <- function(x){
    r <- length(x)
@@ -146,7 +146,6 @@ setMethod("[",signature(x="complex_herm_matrix",i="index",j="missing",drop="logi
               }
           } )
               
-setReplaceMethod("[",signature(x="complex_herm_matrix",i="index",j="missing",value="numeric"),function(x,i,j,value){stop("not defined")}) # matches rsm equivalent
 setReplaceMethod("[",signature(x="complex_herm_matrix",i="index",j="missing",value="complex_herm_matrix"),  # matches rsm equivalent
                  function(x,i,j,value){
                    out <- as.matrix(x)

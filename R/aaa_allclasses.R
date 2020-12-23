@@ -151,3 +151,13 @@ setMethod("sum","jordan",function(x,na.rm=FALSE){as.jordan(cbind(rowSums(as.matr
    
 
 setGeneric("as.1matrix",function(x,...){x})
+
+setReplaceMethod("[",signature(x="jordan_matrix",i="index",j="missing",value="numeric"),
+                 function(x,i,j,value){
+                     stopifnot(length(value)==1)
+                     stopifnot(value==0)
+                     out <- as.matrix(x)
+                     out[,i] <-  0  # the meat
+                     return(as.jordan(out,x))
+                 } )
+

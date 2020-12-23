@@ -212,8 +212,3 @@ setReplaceMethod("[",signature(x="spin",i="missing",j="missing",value="spin"),fu
 setReplaceMethod("[",signature(x="spin",i="missing",j="missing",value="numeric"),function(x,i,j,value){
 
   })
-  
-
-
-
-  

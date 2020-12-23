@@ -139,8 +139,6 @@ setMethod("[",signature(x="real_symmetric_matrix",i="index",j="missing",drop="lo
               }
           } )
               
-
-setReplaceMethod("[",signature(x="real_symmetric_matrix",i="index",j="missing",value="numeric"),function(x,i,j,value){stop("not defined")})
 setReplaceMethod("[",signature(x="real_symmetric_matrix",i="index",j="missing",value="real_symmetric_matrix"),
                  function(x,i,j,value){
                    out <- as.matrix(x)
@@ -148,4 +146,3 @@ setReplaceMethod("[",signature(x="real_symmetric_matrix",i="index",j="missing",v
                    return(as.jordan(out,x))
                  } )
 
-setReplaceMethod("[",signature(x="real_symmetric_matrix",i="index",j="ANY",value="ANY"),function(x,i,j,value){stop("second argument redundant")})
