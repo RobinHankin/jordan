@@ -43,7 +43,7 @@ setValidity("quaternion_herm_matrix", valid_qhm)
     }
 }
 
-`rqhm` <- function(n=3){quaternion_herm_matrix(matrix(round(rnorm(n*45),2),nrow=45))}
+`rqhm` <- function(n=3,d=5){quaternion_herm_matrix(matrix(round(rnorm(n*(2*d^2-d)),2),ncol=n))}
 
 `vec_to_qhm1` <- function(x){
    r <- length(x)

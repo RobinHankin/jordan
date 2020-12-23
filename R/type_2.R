@@ -43,7 +43,7 @@ setValidity("complex_herm_matrix", valid_chm)
     }
 }
 
-`rchm` <- function(n=3){complex_herm_matrix(matrix(round(rnorm(n*25),2),nrow=25))}
+`ralbert` <- function(n=3){albert(matrix(round(rnorm(n*27),2),ncol=n))}
 
 `vec_to_chm1` <- function(x){
    r <- length(x)

@@ -34,7 +34,7 @@ setValidity("albert", valid_albert)
   }
 }
 
-`ralbert` <- function(n=5){albert(matrix(round(rnorm(n*27),2),nrow=27))}
+`ralbert` <- function(n=3){albert(matrix(round(rnorm(n*27),2),ncol=n))}
 
 setMethod("show", "albert", function(object){albert_show(object)})
 `albert_show` <- function(x){

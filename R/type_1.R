@@ -43,7 +43,7 @@ setValidity("real_symmetric_matrix", valid_rsm)
     }
 }
 
-`rrsm` <- function(n=3){real_symmetric_matrix(matrix(round(rnorm(n*10),2),nrow=10))}
+`rrsm` <- function(n=3,d=5){real_symmetric_matrix(matrix(round(rnorm(n*(d*(d+1)/2)),2),ncol=n))}
 
 `vec_to_rsm1` <- function(x){
    r <- length(x)
