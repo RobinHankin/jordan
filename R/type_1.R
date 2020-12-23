@@ -1,4 +1,4 @@
-## real symmetric matrices; setClass("real_symmetric_matrix") is in  aaa_allclasses.R
+## real symmetric matrices ("rsm"); setClass("real_symmetric_matrix") in 'aaa_allclasses.R'
 
 `real_symmetric_matrix` <- function(M){new("real_symmetric_matrix",x=cbind(M))}  # this is the only place new("real_symmetric_matrix",...) is called
 `is.real_symmetric_matrix` <- function(x){inherits(x,"real_symmetric_matrix")}
@@ -54,7 +54,7 @@ setValidity("real_symmetric_matrix", valid_rsm)
    out <- out + t(out)
    diag(out) <- diag(out)/2
    return(out)
-}    
+}
 
 `vec_rsmprod_vec` <- function(x,y){
     x <- vec_to_rsm1(x)
