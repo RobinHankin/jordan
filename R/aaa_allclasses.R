@@ -65,7 +65,7 @@ setReplaceMethod("names","jordan",
                    return(as.jordan(jj,as.character(class(x))))
                  } )
 
-`jordan_compare` <- function(e1,e2){
+`jordan_compare_jordan` <- function(e1,e2){
   stopifnot(is.jordan(e1) | is.jordan(e2))
   jj <- harmonize_oo(e1,e2)
   out <- apply(jj[[1]]==jj[[2]],2,all)
@@ -77,32 +77,40 @@ setReplaceMethod("names","jordan",
          )
 }
 
-setMethod("Compare",signature(e1 = "jordan" , e2="jordan" ), jordan_compare)
-setMethod("Compare",signature(e1 = "jordan" , e2="numeric"), jordan_compare)
-setMethod("Compare",signature(e1 = "numeric", e2="jordan" ), jordan_compare)
+`is.zero` <- function(e1,e2=0){
+  stopifnot(is.numeric(e2))
+  stopifnot(length(e2)==1)
+  stopifnot(round(e2)==e2)
+  stopifnot(e2==0)
+  apply(as.matrix(e1),2,function(x){all(x==0)})
+}
+
+`jordan_compare_numeric` <- function(e1,e2){
+   out <- is.zero(e1,e2)  # the meat
+
+   switch(.Generic,
+          "==" =  out,
+          "!=" = !out,
+          stop(paste("comparision operator \"", .Generic, "\" not defined for jordans"))
+          )
+}
+
+`numeric_compare_jordan` <- function(e1,e2){
+   out <- is.zero(e2,e1) # the meat; NB e1,e2 swapped WRT jordan_compare_numeric()
+
+   switch(.Generic,
+          "==" =  out,
+          "!=" = !out,
+          stop(paste("comparision operator \"", .Generic, "\" not defined for jordans"))
+          )
+}
+
+setMethod("Compare",signature(e1 = "jordan" , e2="jordan" ), jordan_compare_jordan)
+setMethod("Compare",signature(e1 = "jordan" , e2="numeric"), jordan_compare_numeric)
+setMethod("Compare",signature(e1 = "numeric", e2="jordan" ), numeric_compare_jordan)
 
 setMethod("[", signature("jordan",i="index",j="missing",drop="ANY"),function(x,i,j,drop){as.jordan(as.matrix(x)[,i,drop=FALSE],x)})
 setMethod("[", signature("jordan",i="index",j="ANY",drop="ANY"),function(x,i,j,drop){stop("second indexing argument not needed")})
-
-`jordan_compare` <- function(e1,e2){
-    stopifnot(is.jordan(e1) | is.jordan(e2))
-    
-    if(!is.jordan(e1)){e1 <- as.jordan(e1,e2)}
-    if(!is.jordan(e2)){e2 <- as.jordan(e2,e1)}
-    jj <- harmonize_oo(e1,e2)
-    out <- apply(jj[[1]]==jj[[2]],2,all)
-    
-    switch(.Generic,
-           "==" =  out,
-           "!=" = !out,
-           stop(paste("comparison operator \"", .Generic, "\" not defined for onions"))
-           )
-}
-
-setMethod("Compare",signature(e1="jordan" ,e2="jordan" ), jordan_compare)
-setMethod("Compare",signature(e1="jordan" ,e2="numeric"), jordan_compare)
-setMethod("Compare",signature(e1="numeric",e2="jordan" ), jordan_compare)
-
 
 ## unary operators:
 `jordan_negative` <- function(z){as.jordan(-as.matrix(z),z)}
