@@ -134,13 +134,13 @@ setMethod("[", signature("jordan",i="index",j="ANY",drop="ANY"),function(x,i,j,d
 }
 
 setMethod("show","jordan_matrix",
-          function(x){
-              x <- as.matrix(x)
-              if(is.null(colnames(x))){
-                  colnames(x) <- paste("[",seq_len(ncol(x)),"]",sep="")
+          function(object){
+              object <- as.matrix(object)
+              if(is.null(colnames(object))){
+                  colnames(object) <- paste("[",seq_len(ncol(object)),"]",sep="")
                   }
-              print(as.matrix(x))
-              return(x)
+              print(as.matrix(object))
+              return(object)
           } )
 
 setGeneric("length")
