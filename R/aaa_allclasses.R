@@ -149,7 +149,6 @@ setMethod("length","jordan",function(x){ncol(as.matrix(x))})
 setGeneric("sum")
 setMethod("sum","jordan",function(x,na.rm=FALSE){as.jordan(cbind(rowSums(as.matrix(x))),x)})
    
-
 setGeneric("as.1matrix",function(x,...){x})
 
 setReplaceMethod("[",signature(x="jordan_matrix",i="index",j="missing",value="numeric"),
@@ -161,3 +160,4 @@ setReplaceMethod("[",signature(x="jordan_matrix",i="index",j="missing",value="nu
                      return(as.jordan(out,x))
                  } )
 
+`jordan_power_jordan` <- function(e1,e2){stop("x^jordan not defined")}
