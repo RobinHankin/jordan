@@ -2,4 +2,8 @@ exportPattern("^[^\\.]")
 
 
 importFrom(emulator,quad.3form)
-importFrom(onion,diag)
+importFrom("onion","diag","getM")
+
+importFrom("methods", "as", "is", "new")
+importFrom("stats", "rnorm")
+importFrom("utils", "capture.output")
