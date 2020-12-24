@@ -2,7 +2,7 @@ exportPattern("^[^\\.]")
 
 
 importFrom(emulator,quad.3form)
-importFrom("onion","diag","getM")
+importFrom("onion","diag","getM","harmonize_on","harmonize_oo","i","j","k","ht","onionmat","as.quaternion")
 
 importFrom("methods", "as", "is", "new")
 importFrom("stats", "rnorm")
