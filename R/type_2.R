@@ -36,12 +36,14 @@ setValidity("complex_herm_matrix", valid_chm)
         if(single){
             return(complex_herm_matrix(x))
         } else {
-            return(scalars_to_complex_herm_matrix(x,d)) # problem! we do not know how big it is
+            return(numeric_to_complex_herm_matrix(x,d)) # problem! we do not know how big it is
         }
     } else {
         stop("not recognised")
     }
 }
+
+`numeric_to_complex_herm_matrix` <- function(x,d){stop("no unique coercion")}
 
 `rchm` <- function(n=3,d=5){complex_herm_matrix(matrix(round(rnorm(n*(d*d)),2),ncol=n))}
 

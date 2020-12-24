@@ -27,7 +27,7 @@ setValidity("albert", valid_albert)
     if(single){
       return(albert(x))
     } else {
-      return(scalars_to_albert(x))
+      return(numeric_to_albert(x))
     }
   } else {
     stop("not recognised")
@@ -49,6 +49,8 @@ setMethod("show", "albert", function(object){albert_show(object)})
   return(x)
 }
 
+`albert_inverse` <- function(e1){stop("inverses not implemented in Albert algebras")}
+`numeric_to_albert` <- function(e1){stop("There is no unique way to coerce numeric to Albert")}
 `albert_prod_albert`  <- function(e1,e2){
     jj <- harmonize_oo(e1,e2)
     out <- jj[[1]]*0

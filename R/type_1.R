@@ -36,13 +36,14 @@ setValidity("real_symmetric_matrix", valid_rsm)
         if(single){
             return(real_symmetric_matrix(x))
         } else {
-            return(scalars_to_real_symmetric_matrix(x,d)) # problem! we do not know how big it is
+            return(numeric_to_real_symmetric_matrix(x,d)) # problem! we do not know how big it is
         }
     } else {
         stop("not recognised")
     }
 }
 
+`numeric_to_real_symmetric_matrix` <- function(x,d){stop("no unique coercion")}
 `rrsm` <- function(n=3,d=5){real_symmetric_matrix(matrix(round(rnorm(n*(d*(d+1)/2)),2),ncol=n))}
 
 `vec_to_rsm1` <- function(x){

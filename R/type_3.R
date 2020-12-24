@@ -36,12 +36,14 @@ setValidity("quaternion_herm_matrix", valid_qhm)
         if(single){
             return(quaternion_herm_matrix(x))
         } else {
-            return(scalars_to_quaternion_herm_matrix(x,d)) # problem! we do not know how big it is
+            return(numeric_to_quaternion_herm_matrix(x,d)) # problem! we do not know how big it is
         }
     } else {
         stop("not recognised")
     }
 }
+
+`numeric_to_quaternion_herm_matrix` <- function(x,d){stop("no unique coercion")}
 
 `rqhm` <- function(n=3,d=5){quaternion_herm_matrix(matrix(round(rnorm(n*(2*d^2-d)),2),ncol=n))}
 
