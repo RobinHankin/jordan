@@ -46,6 +46,7 @@ setValidity("quaternion_herm_matrix", valid_qhm)
 `numeric_to_quaternion_herm_matrix` <- function(x,d){stop("no unique coercion")}
 
 `rqhm` <- function(n=3,d=5){quaternion_herm_matrix(matrix(round(rnorm(n*(2*d^2-d)),2),ncol=n))}
+`qhm_id` <- function(n,d){as.quaternion_herm_matrix(kronecker(qhm1_to_vec(diag(nrow=d)),t(rep(1,n))))}
 
 `vec_to_qhm1` <- function(x){
    r <- length(x)

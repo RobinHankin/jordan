@@ -35,6 +35,7 @@ setValidity("albert", valid_albert)
 }
 
 `ralbert` <- function(n=3){albert(matrix(round(rnorm(n*27),2),ncol=n))}
+`albert_id` <- function(n){as.albert(kronecker(albert1_to_vec(herm_onion_mat(rep(1,3),as.octonion(rep(0,3)))),t(rep(1,n))))}
 
 setMethod("show", "albert", function(object){albert_show(object)})
 `albert_show` <- function(x){

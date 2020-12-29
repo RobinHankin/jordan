@@ -49,6 +49,17 @@ setClassUnion("index", members =  c("numeric", "logical", "character")) # taken 
            )
 }
 
+`as.identity` <- function(x){
+    switch(as.character(class(class)),
+           real_symmetric_matrix  = as.jordan(kronecker(  rsm1_to_vec(diag(nrow=nrow(x[1,drop=TRUE]))),t(rep(1,length(x)))),x),
+           complex_herm_matrix    = as.jordan(kronecker(  chm1_to_vec(diag(nrow=nrow(x[1,drop=TRUE]))),t(rep(1,length(x)))),x),
+           quaternion_herm_matrix = as.jordan(kronecker(  qhm1_to_vec(diag(nrow=nrow(x[1,drop=TRUE]))),t(rep(1,length(x)))),x),
+           albert                 = as.jordan(kronecker(albert_to_vec(diag(nrow=nrow(x[1,drop=TRUE]))),t(rep(1,length(x)))),x),
+           spin                   = spin(a=1+0*r1(x),V=rn(x)*0),
+           stop("not recognised")
+           )
+}
+
 setAs(from="jordan",to="matrix",def=function(from){from@x})
 setGeneric("as.matrix")
 setMethod("as.matrix",signature(x="jordan"),function(x){as(x,"matrix")})

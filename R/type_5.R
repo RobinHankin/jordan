@@ -47,6 +47,7 @@ setMethod("dim","spin",function(x){ nrow(rn(x)) })
 
 # names() defined for jordan objects
 `rspin` <- function(n=3,d=5){spin(round(rnorm(n),2),matrix(round(rnorm(n*d),2),d,n))}
+`id_spin` <- function(n=3,d=5){as.spin(rbind(1,matrix(0,d,n)))}
 
 setMethod("show", "spin", function(object){spin_show(object)})
 

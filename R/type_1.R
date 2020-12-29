@@ -45,6 +45,7 @@ setValidity("real_symmetric_matrix", valid_rsm)
 
 `numeric_to_real_symmetric_matrix` <- function(x,d){stop("no unique coercion")}
 `rrsm` <- function(n=3,d=5){real_symmetric_matrix(matrix(round(rnorm(n*(d*(d+1)/2)),2),ncol=n))}
+`rsm_id` <- function(n,d){as.real_symmetric_matrix(kronecker(rsm1_to_vec(diag(nrow=d)),t(rep(1,n))))}
 
 `vec_to_rsm1` <- function(x){
    r <- length(x)
@@ -65,6 +66,7 @@ setValidity("real_symmetric_matrix", valid_rsm)
     jj <- (cprod(x,y)+cprod(y,x))/2
     return(rsm1_to_vec(jj))
 }
+
 
 setMethod("as.1matrix","real_symmetric_matrix",function(x,drop=TRUE){
     out <- lapply(seq_along(x), function(i){x[i,drop=TRUE]})

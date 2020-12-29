@@ -46,6 +46,7 @@ setValidity("complex_herm_matrix", valid_chm)
 `numeric_to_complex_herm_matrix` <- function(x,d){stop("no unique coercion")}
 
 `rchm` <- function(n=3,d=5){complex_herm_matrix(matrix(round(rnorm(n*(d*d)),2),ncol=n))}
+`chm_id` <- function(n,d){as.complex_herm_matrix(kronecker(chm1_to_vec(diag(nrow=d)),t(rep(1,n))))}
 
 `vec_to_chm1` <- function(x){
    r <- length(x)
