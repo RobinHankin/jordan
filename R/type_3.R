@@ -80,6 +80,8 @@ setMethod("as.1matrix","quaternion_herm_matrix",function(x,drop=TRUE){
     return(out)
 } )
 
+`qhm_inverse` <- function(x){stop("inverses for qhm objects not implemented")}
+
 `qhm_prod_qhm`  <- function(e1,e2){
     jj <- harmonize_oo(e1,e2)
     out <- jj[[1]]*0
@@ -94,7 +96,7 @@ setMethod("as.1matrix","quaternion_herm_matrix",function(x,drop=TRUE){
          "+" = jordan_plus_jordan(e1, e2),
          "-" = jordan_plus_jordan(e1,jordan_negative(e2)),
          "*" = qhm_prod_qhm(e1, e2),
-         "/" = qhm_prod_qhm(e1, jordan_matrix_inverse(e2)), # fails
+         "/" = qhm_prod_qhm(e1, qhm_inverse(e2)), # fails
          "^" = stop("qhm^qhm not defined"),
          stop(paste("binary operator \"", .Generic, "\" not defined for qhm"))
          )
@@ -116,7 +118,7 @@ setMethod("as.1matrix","quaternion_herm_matrix",function(x,drop=TRUE){
          "+" = jordan_plus_numeric(e2, e1),  
          "-" = jordan_plus_numeric(-e2,e1),  
          "*" = jordan_prod_numeric(e2, e1),
-         "/" = jordan_prod_numeric(e2, 1/e1),
+         "/" = jordan_prod_numeric(qhm_inverse(e2),e1),
          "^" = jordan_power_jordan(e2, e1),
          stop(paste("binary operator \"", .Generic, "\" not defined for qhm"))
          )

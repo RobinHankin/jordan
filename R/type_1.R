@@ -81,12 +81,20 @@ setMethod("as.1matrix","real_symmetric_matrix",function(x,drop=TRUE){
     return(as.jordan(out,e1))
 }
 
+`rsm_inverse` <- function(e1){
+    out <- as.matrix(e1)
+    for(i in seq_len(ncol(out))){
+        out[,i] <- rsm1_to_vec(solve(e1[i,drop=TRUE])) # the meat
+    }
+    return(as.jordan(out,e1))
+}
+
 `rsm_arith_rsm` <- function(e1,e2){
   switch(.Generic,
          "+" = jordan_plus_jordan(e1, e2),
          "-" = jordan_plus_jordan(e1,jordan_negative(e2)),
          "*" = rsm_prod_rsm(e1, e2),
-         "/" = rsm_prod_rsm(e1, jordan_matrix_inverse(e2)), # fails
+         "/" = rsm_prod_rsm(e1, rsm_inverse(e2)), 
          "^" = stop("rsm^rsm not defined"),
          stop(paste("binary operator \"", .Generic, "\" not defined for rsm"))
          )
@@ -108,7 +116,7 @@ setMethod("as.1matrix","real_symmetric_matrix",function(x,drop=TRUE){
          "+" = jordan_plus_numeric(e2, e1),  
          "-" = jordan_plus_numeric(-e2,e1),  
          "*" = jordan_prod_numeric(e2, e1),
-         "/" = jordan_prod_numeric(e2, 1/e1),
+         "/" = jordan_prod_numeric(rsm_inverse(e2),e1),
          "^" = jordan_power_jordan(e2, e1),
          stop(paste("binary operator \"", .Generic, "\" not defined for rsm"))
          )

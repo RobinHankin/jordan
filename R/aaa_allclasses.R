@@ -114,7 +114,6 @@ setMethod("[", signature("jordan",i="index",j="ANY",drop="ANY"),function(x,i,j,d
 
 ## unary operators:
 `jordan_negative` <- function(z){as.jordan(-as.matrix(z),z)}
-`jordan_inverse` <- function(z){stop("inverses not implemented")}
 
 
 ## binary operators:
