@@ -180,7 +180,6 @@ setMethod("Arith",signature(e1 = "numeric", e2="spin"),
          )})
 
 
-setClassUnion("index", members =  c("numeric", "logical", "character")) # taken from the Matrix package.
 setMethod("[", signature("spin",i="index",j="missing"),function(x,i,j,drop){spin(a=r1(x)[i],V=rn(x)[,i,drop=FALSE])})
 setMethod("[", signature("spin",i="missing",j="index"),function(x,i,j,drop){stop()})
 setMethod("[", signature("spin",i="missing",j="missing"),function(x,i,j,drop){x})
