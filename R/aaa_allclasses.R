@@ -173,3 +173,20 @@ setReplaceMethod("[",signature(x="jordan_matrix",i="index",j="missing",value="nu
                  } )
 
 `jordan_power_jordan` <- function(e1,e2){stop("x^jordan not defined")}
+
+`mymatrixpower` <- function(M,n){
+    stopifnot(length(n)==1)
+    if(n==0){
+        return(diag(nrow=nrow(M)))
+    } else if(n==1){
+        return(M)
+    } else if(n<0){
+        return(Recall(solve(M),-n))
+    } else {
+        jj <- eigen(M)
+        D  <- jj$values
+        stopifnot(is.numeric(D)) # verifies M is Hermitian
+        O <- jj$vectors
+        return(emulator::quad.tform(diag(D)^n,O))
+    }
+}
