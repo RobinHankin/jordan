@@ -96,6 +96,8 @@ setMethod("show", "spin", function(object){spin_show(object)})
 
 `spin_prod_numeric`  <- function(e1,e2){with(harmonize_spin_numeric(e1,e2),{return(spin(a=s1*s2,V=sweep(v1,2,s2,"*")))})}
 
+`spin_plus_numeric` <- function(e1,e2){stop("not implemented")}
+
 `spin_negative`  <- function(e1){spin(-r1(e1),-rn(e1))}
 
 `spin_plus_spin`  <- function(e1,e2){with(harmonize_spin_spin(e1,e2),{return(spin(s1+s2,v1+v2))})}
