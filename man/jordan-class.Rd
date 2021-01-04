@@ -15,7 +15,8 @@
 Various classes in the \pkg{jordan} package.
 }
 \references{
-%%  ~~put references to the literature/web site here~~
+K. McCrimmon 1978. \dQuote{Jordan algebras and their applications}.
+\emph{Bulletin of the American Mathematical Society}, Volume 84, Number 4.
 }
 \author{Robin K. S. Hankin}
 \examples{
