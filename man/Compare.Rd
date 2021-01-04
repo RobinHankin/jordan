@@ -4,7 +4,6 @@
 \alias{Compare,onion,onion-method}
 \alias{Compare,onion,numeric-method}
 \alias{Compare,numeric,onion-method}
-
 \alias{Compare,onionmat,onionmat-method}
 \alias{Compare,onionmat,ANY-method}
 \alias{Compare,ANY,onionmat-method}
@@ -14,6 +13,7 @@
 \alias{onionmat_compare_onionmat}
 \alias{onionmat_compare_single}
 \alias{single_compare_onionmat}
+\alias{spin_equal_spin}
 \title{Methods for compare S4 group}
 \description{Methods for comparison (equal to, greater than, etc) of
   onions.  Only equality makes sense.}

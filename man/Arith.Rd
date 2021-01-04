@@ -57,6 +57,8 @@
 \alias{spin_power_spin}
 \alias{spin_prod_numeric}
 \alias{spin_prod_spin}
+\alias{spin_inverse}
+\alias{spin_negative}
 \alias{vec_albertprod_vec}
 \alias{vec_chmprod_vec}
 \alias{vec_qhmprod_vec}
@@ -105,6 +107,8 @@ spin_power_single_n(e1,n)
 spin_power_spin(...)
 spin_prod_numeric(e1,e2)
 spin_prod_spin(e1,e2)
+spin_inverse(...)
+spin_negative(e1)
 vec_albertprod_vec(x,y)
 vec_chmprod_vec(x,y)
 vec_qhmprod_vec(x,y)
