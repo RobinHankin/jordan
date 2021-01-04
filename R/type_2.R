@@ -96,6 +96,16 @@ setMethod("as.1matrix","complex_herm_matrix",function(x,drop=TRUE){
     return(as.jordan(out,e1))
 }
 
+`chm_power_numeric` <- function(e1,e2){
+    jj <- harmonize_oo(e1,e2)
+    out <- jj[[1]]*0
+    for(i in seq_len(ncol(out))){
+        out[,i] <- chm1_to_vec(mymatrixpower(vec_to_chm1(jj[[1]][,i]),jj[[2]][i])) # the meat
+    }
+    return(as.jordan(out,e1))
+}
+
+
 `chm_arith_chm` <- function(e1,e2){
   switch(.Generic,
          "+" = jordan_plus_jordan(e1, e2),

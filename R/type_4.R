@@ -110,6 +110,15 @@ setMethod("Arith",signature(e1="numeric",e2="albert" ),numeric_arith_albert )
 
 `albert_power_albert` <- function(...){ stop("albert^albert not defined") }
 
+`albert_power_numeric` <- function(e1,e2){
+    jj <- harmonize_oo(e1,e2)
+    out <- jj[[1]]*0
+    for(i in seq_len(ncol(out))){
+        out[,i] <- albert_to_vec(mymatrixpower_onion(vec_to_albert(jj[[1]][,i]),jj[[2]][i])) # the meat
+    }
+    return(as.jordan(out,e1))
+}
+
 `albert_power_single_n` <- function(e1,n){
     stopifnot(is.albert(e1))
     stopifnot(n==round(n))
@@ -127,21 +136,6 @@ setMethod("Arith",signature(e1="numeric",e2="albert" ),numeric_arith_albert )
         }
         return(out)
     }
-}
-
-`albert_power_numeric` <- function(e1,e2){
-  if(length(e2)==1){
-    return(albert_power_single_n(e1,n=e2))
-  } else {
-      jj <- harmonize_on(e1,e2)
-      out <- as.albert(jj[[1]])
-      n <- jj[[2]]
-      
-      for(i in seq_along(out)){
-          out[i] <- albert_power_single_n(out[i],n[i])
-      }
-      return(out)
-  }
 }
 
 `vec_to_albert1` <- function(x){

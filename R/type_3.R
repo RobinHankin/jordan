@@ -92,6 +92,18 @@ setMethod("as.1matrix","quaternion_herm_matrix",function(x,drop=TRUE){
     return(as.jordan(out,e1))
 }
 
+`qhm_power_numeric` <- function(e1,e2){
+    jj <- harmonize_oo(e1,e2)
+    out <- jj[[1]]*0
+    for(i in seq_len(ncol(out))){
+        out[,i] <- qhm1_to_vec(mymatrixpower_onion(vec_to_qhm1(jj[[1]][,i]),jj[[2]][i])) # the meat
+    }
+    return(as.jordan(out,e1))
+}
+
+
+
+
 `qhm_arith_qhm` <- function(e1,e2){
   switch(.Generic,
          "+" = jordan_plus_jordan(e1, e2),

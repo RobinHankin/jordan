@@ -190,3 +190,18 @@ setReplaceMethod("[",signature(x="jordan_matrix",i="index",j="missing",value="nu
         return(emulator::quad.tform(diag(D)^n,O))
     }
 }
+
+`mymatrixpower_onion` <- function(M,n){
+    stopifnot(length(n)==1)
+    if(n==0){
+        return(M[1,1]*0 + diag(nrow=nrow(M)))
+    } else if(n==1){
+        return(M)
+    } else if(n<0){
+        stop("onion matrix inverses not implemented")
+    } else {  # n>1
+        out <- M
+        for(i in seq_len(n-1)){ out <- out %*% M }  # the meat
+        return(out)
+    }
+}
