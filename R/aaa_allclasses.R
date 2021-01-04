@@ -50,7 +50,7 @@ setClassUnion("index", members =  c("numeric", "logical", "character")) # taken 
 }
 
 `as.identity` <- function(x){
-    switch(as.character(class(class)),
+    switch(as.character(class(x)),
            real_symmetric_matrix  = as.jordan(kronecker(   rsm1_to_vec(diag(nrow=nrow(x[1,drop=TRUE]))),t(rep(1,length(x)))),x),
            complex_herm_matrix    = as.jordan(kronecker(   chm1_to_vec(diag(nrow=nrow(x[1,drop=TRUE]))),t(rep(1,length(x)))),x),
            quaternion_herm_matrix = as.jordan(kronecker(   qhm1_to_vec(diag(nrow=nrow(x[1,drop=TRUE]))),t(rep(1,length(x)))),x),
