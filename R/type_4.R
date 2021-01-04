@@ -114,7 +114,7 @@ setMethod("Arith",signature(e1="numeric",e2="albert" ),numeric_arith_albert )
     jj <- harmonize_oo(e1,e2)
     out <- jj[[1]]*0
     for(i in seq_len(ncol(out))){
-        out[,i] <- albert1_to_vec(mymatrixpower_onion(vec_to_albert(jj[[1]][,i]),jj[[2]][i])) # the meat
+        out[,i] <- albert1_to_vec(mymatrixpower_onion(vec_to_albert1(jj[[1]][,i]),jj[[2]][i])) # the meat
     }
     return(as.jordan(out,e1))
 }
