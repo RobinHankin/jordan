@@ -18,10 +18,14 @@ as.identity(x)
 rsm_id(n,d)
 chm_id(n,d)
 qhm_id(n,d)
-albert_id(n,d)
+albert_id(n)
 }
 \arguments{
-  \item{x}{Object to be coerced}
+  \item{n}{Length of vector to be created}
+  \item{d}{Dimensionality}
+  \item{x}{In function \code{as.identity()}, a jordan object.  Return
+    value will be a jordan object of the same dimensionality but entries
+    equal to the identity}
 }
 \details{
 
