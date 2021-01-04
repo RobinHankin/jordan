@@ -88,7 +88,7 @@ setMethod("as.1matrix","complex_herm_matrix",function(x,drop=TRUE){
     return(as.jordan(out,e1))
 }
 
-`csm_inverse` <- function(e1){
+`chm_inverse` <- function(e1){
     out <- as.matrix(e1)
     for(i in seq_len(ncol(out))){
         out[,i] <- chm1_to_vec(solve(e1[i,drop=TRUE])) # the meat
@@ -111,7 +111,7 @@ setMethod("as.1matrix","complex_herm_matrix",function(x,drop=TRUE){
          "+" = jordan_plus_jordan(e1, e2),
          "-" = jordan_plus_jordan(e1,jordan_negative(e2)),
          "*" = chm_prod_chm(e1, e2),
-         "/" = chm_prod_chm(e1, csm_inverse(e2)),
+         "/" = chm_prod_chm(e1, chm_inverse(e2)),
          "^" = stop("chm^chm not defined"),
          stop(paste("binary operator \"", .Generic, "\" not defined for chm"))
          )
@@ -133,7 +133,7 @@ setMethod("as.1matrix","complex_herm_matrix",function(x,drop=TRUE){
          "+" = jordan_plus_numeric(e2, e1),  
          "-" = jordan_plus_numeric(-e2,e1),  
          "*" = jordan_prod_numeric(e2, e1),
-         "/" = jordan_prod_numeric(csm_inverse(e2),e1),
+         "/" = jordan_prod_numeric(chm_inverse(e2),e1),
          "^" = jordan_power_jordan(e2, e1),
          stop(paste("binary operator \"", .Generic, "\" not defined for chm"))
          )
