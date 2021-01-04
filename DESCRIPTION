@@ -7,10 +7,10 @@ Maintainer: Robin K. S. Hankin <hankin.robin@gmail.com>
 Description: Jordan Algebras in R.
 License: GPL (>= 2)
 LazyData: yes
-Suggests: knitr
+Suggests: knitr,mathjaxr
 Depends: onion (>= 1.4-0)
 VignetteBuilder: knitr
-Imports: emulator,mathjaxr,methods
+Imports: emulator,methods
 URL: https://github.com/RobinHankin/jordan.git
 BugReports: https://github.com/RobinHankin/jordan/issues
 RdMacros: mathjaxr
