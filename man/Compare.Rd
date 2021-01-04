@@ -1,37 +1,29 @@
 \name{Compare-methods}
 \docType{methods}
 \alias{Compare-methods}
-\alias{Compare,onion,onion-method}
-\alias{Compare,onion,numeric-method}
-\alias{Compare,numeric,onion-method}
-\alias{Compare,onionmat,onionmat-method}
-\alias{Compare,onionmat,ANY-method}
-\alias{Compare,ANY,onionmat-method}
-\alias{onion_compare}
-\alias{onionmat_equal_onionmat}
-\alias{onionmat_equal_single}
-\alias{onionmat_compare_onionmat}
-\alias{onionmat_compare_single}
-\alias{single_compare_onionmat}
+\alias{Compare,jordan,jordan-method}
+\alias{Compare,jordan,numeric-method}
+\alias{Compare,numeric,jordan-method}
+\alias{Compare,jordan,jordan-method}
+\alias{Compare,jordan,ANY-method}
+\alias{Compare,ANY,jordan-method}
+\alias{jordan_compare}
+\alias{jordan_equal_jordan}
+\alias{jordan_equal_single}
+\alias{jordan_compare_jordan}
+\alias{jordan_compare_single}
 \alias{spin_equal_spin}
 \title{Methods for compare S4 group}
-\description{Methods for comparison (equal to, greater than, etc) of
-  onions.  Only equality makes sense.}
+\description{
+  Methods for comparison (equal to, greater than, etc) of
+  jordans.  Only equality makes sense.
+}
+\usage{jordan_compare_jordan(e1,e2)}
+\arguments{\item{e1,e2}{Jordan objects}}
 \value{Return a boolean}
+
 \examples{
-# roct() > 0 # meaningless and returns an error
-
-
-
-x <- as.octonion(matrix(sample(0:1,800,TRUE,p=c(9,1)),nrow=8))
-y <- as.octonion(matrix(sample(0:1,800,TRUE,p=c(9,1)),nrow=8))
-x==y
-
-
-onionmat(as.quaternion(100+1:12),3,4) == 102
-
-
-
-  }
+# rspin() > 0 # meaningless and returns an error
+}
 \keyword{methods}
 \keyword{math}
