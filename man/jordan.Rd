@@ -5,9 +5,11 @@
 \alias{is.quaternion_herm_matrix}
 \alias{quaternion_herm_matrix}
 \alias{complex_herm_matrix}
+\alias{is.complex_herm_matrix}
 \alias{real_symmetric_matrix}
 \alias{albert}
 \alias{is.albert}
+\alias{is.jordan}
 \alias{as.spin}
 \alias{is.spin}
 \alias{spin}

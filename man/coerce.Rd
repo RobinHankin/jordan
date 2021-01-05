@@ -24,6 +24,9 @@
 \alias{numeric_to_complex_herm_matrix}
 \alias{numeric_to_quaternion_herm_matrix}
 \alias{numeric_to_albert}
+\alias{as.list}
+\alias{as.list,albert-method}
+\alias{as.matrix,jordan-method}
 \title{Coercion}
 \description{Various coercions needed in the package}
 \usage{
@@ -44,6 +47,7 @@ numeric_to_real_symmetric_matrix(x,d)
 numeric_to_complex_herm_matrix(x,d)
 numeric_to_quaternion_herm_matrix(x,d)
 numeric_to_albert(e1)
+as.list(x,...)
 }
 \arguments{
   \item{x,e1}{Numeric vector of independent entries}
@@ -52,6 +56,7 @@ numeric_to_albert(e1)
   \item{single}{Boolean, indicating whether a single value is tobe
     returned}
   \item{class}{Class of object}
+  \item{...}{Further arguments, currently ignored}
 }
 \details{
 The prefix \dQuote{1} means a single element, usually a matrix.
