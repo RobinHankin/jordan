@@ -156,6 +156,7 @@ setMethod("as.1matrix","albert",function(x,drop=TRUE){
 }
 
 `albert1_to_vec` <- function(H){
+    H <- H + onion::O0
   c(
       Re(c(H[1,1],H[2,2],H[3,3])),
       as.matrix(H[upper.tri(getM(H))])  # onion::getM()
