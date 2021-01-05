@@ -11,6 +11,7 @@
 \alias{as.spin}
 \alias{is.spin}
 \alias{spin}
+\alias{numeric_compare_jordan}
 \title{The five types of jordan algebras}
 \description{
   The five types of Jordan algebras:

@@ -1,6 +1,8 @@
 \name{coerce}
 \alias{coerce}
 \alias{coercion}
+\alias{as.1matrix}
+\alias{as.jordan}
 \alias{as.1matrix,real_symmetric_matrix-method}
 \alias{as.1matrix,complex_herm_matrix-method}
 \alias{as.1matrix,quaternion_herm_matrix-method}
@@ -25,6 +27,7 @@
 \title{Coercion}
 \description{Various coercions needed in the package}
 \usage{
+as.jordan(x,class)
 vec_to_rsm1(x)
 vec_to_chm1(x)
 vec_to_qhm1(x)
@@ -48,6 +51,7 @@ numeric_to_albert(e1)
   \item{d}{Dimensionality of algebra}
   \item{single}{Boolean, indicating whether a single value is tobe
     returned}
+  \item{class}{Class of object}
 }
 \details{
 The prefix \dQuote{1} means a single element, usually a matrix.

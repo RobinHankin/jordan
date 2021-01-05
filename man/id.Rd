@@ -8,6 +8,7 @@
 \alias{rsm_id}
 \alias{chm_id}
 \alias{qhm_id}
+\alias{spin_id}
 \alias{albert_id}
 \title{Multiplicative identities}
 \description{\loadmathjax
@@ -19,6 +20,7 @@ rsm_id(n,d)
 chm_id(n,d)
 qhm_id(n,d)
 albert_id(n)
+spin_id(n=3,d=5)
 }
 \arguments{
   \item{n}{Length of vector to be created}
