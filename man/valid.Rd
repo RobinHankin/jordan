@@ -17,15 +17,26 @@ valid_rsm(object)
 valid_chm(object)
 valid_qhm(object)
 valid_albert(object)
+is_ok_rsm(r)
+is_ok_chm(r)
+is_ok_qhm(r)
+is_ok_albert(r)
+is_ok_rsm(r)
 }
 \arguments{
   \item{object}{Putative jordan object}
+  \item{r}{Integer, number of rows in putative jordan object}
 }
 \details{
-Validity methods
+Validity methods.  The \code{validity_foo()} functions test for an object
+to be the right type, and the  \code{is_ok_foo()} functions test the
+number of rows being appropriate for a jordan object of some type; these
+functions return an error if not appropriate, or, for
+\code{jordan_matrix} objects, the size of the matrix worked with.
 }
 \value{Return a Boolean}
 \author{Robin K. S. Hankin}
 \examples{
-2+3
+is_ok_qhm(45)   # 5x5 Hermitian quaternionic matrices
+is_ok_qhm(46)   # FALSE
 }

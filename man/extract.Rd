@@ -1,5 +1,6 @@
 \name{extract}
 \Rdversion{1.1}
+\alias{extract}
 \alias{index-class}
 \alias{[,albert,index,missing,logical-method}
 \alias{[,complex_herm_matrix,index,missing,logical-method}
@@ -23,8 +24,14 @@
 \alias{[<-,spin,missing,ANY,numeric-method}
 \alias{[<-,spin,missing,missing,numeric-method}
 \alias{[<-,spin,missing,missing,spin-method}
-\title{Class \code{"index"}}
-\description{Extract and replace methods for jordan objects}
+\title{Extract and replace methods for jordan objects}
+\description{Extraction and replace methods for jordan objects should
+  work as expected.
+
+  Replace methods can take a jordan or a numeric, but  the numeric must
+  be zero.
+  
+}
 \section{Methods}{
   \describe{
     \item{[}{\code{signature(x = "albert", i = "index", j = "missing", drop = "logical")}: ... }
@@ -46,14 +53,14 @@
     \item{[<-}{\code{signature(x = "spin", i = "index", j = "missing", value = "spin")}: ... }
 	 }
 }
-\references{
-refs
-}
 \author{Robin K. S. Hankin}
-\note{
-note here
-}
 \examples{
-showClass("index")
+showClass("index")  # taken from the Matrix package
+
+a <- rspin(7)
+a[2:4] <- 0
+a[5:7] <- a[1]*10
+a
+
 }
 \keyword{classes}

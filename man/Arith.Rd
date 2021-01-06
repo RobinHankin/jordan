@@ -137,7 +137,11 @@ vec_rsmprod_vec(x,y)
 \value{generally return jordans}
 \author{Robin K. S. Hankin}
 \examples{
-2+2
+
+a <- rspin()
+a[1] <- a[2]*7
+a
+
 }
 \keyword{methods}
 \keyword{math}

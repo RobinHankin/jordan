@@ -64,5 +64,12 @@ The prefix \dQuote{1} means a single element, usually a matrix.
 \value{Return a coerced value.}
 \author{Robin K. S. Hankin}
 \examples{
-2+3
+
+
+vec_to_chm1(1:16)  # Hermitian matrix
+
+as.1matrix(rchm())
+
+as.complex_herm_matrix(matrix(runif(75),ncol=3))
+
 }
