@@ -37,6 +37,6 @@ functions return an error if not appropriate, or, for
 \value{Return a Boolean}
 \author{Robin K. S. Hankin}
 \examples{
-is_ok_qhm(45)   # 5x5 Hermitian quaternionic matrices
-is_ok_qhm(46)   # FALSE
+ is_ok_qhm(45)   # 5x5 Hermitian quaternionic matrices
+#is_ok_qhm(46)   # FALSE
 }
