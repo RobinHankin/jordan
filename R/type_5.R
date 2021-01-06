@@ -196,8 +196,10 @@ setReplaceMethod("[",signature(x="spin",i="index",j="missing",value="spin"),
 
 setReplaceMethod("[",signature(x="spin",i="index",j="missing",value="numeric"),
                  function(x,i,j,value){
+                   stopifnot(length(value)==1)
+                   stopifnot(value==0)
                    outa <- r1(x)
-                   outa[i] <- r1(value)
+                   outa[i] <- value
                    outV <- rn(x)
                    outV[,i] <- 0 # the meat
                    return(spin(a=outa,V=outV))
