@@ -14,26 +14,15 @@
 \alias{is.spin}
 \alias{spin}
 \alias{numeric_compare_jordan}
-\title{The five types of jordan algebras}
+\title{Create jordan objects}
 \description{
-  The five types of Jordan algebras:
-  \enumerate{
-    \item Real symmetric matrices, class \code{real_symmetric_matrix},
-    abbreviated in the package to \code{rsm}
-    \item Complex Hermitian matrices, class \code{complex_herm_matrix},
-    abbreviated to \code{chm}
-    \item Quaternionic Hermitian matrices, class
-    \code{quaternion_herm_matrix}, abbreviated to \code{qhm}
-    \item Albert algebras, the space of \mjeqn{3\times 3}{3*3}
-    octonionic matrices, class \code{albert}
-    \item Spin factors, class \code{spin}
-  }
-  }
+  The functions documented here are the creation methods for the five
+  types of jordan algebra
+}
 \usage{
-complex_herm_matrix(M)
-albert(M)
 real_symmetric_matrix(M)
 complex_herm_matrix(M)
+albert(M)
 quaternion_herm_matrix(M)
 spin(a,V)
 }
