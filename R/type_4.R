@@ -3,13 +3,21 @@
 `albert` <- function(M){new("albert",x=cbind(M))}  # this is the only place new("albert",...) is called
 `is.albert` <- function(x){inherits(x,"albert")}
 
+`is_ok_albert` <- function(r){
+    if(r==27){
+        return(3)
+    } else {
+        stop("not correct")
+    }
+}
+
 `valid_albert` <- function(object){
   x <- object@x
   if(!is.numeric(x)){
     return("not numeric")
   } else if(!is.matrix(x)){
     return("not a matrix")
-  } else if(nrow(x) != 27){
+  } else if(!is_ok_albert(nrow(x))){
     return("must have 27 rows")
   } else {
     return(TRUE)
