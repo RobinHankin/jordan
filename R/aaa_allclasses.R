@@ -205,3 +205,26 @@ setReplaceMethod("[",signature(x="jordan_matrix",i="index",j="missing",value="nu
         return(out)
     }
 }
+
+
+setMethod("show", "jordan_matrix", function(object){jordan_matrix_show(object)})
+
+`jordan_matrix_show` <- function(x){
+  x <- as(x,"matrix")
+  if(is.null(colnames(x))){
+      colnames(x) <- paste("[",seq_len(ncol(x)),"]",sep="")
+  }
+  o <- getOption("top_and_bottom")
+  if(is.null(o)){o <- c(5,3)}
+  if(length(o)==1){o <- c(o,o)}
+  
+  jj <- capture.output(x)
+  n <- nrow(x)
+  if(sum(o) < n){
+      jj <- c(jj[seq_len(o[1]+1)],paste(rep(".",nchar(jj[1])),collapse=""),jj[(n-o[2]+1):n])
+  }
+  for(i in jj){
+    cat(paste(i,"\n"))
+  }
+  return(x)
+}

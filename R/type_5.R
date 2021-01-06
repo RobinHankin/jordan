@@ -54,9 +54,21 @@ setMethod("show", "spin", function(object){spin_show(object)})
   if(is.null(colnames(x))){
       colnames(x) <- paste("[",seq_len(ncol(x)),"]",sep="")
   }
+
+  o <- getOption("top_and_bottom")
+  if(is.null(o)){o <- c(5,3)}
+  if(length(o)==1){o <- c(o,o)}
+
   jj <- capture.output(x)
+  n <- nrow(x)
   substr(jj[2],1,2) <- "r "
-  jj <- c(jj[1:2],paste(rep("-",nchar(jj[1])),collapse=""),jj[-(1:2)])
+  jj <- c(
+      jj[1:2],
+      paste(rep("-",nchar(jj[1])),collapse=""),
+      jj[3:(o[1]+2)],
+      paste(rep(".",nchar(jj[1])),collapse=""),
+      jj[(n-o[2]+1):n]
+  )
   for(i in jj){
     cat(paste(i,"\n"))
   }
