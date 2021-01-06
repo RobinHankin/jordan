@@ -1,0 +1,71 @@
+---
+title: "Jordan algebras in R"
+author: "Robin K. S. Hankin"
+output:
+  pdf_document: default
+  html_document:
+    df_print: paged
+vignette: >
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{involutions}
+  %\usepackage[utf8]{inputenc}
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library("jordan")
+```
+
+# Jordan algebras
+
+A _Jordan algebra_ is a nonassociative algebra over the reals with
+a bilinear multiplication that satisfies the following identities:
+
+$$xy=yx$$
+
+$$(xy)(xx) = x(y(xx))$$
+
+(the second identityis known as the Jordan identity).  In literature
+one usually indicates multiplication by juxtaposition but one
+sometimes sees $x\circ y$.  Package idiom is to use an asterisk, as in
+`x*y`.  There are five types of Jordan algebras:
+
+* Real symmetric matrices, class `real_symmetric_matrix`,
+    abbreviated in the package to `rsm`
+* Complex Hermitian matrices, class `complex_herm_matrix`,
+    abbreviated to `chm`
+* Quaternionic Hermitian matrices, class
+    `quaternion_herm_matrix`, abbreviated to `qhm`
+* Albert algebras, the space of $3\times 3$
+    Hermitian octonionic matrices, class `albert`
+* Spin factors, class `spin`
+
+(of course, the first two are special cases of the next).  The
+`jordan` package provides functionality to manipulate jordan objects
+using natural R idiom.  Objects of all these classes are stored in
+dataframe (technically, a matrix) form with columns being elements of
+the jordan algebra.  The first four classes are matrix-based in the
+sense that the algebraic objects are symmetric or Hermitian matrices
+(the S4 class is `jordan_matrix`).  The fifth class, spin factors, is
+not matrix based.
+
+## Matrix-based Jordan algebras
+
+These all behave in the same way from a package idiom perspective.
+Consider:
+
+```{r}
+a <- rqhm()
+a
+```
+
+
+
+
+```{r}
+set.seed(0)
+rspin()
+```
+
+This illustrates many features of the package. 
