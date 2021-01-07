@@ -52,7 +52,9 @@ not matrix based.
 
 ## Matrix-based Jordan algebras
 
+The four matrix-based Jordan algebras have elements
 These all behave in the same way from a package idiom perspective.
+
 Consider:
 
 ```{r}
@@ -68,4 +70,109 @@ set.seed(0)
 rspin()
 ```
 
-This illustrates many features of the package. 
+This illustrates many features of the package.
+
+
+# Special identities
+
+In 1963, C. M. Glennie discovered a pair of identities satisfied by
+special Jordan albgebras but not the Albert algebra.  Defining
+
+\[
+U_x(y) = 2x(xy)-(xx)y
+\]
+
+\[
+\left\lbrace x,y,z\right\rbrace=
+2(x(yz)+(xy)z - (xz)y)
+\]
+ 
+(it can be shown that Jacobson's identity $U_{U_x(y)}=U_xU_yU_x$
+holds), Glennie's identities are
+
+\[
+H_8(x,y,z)=H_8(y,x,z)\qquad H_9(x,y,z)=H_9(y,x,z)
+\]
+
+where
+
+\[
+H_8(x,y,z)= \left\lbrace U_x U_y(z),z, xy\right\rbrace-U_xU_yU_z(xy)
+\]
+
+and
+\[
+H_9(x,y,z)= 2U_x(z) U_{y,x}U_z(yy)-U_x U_z U_{x,y} U_y(z)
+\]
+
+## Numerical verification of Jacobson
+
+We may verify Jacobson's identity:
+
+```{r,label=define_U_and_diff}
+U <- function(x){function(y){2*x*(x*y)-(x*x)*y}}
+diff <- function(x,y,z){
+     LHS <- U(x)(U(y)(U(x)(z)))
+     RHS <- U(U(x)(y))(z)
+     return(LHS-RHS)  # zero if Jacobson holds
+}
+```
+
+Then we may numerically verify Jacobson for type 3-5 Jordan algebras:
+
+```{r,label=jacobsonverification,cache=TRUE}
+diff(ralbert(),ralbert(),ralbert())
+diff(rqhm(),rqhm(),rqhm())
+diff(rspin(),rspin(),rspin())
+```
+
+showing agreement to numerical accuracy (the output is close to zero).
+We can now verify Glennie's $G_8$ and $G_9$ identities.
+
+## Numerical verification of $G_8$
+
+```{r}
+B <- function(x,y,z){2*(x*(y*z) + (x*y)*z - (x*z)*y)}  # bracket function
+H8 <- function(x,y,z){B(U(x)(U(y)(z)),z,x*y) - U(x)(U(y)(U(z)(x*y)))}
+G8 <- function(x,y,z){H8(x,y,z)-H8(y,x,z)}
+```
+
+and so we verify for type 3 and type 5 Jordans:
+
+```{r,label=verifyG8,cache=TRUE}
+G8(rqhm(),rqhm(),rqhm())
+G8(rspin(),rspin(),rspin())
+```
+
+again showing acceptable accuracy.  The identity is *not* true for
+Albert algebras:
+
+```{r,cache=TRUE}
+G8(ralbert(),ralbert(),ralbert())
+```
+
+## Numerical verification of $G_9$
+
+```{r,label=defineH9G9}
+H9 <- function(x,y,z){2*U(x)(z)*U(y*x-x*y)(U(z)(y*y)) - U(x)(U(z)(U(x*y-y*x)(U(y)(z))))}
+G9 <- function(x,y,z){H9(x,y,z)-H9(y,x,z)}
+```
+
+Then $H_9()$ is identically zero for special Jordan algebras:
+
+```{r,verifyH9equalszero,cache=TRUE}
+H9(rqhm(),rqhm(),rqhm())
+```
+
+So the $G_9$ identity is automatically satisfied:
+
+```{r,verifyG9identity,cache=TRUE}
+H9(rqhm(),rqhm(),rqhm())
+G9(rqhm(),rqhm(),rqhm())
+```
+
+However, the Albert algebra does not:
+
+```{r,albertH9G9,cache=TRUE}
+G9(ralbert(),ralbert(),ralbert())
+```
