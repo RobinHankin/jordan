@@ -1,6 +1,9 @@
 ## real symmetric matrices ("rsm"); setClass("real_symmetric_matrix") in 'aaa_allclasses.R'
 
-`real_symmetric_matrix` <- function(M){new("real_symmetric_matrix",x=cbind(M))}  # this is the only place new("real_symmetric_matrix",...) is called
+
+`real_symmetric_matrix` <- function(M){new("real_symmetric_matrix",x=cbind(M))}  
+## previous line is the only place new("real_symmetric_matrix",...) is called
+
 `is.real_symmetric_matrix` <- function(x){inherits(x,"real_symmetric_matrix")}
 
 `is_ok_rsm` <- function(r){ # 'r' = number of rows in [rowwise] matrix
@@ -66,7 +69,6 @@ setValidity("real_symmetric_matrix", valid_rsm)
     jj <- (cprod(x,y)+cprod(y,x))/2
     return(rsm1_to_vec(jj))
 }
-
 
 setMethod("as.1matrix","real_symmetric_matrix",function(x,drop=TRUE){
     out <- lapply(seq_along(x), function(i){x[i,drop=TRUE]})
