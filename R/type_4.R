@@ -1,7 +1,10 @@
-## Albert algebras; setClass("albert") is in  aaa_allclasses.R
+# Albert algebras; setClass("albert") is in  aaa_allclasses.R
 
 `albert` <- function(M){new("albert",x=cbind(M))}  # this is the only place new("albert",...) is called
 `is.albert` <- function(x){inherits(x,"albert")}
+
+`r_to_n_albert` <- function(r){3}
+`n_to_r_albert` <- function(n){27}
 
 `is_ok_albert` <- function(r){
     if(r==27){

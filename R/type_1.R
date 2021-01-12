@@ -6,6 +6,9 @@
 
 `is.real_symmetric_matrix` <- function(x){inherits(x,"real_symmetric_matrix")}
 
+`r_to_n_rsm` <- function(r){(sqrt(1+4*r)-1)/2}
+`n_to_r_rsm` <- function(r){n*(n+1)/2}
+
 `is_ok_rsm` <- function(r){ # 'r' = number of rows in [rowwise] matrix
     jj <- sqrt(1+8*r)
     if(jj == round(jj)){
@@ -62,6 +65,8 @@ setValidity("real_symmetric_matrix", valid_rsm)
 }
 
 `rsm1_to_vec` <- function(M){M[upper.tri(M,TRUE)]}
+
+
 
 `vec_rsmprod_vec` <- function(x,y){
     x <- vec_to_rsm1(x)

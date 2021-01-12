@@ -3,6 +3,9 @@
 `complex_herm_matrix` <- function(M){new("complex_herm_matrix",x=cbind(M))}  # this is the only place new("real_symmetric_matrix",...) is called
 `is.complex_herm_matrix` <- function(x){inherits(x,"complex_herm_matrix")}
 
+`r_to_n_chm` <- function(r){sqrt(r)}
+`n_to_r_chm` <- function(n){n^2}
+
 `is_ok_chm` <- function(r){ # 'r' = number of rows in [rowwise] matrix
     jj <- sqrt(r)
     if(jj == round(jj)){
