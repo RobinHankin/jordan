@@ -72,4 +72,6 @@ as.1matrix(rchm())
 
 as.complex_herm_matrix(matrix(runif(75),ncol=3))
 
+matrix1_to_jordan(3)
+
 }

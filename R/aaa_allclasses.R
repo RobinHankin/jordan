@@ -38,6 +38,7 @@ setClassUnion("index", members =  c("numeric", "logical", "character")) # taken 
 `is.jordan` <- function(x){is(x,"jordan")}
 `as.jordan` <- function(x,class){
     if(missing(class) & is.jordan(x)){return(x)}
+    if(is.matrix(x)){return(matrix1_to_jordan(x))}
     if(is.jordan(class)){class <- as.character(class(class))}
     switch(class,
            real_symmetric_matrix = as.real_symmetric_matrix(x),
@@ -239,3 +240,4 @@ setMethod("c","jordan",function(x,...){
   }
 } )
 
+`matrix1_to_jordan` <- function(x){stop("not yet implemented")}
