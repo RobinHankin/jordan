@@ -241,3 +241,4 @@ setMethod("c","jordan",function(x,...){
 } )
 
 `matrix1_to_jordan` <- function(x){stop("not yet implemented")}
+setGeneric("as.list")

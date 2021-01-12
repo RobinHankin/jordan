@@ -171,7 +171,6 @@ setMethod("as.1matrix","albert",function(x,drop=TRUE){
   )
 }
 
-setGeneric("as.list")
 setMethod("as.list","albert", function(x){apply(as.matrix(x),2,vec_to_albert1)})
 
 setMethod("[",signature(x="albert",i="index",j="missing",drop="logical"),
