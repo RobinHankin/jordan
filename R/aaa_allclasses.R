@@ -228,3 +228,14 @@ setMethod("show", "jordan_matrix", function(object){jordan_matrix_show(object)})
   }
   return(x)
 }
+
+conc_pair <- function(x,y){as.jordan(cbind(as.matrix(x),as.matrix(y)),x)}
+
+setMethod("c","jordan",function(x,...){
+  if (nargs() < 3){
+    return(conc_pair(x, ...))
+  } else {
+    return(conc_pair(x, Recall(...)))
+  }
+} )
+
