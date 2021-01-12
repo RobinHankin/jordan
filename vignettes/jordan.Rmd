@@ -131,7 +131,7 @@ We can now verify Glennie's $G_8$ and $G_9$ identities.
 
 ## Numerical verification of $G_8$
 
-```{r}
+```{r,label=defBH8G8}
 B <- function(x,y,z){2*(x*(y*z) + (x*y)*z - (x*z)*y)}  # bracket function
 H8 <- function(x,y,z){B(U(x)(U(y)(z)),z,x*y) - U(x)(U(y)(U(z)(x*y)))}
 G8 <- function(x,y,z){H8(x,y,z)-H8(y,x,z)}
@@ -139,7 +139,7 @@ G8 <- function(x,y,z){H8(x,y,z)-H8(y,x,z)}
 
 and so we verify for type 3 and type 5 Jordans:
 
-```{r,label=verifyG8,cache=TRUE}
+```{r,label=verifyG8special,cache=TRUE}
 G8(rqhm(),rqhm(),rqhm())
 G8(rspin(),rspin(),rspin())
 ```
