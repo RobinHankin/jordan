@@ -94,7 +94,7 @@ holds), Glennie's identities are
 H_8(x,y,z)=H_8(y,x,z)\qquad H_9(x,y,z)=H_9(y,x,z)
 \]
 
-where
+(see McCrimmon 2004 for details), where
 
 \[
 H_8(x,y,z)= \left\lbrace U_x U_y(z),z, xy\right\rbrace-U_xU_yU_z(xy)
@@ -154,24 +154,20 @@ G8(ralbert(),ralbert(),ralbert())
 ## Numerical verification of $G_9$
 
 ```{r,label=defineH9G9}
-H9 <- function(x,y,z){2*U(x)(z)*U(y*x-x*y)(U(z)(y*y)) - U(x)(U(z)(U(x*y-y*x)(U(y)(z))))}
+L <- function(x){function(y){x*y}}
+U <- function(x){function(y){2*x*(x*y)-(x*x)*y}}
+U2 <- function(x,y){function(z){L(x)(L(y)(z)) + L(y)(L(x)(z)) - L(x*y)(z)}}
+H9 <- function(x,y,z){2*U(x)(z)*U2(y,x)(U(z)(y*y)) - U(x)(U(z)(U2(x,y)(U(y)(z))))}
 G9 <- function(x,y,z){H9(x,y,z)-H9(y,x,z)}
 ```
 
-Then $H_9()$ is identically zero for special Jordan algebras:
-
-```{r,verifyH9equalszero,cache=TRUE}
-H9(rqhm(),rqhm(),rqhm())
-```
-
-So the $G_9$ identity is automatically satisfied:
+Then we may verify the `G9()` identity for type 3 Jordans:
 
 ```{r,verifyG9identity,cache=TRUE}
-H9(rqhm(),rqhm(),rqhm())
 G9(rqhm(),rqhm(),rqhm())
 ```
 
-However, the Albert algebra does not:
+However, the Albert algebra does not satisfy the identity:
 
 ```{r,albertH9G9,cache=TRUE}
 G9(ralbert(),ralbert(),ralbert())
