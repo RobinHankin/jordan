@@ -27,6 +27,7 @@
 \alias{as.list}
 \alias{as.list,albert-method}
 \alias{as.matrix,jordan-method}
+\alias{matrix1_to_jordan}
 \title{Coercion}
 \description{Various coercions needed in the package}
 \usage{
@@ -48,6 +49,7 @@ numeric_to_complex_herm_matrix(x,d)
 numeric_to_quaternion_herm_matrix(x,d)
 numeric_to_albert(e1)
 as.list(x,...)
+matrix1_to_jordan(x)
 }
 \arguments{
   \item{x,e1}{Numeric vector of independent entries}
@@ -59,7 +61,31 @@ as.list(x,...)
   \item{...}{Further arguments, currently ignored}
 }
 \details{
-The prefix \dQuote{1} means a single element, usually a matrix.
+  The prefix \dQuote{1} means a single element, usually a matrix.
+
+  Functions \code{vec_to_rsm1()} et seq convert a numeric vector to a
+  (symmetric, complex, quaternion, octonion) matrix.
+
+  Functions \code{rsm1_to_vec()} convert a (symmetric, complex,
+  quaternion, octonion) matrix to a numeric vector of independent
+  components.  The upper triangular components are used; no checking for
+  symmetry is performed (the lower triangular components, and non-real
+  compoents of the diagonal, are discarded).
+
+  Functions \code{as.real_symmetric_matrix()},
+  \code{as.complex_herm_matrix()}, \code{as.quaternion_herm_matrix()}
+  and \code{as.albert()} take a numeric matrix and return a
+  (matrix-based) Jordan object.
+
+  Functions \code{numeric_to_real_symmetric_matrix()} have not been
+  coded up yet.
+
+
+  Function \code{matrix1_to_jordan()} takes a matrix and returns a
+  length-1 (matrix based) Jordan vector.  It uses the class of the
+  entries (real, complex, quaternion, octonion) to decide which type of
+  Jordan to return.
+  
 }
 \value{Return a coerced value.}
 \author{Robin K. S. Hankin}
@@ -72,6 +98,9 @@ as.1matrix(rchm())
 
 as.complex_herm_matrix(matrix(runif(75),ncol=3))
 
-matrix1_to_jordan(3)
+matrix1_to_jordan(cprod(matrix(rnorm(35),7,5)))
+matrix1_to_jordan(matrix(c(1,1+1i,1-1i,3),2,2))
+matrix1_to_jordan(Oil + matrix(1,3,3))
+
 
 }

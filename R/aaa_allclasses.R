@@ -38,7 +38,6 @@ setClassUnion("index", members =  c("numeric", "logical", "character")) # taken 
 `is.jordan` <- function(x){is(x,"jordan")}
 `as.jordan` <- function(x,class){
     if(missing(class) & is.jordan(x)){return(x)}
-    if(is.matrix(x)){return(matrix1_to_jordan(x))}
     if(is.jordan(class)){class <- as.character(class(class))}
     switch(class,
            real_symmetric_matrix = as.real_symmetric_matrix(x),
@@ -240,5 +239,24 @@ setMethod("c","jordan",function(x,...){
   }
 } )
 
-`matrix1_to_jordan` <- function(x){stop("not yet implemented")}
+`matrix1_to_jordan` <- function(x){
+  if(is.numeric(x)){
+    return(as.real_symmetric_matrix(rsm1_to_vec(x),single=TRUE))
+  } else if(is.complex(x)){
+    return(as.complex_herm_matrix(chm1_to_vec(x),single=TRUE))
+  } else if(is.onionmat(x)){
+    jj <- x[1,1]
+    if(is.quaternion(jj)){
+      return(as.quaternion_herm_matrix(qhm1_to_vec(x),single=TRUE))
+    } else if(is.octonion(jj)){
+      return(as.albert(albert1_to_vec(x),single=TRUE))
+    } else {
+      stop("this cannot happen")
+    }
+  } else {
+    stop("unrecognised matrix type")
+  }
+}
+ 
+
 setGeneric("as.list")
