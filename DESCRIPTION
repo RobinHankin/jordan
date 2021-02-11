@@ -11,6 +11,6 @@ Suggests: knitr,mathjaxr
 Depends: onion (>= 1.4-0)
 VignetteBuilder: knitr
 Imports: emulator,methods
-URL: https://github.com/RobinHankin/jordan.git
+URL: https://github.com/RobinHankin/jordan
 BugReports: https://github.com/RobinHankin/jordan/issues
 RdMacros: mathjaxr
