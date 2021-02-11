@@ -140,15 +140,15 @@ G8 <- function(x,y,z){H8(x,y,z)-H8(y,x,z)}
 and so we verify for type 3 and type 5 Jordans:
 
 ```{r,label=verifyG8special,cache=TRUE}
-G8(rqhm(),rqhm(),rqhm())
-G8(rspin(),rspin(),rspin())
+G8(rqhm(1),rqhm(1),rqhm(1))
+G8(rspin(1),rspin(1),rspin(1))
 ```
 
 again showing acceptable accuracy.  The identity is *not* true for
 Albert algebras:
 
 ```{r,cache=TRUE}
-G8(ralbert(),ralbert(),ralbert())
+G8(ralbert(1),ralbert(1),ralbert(1))
 ```
 
 ## Numerical verification of $G_9$
@@ -164,11 +164,11 @@ G9 <- function(x,y,z){H9(x,y,z)-H9(y,x,z)}
 Then we may verify the `G9()` identity for type 3 Jordans:
 
 ```{r,verifyG9identity,cache=TRUE}
-G9(rqhm(),rqhm(),rqhm())
+G9(rqhm(1),rqhm(1),rqhm(1))
 ```
 
 However, the Albert algebra does not satisfy the identity:
 
 ```{r,albertH9G9,cache=TRUE}
-G9(ralbert(),ralbert(),ralbert())
+G9(ralbert(1),ralbert(1),ralbert(1))
 ```
