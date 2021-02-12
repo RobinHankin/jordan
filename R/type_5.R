@@ -52,6 +52,7 @@ setMethod("show", "spin", function(object){spin_show(object)})
 `spin_show` <- function(x){
   cat("Vector of",description(x,plural=TRUE), "with entries\n")
   x <- as(x,"matrix")
+  rownames(x) <- paste("[",seq_len(nrow(x)),"]",sep="")
   if(is.null(colnames(x))){
       colnames(x) <- paste("[",seq_len(ncol(x)),"]",sep="")
   }
