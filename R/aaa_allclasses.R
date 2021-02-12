@@ -196,9 +196,27 @@ setReplaceMethod("[",signature(x="jordan_matrix",i="index",j="missing",value="nu
     }
 }
 
+`description` <- function(x,plural=FALSE){
+  if(class(x) == "real_symmetric_matrix"){
+    out <- ifelse(plural,"real symmetric matrices","real symmetric matrix")
+  } else if (class(x) == "complex_herm_matrix"){
+    out <- ifelse(plural,"complex Hermitian matrices","complex Hermitian matrix")
+  } else if (class(x) == "quaternion_herm_matrix"){
+    out <- ifelse(plural,"quaternionic Hermitian matrices","quaternionic Hermitian matrix")
+  } else if (class(x) == "albert"){
+    out <- ifelse(plural,"Albert matrices","Albert matrix")
+  } else if (class(x) == "spin"){
+    out <- ifelse(plural,"spin objects","spin object")
+  }  else {
+    stop("not recognised")
+  }
+  return(out)
+}
+
 setMethod("show", "jordan_matrix", function(object){jordan_matrix_show(object)})
 
 `jordan_matrix_show` <- function(x){
+  cat("Vector of",description(x,plural=TRUE), "with entries\n")
   x <- as(x,"matrix")
   if(is.null(colnames(x))){
       colnames(x) <- paste("[",seq_len(ncol(x)),"]",sep="")
@@ -210,7 +228,7 @@ setMethod("show", "jordan_matrix", function(object){jordan_matrix_show(object)})
   jj <- capture.output(x)
   n <- nrow(x)
   if(sum(o) < n){
-      jj <- c(jj[seq_len(o[1]+1)],paste(rep(".",nchar(jj[1])),collapse=""),jj[(n-o[2]+1):n])
+      jj <- c(jj[seq_len(o[1]+1)],paste(rep(".",nchar(jj[1])),collapse=""),jj[(n-o[2]):(n+1)])
   }
   for(i in jj){
     cat(paste(i,"\n"))

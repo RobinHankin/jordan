@@ -50,6 +50,7 @@ setValidity("albert", valid_albert)
 
 setMethod("show", "albert", function(object){albert_show(object)})
 `albert_show` <- function(x){
+  cat("Vector of",description(x,plural=TRUE), "with entries\n")
   jj <- as(x,"matrix")
   rownames(jj) <-
     c("    d1","    d2","    d3",
