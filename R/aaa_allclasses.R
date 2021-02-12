@@ -145,16 +145,6 @@ setMethod("[", signature("jordan",i="index",j="ANY",drop="ANY"),function(x,i,j,d
     as.jordan(sweep(jj[[1]],2,jj[[2]],"*"),e1)
 }
 
-setMethod("show","jordan_matrix",
-          function(object){
-              object <- as.matrix(object)
-              if(is.null(colnames(object))){
-                  colnames(object) <- paste("[",seq_len(ncol(object)),"]",sep="")
-                  }
-              print(as.matrix(object))
-              return(object)
-          } )
-
 setGeneric("length")
 setMethod("length","jordan",function(x){ncol(as.matrix(x))})
 
@@ -205,7 +195,6 @@ setReplaceMethod("[",signature(x="jordan_matrix",i="index",j="missing",value="nu
         return(out)
     }
 }
-
 
 setMethod("show", "jordan_matrix", function(object){jordan_matrix_show(object)})
 
