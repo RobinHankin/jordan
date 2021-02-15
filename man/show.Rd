@@ -1,5 +1,7 @@
 \name{show}
 \alias{show}
+\alias{top_and_bottom}
+\alias{head_and_tail}
 \alias{spin_show}
 \alias{description}
 \alias{jordan_matrix_show}
@@ -27,7 +29,7 @@ Spin factors are displayed with the scalar component offset from the
 vector component.
 
 Print methods for special algebras are sensitive to the value of option
-\code{top_and_bottom}, a two-element integer vector indicating the
+\code{head_and_tail}, a two-element integer vector indicating the
 number of start lines and end lines to print.
 
 Function \code{description()} gives a natural-language description of

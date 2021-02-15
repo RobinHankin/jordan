@@ -57,7 +57,7 @@ setMethod("show", "spin", function(object){spin_show(object)})
       colnames(x) <- paste("[",seq_len(ncol(x)),"]",sep="")
   }
 
-  o <- getOption("top_and_bottom")
+  o <- getOption("head_and_tail")
   if(is.null(o)){o <- c(5,3)}
   if(length(o)==1){o <- c(o,o)}
 
