@@ -24,9 +24,9 @@ a bilinear multiplication that satisfies the following identities:
 
 $$xy=yx$$
 
-$$(xy)(xx) = x(y(xx))$$
+$$(xy)(xx)=x(y(xx))$$
 
-(the second identityis known as the Jordan identity).  In literature
+(the second identity is known as the Jordan identity).  In literature
 one usually indicates multiplication by juxtaposition but one
 sometimes sees $x\circ y$.  Package idiom is to use an asterisk, as in
 `x*y`.  There are five types of Jordan algebras:
@@ -44,39 +44,159 @@ sometimes sees $x\circ y$.  Package idiom is to use an asterisk, as in
 (of course, the first two are special cases of the next).  The
 `jordan` package provides functionality to manipulate jordan objects
 using natural R idiom.  Objects of all these classes are stored in
-dataframe (technically, a matrix) form with columns being elements of
-the jordan algebra.  The first four classes are matrix-based in the
-sense that the algebraic objects are symmetric or Hermitian matrices
-(the S4 class is `jordan_matrix`).  The fifth class, spin factors, is
-not matrix based.
+matrix form with columns being elements of the jordan algebra.  The
+first four classes are matrix-based in the sense that the algebraic
+objects are symmetric or Hermitian matrices (the S4 class is
+`jordan_matrix`).  The fifth class, spin factors, is not matrix based.
 
 ## Matrix-based Jordan algebras
 
-The four matrix-based Jordan algebras have elements
-These all behave in the same way from a package idiom perspective.
-
-Consider:
+The four matrix-based Jordan algebras have elements which are square
+matrices.  The first three classes are real (symmetric) matrices,
+complex (Hermitian) matrices, and quaternionic (Hermitian) These all
+behave in the same way from a package idiom perspective.  Consider:
 
 ```{r}
-a <- rqhm()
-a
+x <- rrsm()  # "Random Real Symmetric Matrix"
+y <- rrsm()  
+z <- rrsm()  
+x
+```
+
+Object `x` is a three-element vector, with each element having 15
+degrees of freedom, as indicated by the row labelling.  Addition and
+multiplication are defined:
+
+```{r}
+x*100
+x + y*3
+x*y
+x + 100
+```
+
+(the last line is motivated by analogy with `M + x`, for `M` a matrix
+and `x` a scalar).  The distributive law is obeyed:
+
+```{r}
+x*(y+z) - (x*y + x*z)
+```
+
+We may observe that the resulting algebra is not associative:
+
+```{r}
+LHS <- x*(y*z)
+RHS <- (x*y)*z
+LHS-RHS
+```
+
+However, the Jordan identity $(xy)(xx) = x(y(xx))$ is satisfied:
+
+```{r}
+LHS <- (x*y)*(x*x)
+RHS <- x*(y*(x*x))
+LHS-RHS
+```
+
+(the entries are zero to numerical precision).  If we wish to work
+with the matrix itself, a single element may be coerced with
+`as.1matrix()`:
+
+```{r}
+M1 <- as.1matrix(x[1])
+(M2 <- as.1matrix(x[2]))
+```
+
+(in the above, observe how the matrix is indeed symmetric).  We may
+verify that the multiplication rule is indeed being correctly
+appplied:
+
+```{r}
+(M1 %*% M2 + M2 %*% M1)/2 - as.1matrix(x[1]*x[2])
+```
+
+It is also possible to verify that symmetry is closed under the Jordan
+operation:
+
+```{r}
+jj <- as.1matrix(x[1]*x[2])
+jj-t(jj)
+```
+
+The other matrix-based Jordan algebras are similar but
+differ in the details of the coercion.  Taking quaternionic matrices:
+
+```{r}
+as.1matrix(rqhm(n=1,d=2))
+```
+
+above we see the matrix functionality of the `onion` package being
+used.  See how the matrix is Hermitian (elements `[1,2]` and `[2,1]`
+are conjugate; elements `[1,1]` and `[2,2]` are pure real).  Verifying
+the Jordan identity would be almost the same as above:
+
+```{r}
+x <- rqhm()
+y <- rqhm()
+(x*y)*(x*x) - x*(y*(x*x))
+```
+
+## Spin algebra
+
+The fifth class is slightly different from a package idiom
+perspective.  Mathematically, elements are of the form
+$\mathbb{R}\oplus\mathbb{R}^n$, with addition and multiplication
+defined by
+
+$$\alpha(a,\mathbf{a}) = (\alpha a,\alpha\mathbf{a})$$
+
+$$(a,\mathbf{a}) + (b,\mathbf{b}) = (a+b,\mathbf{a} + \mathbf{b})$$
+
+$$(a,\mathbf{a}) \times (b,\mathbf{b}) =
+(ab+\left\langle\mathbf{a},\mathbf{b}\right\rangle,a\mathbf{b} +
+b\mathbf{a})$$
+
+where $\left\langle\cdot,\cdot\right\rangle$ is an inner product
+defined on $\mathbb{R}^n$ (by default we have
+$\left\langle(x_1,\ldots, x_n),(y_1,\ldots, y_n)\right\rangle=\sum
+x_iy_i$ but this is configurable in the package).
+
+So if we have $\mathcal{I},\mathcal{J},\mathcal{K}$ spin algebra
+elements it is clear that
+$\mathcal{I}\mathcal{J}=\mathcal{J}\mathcal{I}$ and
+$\mathcal{I}(\mathcal{J}+\mathcal{K}) = \mathcal{I}\mathcal{J} +
+\mathcal{I}\mathcal{K}$.  The Jordan identity is not as easy to see
+but we may verify all the identities numerically:
+
+
+```{r}
+I <- rspin()
+J <- rspin()
+K <- rspin()
+I
+I*J - J*I
+I*(J+K) - (I*J + I*K)
+(I*J)*(I*I) - I*(J*(I*I))
 ```
 
 
 
 
+# Albert algebras  
+
+Class 4 corresponds to $3\times 3$ Hermitian matrices with octonions
+for entries.  This is class `albert` in the package:
+
 ```{r}
-set.seed(0)
-rspin()
+x <- ralbert()
+y <- ralbert()
+x
+(x*y)*(x*x)-x*(y*(x*x))
 ```
-
-This illustrates many features of the package.
-
 
 # Special identities
 
 In 1963, C. M. Glennie discovered a pair of identities satisfied by
-special Jordan albgebras but not the Albert algebra.  Defining
+special Jordan algebras but not the Albert algebra.  Defining
 
 \[
 U_x(y) = 2x(xy)-(xx)y
