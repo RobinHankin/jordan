@@ -52,7 +52,7 @@ setMethod("show", "spin", function(object){spin_show(object)})
 `spin_show` <- function(x){
   cat("Vector of",description(x,plural=TRUE), "with entries\n")
   x <- as(x,"matrix")
-  rownames(x) <- paste("[",seq_len(nrow(x)),"]",sep="")
+  rownames(x) <- paste("[",seq_len(nrow(x))-1,"]",sep="")
   if(is.null(colnames(x))){
       colnames(x) <- paste("[",seq_len(ncol(x)),"]",sep="")
   }
@@ -63,14 +63,16 @@ setMethod("show", "spin", function(object){spin_show(object)})
 
   jj <- capture.output(x)
   n <- nrow(x)
-  substr(jj[2],1,2) <- "r "
-  jj <- c(
-      jj[1:2],
-      paste(rep("-",nchar(jj[1])),collapse=""),
-      jj[3:(o[1]+2)],
-      paste(rep(".",nchar(jj[1])),collapse=""),
-      jj[(n-o[2]+1):n]
-  )
+  substr(jj[2],1,3) <- " r "
+  if(sum(o) < (n-1)){
+      jj <- c(
+          jj[1:2],
+          paste(rep("-",nchar(jj[1])),collapse=""),
+          jj[3:(o[1]+2)],
+          paste(rep(".",nchar(jj[1])),collapse=""),
+          jj[(n-o[2]+2):(n+1)]
+      )
+  }
   for(i in jj){
     cat(paste(i,"\n"))
   }
