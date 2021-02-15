@@ -221,7 +221,7 @@ setMethod("show", "jordan_matrix", function(object){jordan_matrix_show(object)})
   if(is.null(colnames(x))){
       colnames(x) <- paste("[",seq_len(ncol(x)),"]",sep="")
   }
-  o <- getOption("top_and_bottom")
+  o <- getOption("head_and_tail")
   if(is.null(o)){o <- c(5,3)}
   if(length(o)==1){o <- c(o,o)}
   
