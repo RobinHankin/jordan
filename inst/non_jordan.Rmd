@@ -1,0 +1,42 @@
+---
+title: "Octonionic matrices larger than 3x3 do not make a Jordan algebra"
+author: "Robin K.S. Hankin"
+date: "17/02/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+We can set up an ersatz Jordan algebra as follows:
+
+```{r setupersatz}
+library(jordan)
+`%o%` <- function(x,y){(x%*%y + y%*%x)/2}
+ji <- function(x,y){   # ji == Jordan Identity
+   max(Mod((x%o%y)%o%(x%o%x) - x%o%(y%o%(x%o%x))))
+}
+X <- cprod(romat())
+Y <- cprod(romat())  # X,Y: 6x6 Hermitian quaternionic matrices
+ji(X,Y)
+``` 
+
+thus the Jordan identity is satisfied, to numerical precision.  Now
+the same for 3x3 octonionic matrices:
+
+```{r}
+X <- cprod(romat("octonion",5,3))
+Y <- cprod(romat("octonion",5,3))# X,Y: 3x3  Hermitian octonion matrices
+ji(X,Y)
+```
+
+but
+```{r}
+X <- cprod(romat("octonion",5,4))
+Y <- cprod(romat("octonion",5,4))# X,Y: 4x4  Hermitian octonion matrices
+ji(X,Y)
+```
+
+showing that 4x4 octonionic Hermitian matrices do not satisfy the
+Jordan identity, even approximately.
