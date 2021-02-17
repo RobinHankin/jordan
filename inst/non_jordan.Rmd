@@ -14,7 +14,7 @@ We can set up an ersatz Jordan algebra as follows:
 ```{r setupersatz}
 library(jordan)
 `%o%` <- function(x,y){(x%*%y + y%*%x)/2}
-ji <- function(x,y){   # ji == Jordan Identity
+ji <- function(x,y){   # ji == Jordan Identity; if satisfied exactly, return 0
    max(Mod((x%o%y)%o%(x%o%x) - x%o%(y%o%(x%o%x))))
 }
 X <- cprod(romat())
