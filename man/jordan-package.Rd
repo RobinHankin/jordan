@@ -68,18 +68,28 @@ K. McCrimmon 1978. \dQuote{Jordan algebras and their applications}.
 }
 \keyword{ package }
 \examples{
-x <- rqhm()  # random Hermitian Quaternion algebra
-y <- rqhm()  # 
 
-x
+rrsm()     # Random Real Symmetric matrices
+rchm()     # Random Complex Hermitian matrices
+rqhm()     # Random Quaternionic Hermitian matrices
+ralbert()  # Random Albert algebra
+rspin()    # Random spin factor
+
+x <- rqhm()  
+y <- rqhm()  
+z <- rqhm()  
+
+x/1.2 + 0.3*x*y     # Arithmetic works as expected ...
+x*(y*z) -(x*y)*z    # ... but '*' is not associative
+
+
+## Verify the Jordan identity for  type 3 algebras:
 
 LHS <- (x*y)*(x*x)
 RHS <- x*(y*(x*x))
 
 diff <- LHS-RHS  # zero to numerical precision
 
-
-diff[1,,drop=TRUE]
-
+diff[1,drop=TRUE]  # result in matrix form
 
 }
