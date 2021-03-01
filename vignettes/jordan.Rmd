@@ -63,25 +63,33 @@ z <- rrsm()
 x
 ```
 
-Object `x` is a three-element vector, with each element having 15
-degrees of freedom, as indicated by the row labelling.  Addition and
-multiplication are defined:
+Object `x` is a three-element vector, with each element corresponding
+to a $x\times 5$ symmetric matrix (because the default \n=5`).  Thus
+each element has $5*(5+1)/2=15$ degrees of freedom, as indicated by
+the row labelling.  Addition and multiplication of a Jordan object
+with a scalar are defined:
 
 ```{r}
 x*100
 x + y*3
-x*y
 x + 100
 ```
 
 (the last line is motivated by analogy with `M + x`, for `M` a matrix
-and `x` a scalar).  The distributive law is obeyed:
+and `x` a scalar). Jordan objects may be multiplied using the rule
+$x\circ y=(xy+yx)/2$:
+
+```{r}
+x*y
+```
+
+We may verify that the distributive law is obeyed:
 
 ```{r}
 x*(y+z) - (x*y + x*z)
 ```
 
-We may observe that the resulting algebra is not associative:
+Further, we may observe that the resulting algebra is not associative:
 
 ```{r}
 LHS <- x*(y*z)
@@ -108,7 +116,7 @@ M1 <- as.1matrix(x[1])
 
 (in the above, observe how the matrix is indeed symmetric).  We may
 verify that the multiplication rule is indeed being correctly
-appplied:
+applied:
 
 ```{r}
 (M1 %*% M2 + M2 %*% M1)/2 - as.1matrix(x[1]*x[2])
