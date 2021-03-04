@@ -64,10 +64,11 @@ x
 ```
 
 Object `x` is a three-element vector, with each element corresponding
-to a $x\times 5$ symmetric matrix (because the default `n=5`).  Thus
-each element has $5*(5+1)/2=15$ degrees of freedom, as indicated by
-the row labelling.  Addition and multiplication of a Jordan object
-with a scalar are defined:
+to a $x\times 5$ symmetric matrix (because `rrsm()` has `d=5` by
+default, specifying the size of the matrix).  Thus each element has
+$5*(5+1)/2=15$ degrees of freedom, as indicated by the row labelling.
+Addition and multiplication of a Jordan object with a scalar are
+defined:
 
 ```{r}
 x*100
