@@ -7,10 +7,10 @@ Maintainer: Robin K. S. Hankin <hankin.robin@gmail.com>
 Description: A Jordan algebra is an algebraic object originally designed to study observables in quantum mechanics.   Jordan algebras are nonassociative and the multiplication satisfies commutativity and the Jordan identity. 
 License: GPL (>= 2)
 LazyData: yes
-Suggests: knitr,rmarkdown,mathjaxr
+Suggests: knitr,rmarkdown
 Depends: onion (>= 1.4-0)
 VignetteBuilder: knitr
-Imports: emulator,methods
+Imports: emulator,methods,mathjaxr
 URL: https://github.com/RobinHankin/jordan
 BugReports: https://github.com/RobinHankin/jordan/issues
 RdMacros: mathjaxr
