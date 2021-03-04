@@ -75,9 +75,9 @@ rqhm()     # Random Quaternionic Hermitian matrices
 ralbert()  # Random Albert algebra
 rspin()    # Random spin factor
 
-x <- rqhm()  
-y <- rqhm()  
-z <- rqhm()  
+x <- rqhm(n=1)  
+y <- rqhm(n=1)  
+z <- rqhm(n=1)  
 
 x/1.2 + 0.3*x*y     # Arithmetic works as expected ...
 x*(y*z) -(x*y)*z    # ... but '*' is not associative
