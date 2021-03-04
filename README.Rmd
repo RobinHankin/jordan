@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-A _Jordan algebra_ is a nonassociative algebra over the reals with
+A _Jordan algebra_ is a non-associative algebra over the reals with
 a bilinear multiplication that satisfies the following identities:
 
 $$xy=yx$$

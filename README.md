@@ -3,7 +3,7 @@ Jordan algebras in R
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-A *Jordan algebra* is a nonassociative algebra over the reals with a
+A *Jordan algebra* is a non-associative algebra over the reals with a
 bilinear multiplication that satisfies the following identities:
 
 ![xy=yx](https://latex.codecogs.com/png.latex?xy%3Dyx "xy=yx")

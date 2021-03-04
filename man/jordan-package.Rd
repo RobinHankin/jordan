@@ -9,8 +9,8 @@
 }
 \details{\loadmathjax
 
-  A \dfn{Jordan algebra} is a nonassociative algebra over the reals with
-  a multiplication that satisfies the following identities:
+  A \dfn{Jordan algebra} is a non-associative algebra over the reals
+  with a multiplication that satisfies the following identities:
 
   \mjsdeqn{xy=yx}
 
