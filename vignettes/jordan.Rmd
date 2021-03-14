@@ -149,7 +149,7 @@ y <- rqhm()
 (x*y)*(x*x) - x*(y*(x*x))
 ```
 
-## Spin algebra
+## Spin factors
 
 The fifth class is slightly different from a package idiom
 perspective.  Mathematically, elements are of the form
@@ -164,12 +164,13 @@ $$(a,\mathbf{a}) \times (b,\mathbf{b}) =
 (ab+\left\langle\mathbf{a},\mathbf{b}\right\rangle,a\mathbf{b} +
 b\mathbf{a})$$
 
-where $\left\langle\cdot,\cdot\right\rangle$ is an inner product
+where $a,b\in\mathbb{R}$, and $\mathbf{a},\mathbf{b}\in\mathbb{R}^n$.
+Here $\left\langle\cdot,\cdot\right\rangle$ is an inner product
 defined on $\mathbb{R}^n$ (by default we have
 $\left\langle(x_1,\ldots, x_n),(y_1,\ldots, y_n)\right\rangle=\sum
 x_iy_i$ but this is configurable in the package).
 
-So if we have $\mathcal{I},\mathcal{J},\mathcal{K}$ spin algebra
+So if we have $\mathcal{I},\mathcal{J},\mathcal{K}$ spin factor
 elements it is clear that
 $\mathcal{I}\mathcal{J}=\mathcal{J}\mathcal{I}$ and
 $\mathcal{I}(\mathcal{J}+\mathcal{K}) = \mathcal{I}\mathcal{J} +
@@ -182,15 +183,13 @@ I <- rspin()
 J <- rspin()
 K <- rspin()
 I
-I*J - J*I
-I*(J+K) - (I*J + I*K)
-(I*J)*(I*I) - I*(J*(I*I))
+I*J - J*I   # commutative:
+I*(J+K) - (I*J + I*K)  # distributive:
+I*(J*K) - (I*J)*K  # not associative:
+(I*J)*(I*I) - I*(J*(I*I))  # Obeys the Jordan identity
 ```
 
-
-
-
-# Albert algebras  
+# Albert algebras
 
 Class 4 corresponds to $3\times 3$ Hermitian matrices with octonions
 for entries.  This is class `albert` in the package:
@@ -199,7 +198,7 @@ for entries.  This is class `albert` in the package:
 x <- ralbert()
 y <- ralbert()
 x
-(x*y)*(x*x)-x*(y*(x*x))
+(x*y)*(x*x)-x*(y*(x*x)) # Jordan identity:
 ```
 
 # Special identities
@@ -250,9 +249,9 @@ diff <- function(x,y,z){
 Then we may numerically verify Jacobson for type 3-5 Jordan algebras:
 
 ```{r,label=jacobsonverification,cache=TRUE}
-diff(ralbert(),ralbert(),ralbert())
-diff(rqhm(),rqhm(),rqhm())
-diff(rspin(),rspin(),rspin())
+diff(ralbert(),ralbert(),ralbert())  # Albert algebra obeys Jacobson:
+diff(rqhm(),rqhm(),rqhm()) # Quaternion Jordan algebra obeys Jacobson:
+diff(rspin(),rspin(),rspin()) # spin factors obey Jacobson:
 ```
 
 showing agreement to numerical accuracy (the output is close to zero).
@@ -269,15 +268,15 @@ G8 <- function(x,y,z){H8(x,y,z)-H8(y,x,z)}
 and so we verify for type 3 and type 5 Jordans:
 
 ```{r,label=verifyG8special,cache=TRUE}
-G8(rqhm(1),rqhm(1),rqhm(1))
-G8(rspin(1),rspin(1),rspin(1))
+G8(rqhm(1),rqhm(1),rqhm(1))   # Quaternion Jordan algebra obeys G8:
+G8(rspin(1),rspin(1),rspin(1)) # Spin factors obey G8:
 ```
 
 again showing acceptable accuracy.  The identity is *not* true for
 Albert algebras:
 
 ```{r,cache=TRUE}
-G8(ralbert(1),ralbert(1),ralbert(1))
+G8(ralbert(1),ralbert(1),ralbert(1)) # Albert algebra does not obey G8:
 ```
 
 ## Numerical verification of $G_9$
@@ -293,11 +292,11 @@ G9 <- function(x,y,z){H9(x,y,z)-H9(y,x,z)}
 Then we may verify the `G9()` identity for type 3 Jordans:
 
 ```{r,verifyG9identity,cache=TRUE}
-G9(rqhm(1),rqhm(1),rqhm(1))
+G9(rqhm(1),rqhm(1),rqhm(1))  # Quaternion Jordan algebra obeys G9:
 ```
 
 However, the Albert algebra does not satisfy the identity:
 
 ```{r,albertH9G9,cache=TRUE}
-G9(ralbert(1),ralbert(1),ralbert(1))
+G9(ralbert(1),ralbert(1),ralbert(1)) # Albert algebra does not obey G9:
 ```
