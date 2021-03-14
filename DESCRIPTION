@@ -4,7 +4,7 @@ Title: A Suite of Routines for Working with Jordan Algebras
 Version: 1.0-0
 Authors@R: person(given=c("Robin", "K. S."), family="Hankin", role = c("aut","cre"), email="hankin.robin@gmail.com", comment = c(ORCID = "0000-0001-5982-0415"))
 Maintainer: Robin K. S. Hankin <hankin.robin@gmail.com>
-Description: A Jordan algebra is an algebraic object originally designed to study observables in quantum mechanics.  Jordan algebras are non-associative and the multiplication satisfies commutativity and the Jordan identity. 
+Description: A Jordan algebra is an algebraic object originally designed to study observables in quantum mechanics.  Jordan algebras are commutative but non-associative; they satisfy the Jordan identity. 
 License: GPL (>= 2)
 LazyData: yes
 Suggests: knitr,rmarkdown
