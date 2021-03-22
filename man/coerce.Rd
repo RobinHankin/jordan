@@ -55,8 +55,8 @@ matrix1_to_jordan(x)
   \item{x,e1}{Numeric vector of independent entries}
   \item{M,H}{A matrix}
   \item{d}{Dimensionality of algebra}
-  \item{single}{Boolean, indicating whether a single value is tobe
-    returned}
+  \item{single}{Boolean, indicating whether a single value is to be
+  returned}
   \item{class}{Class of object}
   \item{...}{Further arguments, currently ignored}
 }
