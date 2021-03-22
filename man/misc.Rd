@@ -24,17 +24,15 @@ harmonize_spin_spin(e1,e2)
   \item{e1,e2}{Objects to harmonize}
 }
 \details{
+  Miscellaneous low-level helper functions.
+  
+  The harmonize functions \code{harmonize_spin_numeric()} and
+  \code{harmonize_spin_spin()} work for spin objects for the
+  matrix-based classes \code{emulator::harmonize_foo()} is used.
 
-The harmonize functions \code{harmonize_spin_numeric()} and
-\code{harmonize_spin_spin()} work for spin objects for the matrix-based
-classes \code{emulator::harmonize_foo()} is used.
-
-
-
+}
+\value{These are mostly low-level helper functions; they not
+  particularly user-friendly.  They generally return either
+  numeric or Jordan objects.
 }
 \author{Robin K. S. Hankin}
-\examples{
-rrsm()
-ralbert()
-rspin()
-}

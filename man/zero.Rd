@@ -17,6 +17,7 @@ One often wants to test a jordan object for being zero, and natural
 idiom would be \code{rchm()==0}.  The helper function is \code{is.zero()}.
 
 }
+\value{Returns a Boolean}
 \author{Robin K. S. Hankin}
 \examples{
 rrsm()*0 == 0

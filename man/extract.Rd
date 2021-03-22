@@ -54,6 +54,7 @@
 	 }
 }
 \author{Robin K. S. Hankin}
+\value{Generally return a jordan object of the same class as the first argument}
 \examples{
 showClass("index")  # taken from the Matrix package
 

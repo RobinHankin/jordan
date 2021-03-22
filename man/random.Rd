@@ -21,7 +21,7 @@ rspin(n=3, d=5)
   These functions give a quick \dQuote{get you going} random Jordan
   object to play with.
 }
-
+\value{Return a jordan object}
 \author{Robin K. S. Hankin}
 \examples{
 rrsm()
