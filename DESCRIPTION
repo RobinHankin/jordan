@@ -11,7 +11,6 @@ Description: A Jordan algebra is an algebraic object originally
    K. McCrimmon (2004, ISBN:0-387-95447-3) "A Taste of Jordan
    Algebras".
 License: GPL (>= 2)
-LazyData: yes
 Suggests: knitr,rmarkdown
 Depends: onion (>= 1.4-0)
 VignetteBuilder: knitr
