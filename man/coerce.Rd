@@ -64,13 +64,18 @@ matrix1_to_jordan(x)
   The prefix \dQuote{1} means a single element, usually a matrix.
 
   Functions \code{vec_to_rsm1()} et seq convert a numeric vector to a
-  (symmetric, complex, quaternion, octonion) matrix.
+  (symmetric, complex, quaternion, octonion) matrix, that is, elements
+  of a matrix-based Jordan algebra.
 
   Functions \code{rsm1_to_vec()} convert a (symmetric, complex,
   quaternion, octonion) matrix to a numeric vector of independent
   components.  The upper triangular components are used; no checking for
   symmetry is performed (the lower triangular components, and non-real
-  compoents of the diagonal, are discarded).
+  components of the diagonal, are discarded).
+
+  Function \code{as.1matrix()} is used to convert a jordan object to a
+  list of matrices.  Length one jordan objects are converted to a
+  matrix.
 
   Functions \code{as.real_symmetric_matrix()},
   \code{as.complex_herm_matrix()}, \code{as.quaternion_herm_matrix()}
