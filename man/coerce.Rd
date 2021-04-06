@@ -61,7 +61,9 @@ matrix1_to_jordan(x)
   \item{...}{Further arguments, currently ignored}
 }
 \details{
-  The prefix \dQuote{1} means a single element, usually a matrix.
+
+  The numeral \dQuote{1} in a function name means a single element,
+  usually a matrix.
 
   Functions \code{vec_to_rsm1()} et seq convert a numeric vector to a
   (symmetric, complex, quaternion, octonion) matrix, that is, elements
