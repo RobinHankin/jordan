@@ -7,7 +7,7 @@ output:
     df_print: paged
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteIndexEntry{involutions}
+  %\VignetteIndexEntry{jordan}
   %\usepackage[utf8]{inputenc}
 ---
 
