@@ -17,7 +17,7 @@ Combines its arguments to form a single jordan object.
   Returns a concatenated jordan of the same type as its arguments.
   Argument checking is not performed.
 }
-\value{An XXX}
+\value{Returns a Jordan object of the appropriate type (coercion is not performed)}
 \author{Robin K. S. Hankin}
 \note{
   
