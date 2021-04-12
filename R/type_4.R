@@ -52,6 +52,9 @@ setMethod("show", "albert", function(object){albert_show(object)})
 `albert_show` <- function(x){
   cat("Vector of",description(x,plural=TRUE), "with entries\n")
   jj <- as(x,"matrix")
+  if(is.null(colnames(jj))){
+      colnames(jj) <- paste("[",seq_len(ncol(jj)),"]",sep="")
+  }
   rownames(jj) <-
     c("    d1","    d2","    d3",
       "Re(o1)"," i(o1)"," j(o1)"," k(o1)"," l(o1)","il(o1)","jl(o1)","kl(o1)",
