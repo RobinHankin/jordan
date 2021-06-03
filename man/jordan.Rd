@@ -15,10 +15,7 @@
 \alias{spin}
 \alias{numeric_compare_jordan}
 \title{Create jordan objects}
-\description{
-  The functions documented here are the creation methods for the five
-  types of jordan algebra
-}
+\description{Creation methods for jordan objects}
 \usage{
 real_symmetric_matrix(M)
 complex_herm_matrix(M)
@@ -32,7 +29,8 @@ spin(a,V)
   \item{a,V}{Scalar and vector components of a spin factor}
 }
 \details{
-
+  The functions documented here are the creation methods for the five
+  types of jordan algebra.
 }
 \value{Return jordans or Boolean as appropriate}
 \author{Robin K. S. Hankin}
