@@ -29,17 +29,17 @@ $$(xy)(xx)=x(y(xx))$$
 (the second identity is known as the Jordan identity).  In literature,
 multiplication is usually indicated by juxtaposition but one sometimes
 sees $x\circ y$.  Package idiom is to use an asterisk, as in `x*y`.
-There are five types of Jordan algebras:
+Following McCrimmon 2004, there are five types of Jordan algebras:
 
-* Real symmetric matrices, class `real_symmetric_matrix`,
+* *type 1*: Real symmetric matrices, class `real_symmetric_matrix`,
     abbreviated in the package to `rsm`
-* Complex Hermitian matrices, class `complex_herm_matrix`,
+* *type 2*: Complex Hermitian matrices, class `complex_herm_matrix`,
     abbreviated to `chm`
-* Quaternionic Hermitian matrices, class
+* *type 3*: Quaternionic Hermitian matrices, class
     `quaternion_herm_matrix`, abbreviated to `qhm`
-* Albert algebras, the space of $3\times 3$
+* *type 4*: Albert algebras, the space of $3\times 3$
     Hermitian octonionic matrices, class `albert`
-* Spin factors, class `spin`
+* *type 5*: Spin factors, class `spin`
 
 (of course, the first two are special cases of the next).  The
 `jordan` package provides functionality to manipulate jordan objects
@@ -49,12 +49,13 @@ first four classes are matrix-based in the sense that the algebraic
 objects are symmetric or Hermitian matrices (the S4 class is
 `jordan_matrix`).  The fifth class, spin factors, is not matrix based.
 
-## Matrix-based Jordan algebras
+# Matrix-based Jordan algebras, types 1,2,3
 
 The four matrix-based Jordan algebras have elements which are square
 matrices.  The first three classes are real (symmetric) matrices,
-complex (Hermitian) matrices, and quaternionic (Hermitian) These all
-behave in the same way from a package idiom perspective.  Consider:
+complex (Hermitian) matrices, and quaternionic (Hermitian); type 4 is
+considered separately at the end.  Types 1,2, and 3 all behave in the
+same way from a package idiom perspective.  Consider:
 
 ```{r}
 x <- rrsm()  # "Random Real Symmetric Matrix"
@@ -63,12 +64,12 @@ z <- rrsm()
 x
 ```
 
-Object `x` is a three-element vector, with each element corresponding
-to a $5\times 5$ symmetric matrix (because `rrsm()` has `d=5` by
-default, specifying the size of the matrix).  Thus each element has
-$5*(5+1)/2=15$ degrees of freedom, as indicated by the row labelling.
-Addition and multiplication of a Jordan object with a scalar are
-defined:
+Object `x` is a three-element vector, with each element being a
+column.  Each element corresponds to a $5\times 5$ symmetric matrix
+(because `rrsm()` has `d=5` by default, specifying the size of the
+matrix).  Thus each element has $5*(5+1)/2=15$ degrees of freedom, as
+indicated by the row labelling.  Addition and multiplication of a
+Jordan object with a scalar are defined:
 
 ```{r}
 x*100
@@ -149,10 +150,15 @@ y <- rqhm()
 (x*y)*(x*x) - x*(y*(x*x))
 ```
 
-## Spin factors
+Above, we see that the difference is very small.
 
-The fifth class is slightly different from a package idiom
-perspective.  Mathematically, elements are of the form
+# Spin factors, type 5
+
+The first four types of Jordan algebras are all matrix-based with
+either real, complex, quaternionic, or octonionic entries.
+
+The fifth type, spin factors, are slightly different from a package
+idiom perspective.  Mathematically, elements are of the form
 $\mathbb{R}\oplus\mathbb{R}^n$, with addition and multiplication
 defined by
 
@@ -164,11 +170,12 @@ $$(a,\mathbf{a}) \times (b,\mathbf{b}) =
 (ab+\left\langle\mathbf{a},\mathbf{b}\right\rangle,a\mathbf{b} +
 b\mathbf{a})$$
 
-where $a,b\in\mathbb{R}$, and $\mathbf{a},\mathbf{b}\in\mathbb{R}^n$.
-Here $\left\langle\cdot,\cdot\right\rangle$ is an inner product
-defined on $\mathbb{R}^n$ (by default we have
-$\left\langle(x_1,\ldots, x_n),(y_1,\ldots, y_n)\right\rangle=\sum
-x_iy_i$ but this is configurable in the package).
+where $a,b,\alpha\in\mathbb{R}$, and
+$\mathbf{a},\mathbf{b}\in\mathbb{R}^n$.  Here
+$\left\langle\cdot,\cdot\right\rangle$ is an inner product defined on
+$\mathbb{R}^n$ (by default we have $\left\langle(x_1,\ldots,
+x_n),(y_1,\ldots, y_n)\right\rangle=\sum x_iy_i$ but this is
+configurable in the package).
 
 So if we have $\mathcal{I},\mathcal{J},\mathcal{K}$ spin factor
 elements it is clear that
@@ -189,10 +196,15 @@ I*(J*K) - (I*J)*K  # not associative:
 (I*J)*(I*I) - I*(J*(I*I))  # Obeys the Jordan identity
 ```
 
-# Albert algebras
+# Albert algebras, type 4
 
-Class 4 corresponds to $3\times 3$ Hermitian matrices with octonions
-for entries.  This is class `albert` in the package:
+Type 4 Jordan algebra corresponds to $3\times 3$ Hermitian matrices
+with octonions for entries.  This is class `albert` in the package.
+Note that octonionic Hermitian matrices of order 4 or above do not
+satisfy the Jordan identity and are therefore not Jordan algebras:
+there is a numerical illustration of this fact in the `onion` package
+vignette.  We may verify the Jordan identity for $3\times 3$
+octonionic Hermitian matrices using package class `albert`:
 
 ```{r}
 x <- ralbert()
@@ -300,3 +312,9 @@ However, the Albert algebra does not satisfy the identity:
 ```{r,albertH9G9,cache=TRUE}
 G9(ralbert(1),ralbert(1),ralbert(1)) # Albert algebra does not obey G9:
 ```
+
+
+### References
+
+K. McCrimmon 1978. "Jordan algebras and their applications" _Bulletin
+of the American Mathematical Society_, Volume 84, Number 4.
