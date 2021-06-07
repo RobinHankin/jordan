@@ -32,16 +32,27 @@ spin_id(n=3,d=5)
 \details{
 
   The identity object in the matrix-based classes (\code{jordan_matrix})
-  is simply the identity matrix.
+  is simply the identity matrix.  Function \code{as.identity()} takes an
+  object of any of the five types (\code{rsm}, \code{chm}, \code{qhm},
+  \code{spin}, or \code{albert}) and returns a vector of the same length
+  and type, but comprising identity elements.
 
   Class \code{spin} has identity
   \mjeqn{\left(1,\mathbf{0}\right)}{(1,0)}.
 
 }
-\value{
-Returns a jordan object.
-}
+\value{A jordan object is returned.}
 \author{Robin K. S. Hankin}
 \examples{
-2+4
+
+x <- as.albert(matrix(sample(1:99,81,replace=TRUE),nrow=27))
+I <- as.identity(x)
+x == x*I  # should be TRUE
+
+
+rsm_id(6,3)
+
+
+
+
 }
