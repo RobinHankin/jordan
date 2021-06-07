@@ -91,7 +91,8 @@ We may verify that the distributive law is obeyed:
 x*(y+z) - (x*y + x*z)
 ```
 
-Further, we may observe that the resulting algebra is not associative:
+(that is, zero to numerical precision).  Further, we may observe that
+the resulting algebra is not associative:
 
 ```{r}
 LHS <- x*(y*z)
@@ -99,7 +100,8 @@ RHS <- (x*y)*z
 LHS-RHS
 ```
 
-However, the Jordan identity $(xy)(xx) = x(y(xx))$ is satisfied:
+showing numerically that $x(yz)\neq(xy)z$.  However, the Jordan
+identity $(xy)(xx) = x(y(xx))$ is satisfied:
 
 ```{r}
 LHS <- (x*y)*(x*x)
