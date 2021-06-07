@@ -3,7 +3,7 @@
 `quaternion_herm_matrix` <- function(M){new("quaternion_herm_matrix",x=cbind(M))}  # this is the only place new("real_symmetric_matrix",...) is called
 `is.quaternion_herm_matrix` <- function(x){inherits(x,"quaternion_herm_matrix")}
 
-`r_to_n_qhm` <- function(r){sqrt(1+8*r)/4}
+`r_to_n_qhm` <- function(r){(1+sqrt(1+8*r))/4}
 `n_to_r_qhm` <- function(n){n*(2*n-1)}
 
 `is_ok_qhm` <- function(r){ # 'r' = number of rows in [rowwise] matrix

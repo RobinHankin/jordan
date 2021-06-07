@@ -43,7 +43,7 @@ For the record, they are:
   \item Complex Hermitian matrices, \code{chm}, \mjseqn{r=n^2}, 
   \mjeqn{n=\sqrt{r}}{n=sqrt(r)}
   \item Quaternion Hermitian matrices, \code{qhm}, \mjseqn{r=n(2n-1)}, 
-  \mjeqn{n=\sqrt{1+8r}/4}{n=sqrt(1+8r)/4}
+  \mjeqn{n=(1+\sqrt{1+8r})/4}{n=(1+sqrt(1+8r))/4}
   \item Albert algebras, \mjseqn{r=27}, \mjseqn{n=3}
 }
 
