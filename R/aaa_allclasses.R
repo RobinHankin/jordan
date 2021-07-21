@@ -267,3 +267,5 @@ setMethod("c","jordan",function(x,...){
  
 
 setGeneric("as.list")
+
+setMethod("nrow","jordan",function(x){nrow(as.matrix(x))})
