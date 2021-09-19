@@ -3,6 +3,14 @@ Jordan algebras in R
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+<img src="man/figures/jordan.png" width = "150" align="right" />
+
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/jordan?color=green)](https://cran.r-project.org/package=jordan)
+![](https://cranlogs.r-pkg.org/badges/grand-total/jordan?color=green)
+![](https://cranlogs.r-pkg.org/badges/jordan?color=green)
+![](https://cranlogs.r-pkg.org/badges/last-week/jordan?color=green)
+[![Rdoc](https://www.rdocumentation.org/badges/version/jordan)](http://www.rdocumentation.org/packages/jordan)
+
 A *Jordan algebra* is a non-associative algebra over the reals with a
 bilinear multiplication that satisfies the following identities:
 

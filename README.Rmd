@@ -7,6 +7,16 @@ output:
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
+<img src="man/figures/jordan.png" width = "150" align="right" />
+
+
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/jordan?color=green)](https://cran.r-project.org/package=jordan)
+![](https://cranlogs.r-pkg.org/badges/grand-total/jordan?color=green)
+![](https://cranlogs.r-pkg.org/badges/jordan?color=green)
+![](https://cranlogs.r-pkg.org/badges/last-week/jordan?color=green)
+[![Rdoc](https://www.rdocumentation.org/badges/version/jordan)](http://www.rdocumentation.org/packages/jordan)
+
+
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
