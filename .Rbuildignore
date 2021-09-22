@@ -4,3 +4,6 @@
 ^\.travis\.yml$
 .Rhistory
 .gitignore
+inst/jordan_stickermaker.R
+inst/jordan_icon.tex
+

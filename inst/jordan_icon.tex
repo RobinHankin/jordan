@@ -1,16 +1,17 @@
 % Needs to be edited (e.g. in inkscape) to make fraction lines thicker 
 \documentclass{article}
-\usepackage{amsmath} % for "\cfrac" macro
+\usepackage{amsmath} % for gather
 \usepackage{pagecolor}
-\usepackage[paperheight=1in,paperwidth=3in]{geometry}
+\usepackage[paperheight=2in,paperwidth=2in]{geometry}
 \usepackage{bm}
 
 \begin{document}
 \thispagestyle{empty}
 \definecolor{mycol}{HTML}{7733FF} 
 \pagecolor{mycol}
-\begin{eqnarray*}
-x\bullet y &=& (xy+yx)/2\\
-x^2\bullet\left(y\bullet x\right) &=& \left(x^2\bullet y\right)\bullet x
-\end{eqnarray*}
+\begin{gather*}
+  (x\bullet y)\bullet x^2\\
+\smash{=}\\
+  x\bullet(y\bullet x^2)
+\end{gather*}
 \end{document}
