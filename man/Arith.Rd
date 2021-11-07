@@ -138,9 +138,15 @@ vec_rsmprod_vec(x,y)
 \author{Robin K. S. Hankin}
 \examples{
 
-a <- rspin()
-a[1] <- a[2]*7
-a
+x <- rspin()
+y <- rspin()
+z <- rspin()
+
+x*(y*(x*x)) - (x*y)*(x*x) # should be zero
+
+x + y*z
+
+
 
 }
 \keyword{methods}
