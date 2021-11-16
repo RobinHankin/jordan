@@ -7,7 +7,7 @@
 \alias{jordan_matrix_show}
 \alias{albert_show}
 \alias{spin_show}
-\alias{desctription}
+\alias{description}
 \title{Print methods}
 \description{Show methods, to display objects at the prompt}
 \usage{
