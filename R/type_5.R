@@ -140,7 +140,7 @@ setMethod("show", "spin", function(object){spin_show(object)})
 }
 
 `spin_power_numeric` <- function(e1,e2){
-  stop("not yet implemented (it makes sense but I have not got round to implementing it yet")
+  stop("not yet implemented (it makes sense but I have not got round to implementing it yet)")
   n <- e2  # yes it's redundant but using e2 for n drives me nuts
   if(length(n)==1){
     return(spin_power_single_n(e1,n))
