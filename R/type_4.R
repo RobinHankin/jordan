@@ -83,7 +83,7 @@ setMethod("show", "albert", function(object){albert_show(object)})
          "*" = albert_prod_albert(e1, e2),
          "/" = albert_prod_albert(e1, albert_inverse(e2)), # fails
          "^" = stop("albert^albert not defined"),
-         stop(paste("binary operator \"", .Generic, "\" not defined for alberts"))
+         stop(gettextf("binary operator %s not defined for albert objects", dQuote(.Generic)))
          )
 }
 
@@ -94,7 +94,7 @@ setMethod("show", "albert", function(object){albert_show(object)})
          "*" = jordan_prod_numeric(e1, e2),
          "/" = jordan_prod_numeric(e1, 1/e2),
          "^" = albert_power_numeric(e1, e2),
-         stop(paste("binary operator \"", .Generic, "\" not defined for alberts"))
+         stop(gettextf("binary operator %s not defined for albert objects", dQuote(.Generic)))
          )
 }
 
@@ -105,7 +105,7 @@ setMethod("show", "albert", function(object){albert_show(object)})
          "*" = jordan_prod_numeric(e2, e1),
          "/" = jordan_prod_numeric(e2, 1/e1),
          "^" = albert_power_albert(e1, e2),
-         stop(paste("binary operator \"", .Generic, "\" not defined for alberts"))
+         stop(gettextf("binary operator %s not defined for albert objects", dQuote(.Generic)))
          )
 }
 
@@ -114,8 +114,9 @@ setMethod("Arith",signature(e1 = "albert", e2="missing"),
             switch(.Generic,
                    "+" = e1,
                    "-" = jordan_negative(e1),
-                   stop(paste("Unary operator", .Generic,
-                              "not allowed on alberts"))
+
+
+         stop(gettextf("unary operator %s not defined for albert objects", dQuote(.Generic)))
                    )
           } )
 

@@ -156,8 +156,7 @@ setMethod("Arith",signature(e1 = "spin", e2="missing"),
             switch(.Generic,
                    "+" = e1,
                    "-" = spin_negative(e1),
-                   stop(paste("Unary operator", .Generic,
-                              "not allowed on spin objects"))
+                   stop(gettextf("unary operator %s not defined for spin objects", dQuote(.Generic)))
                    )
           } )
 
@@ -171,7 +170,7 @@ setMethod("Arith",signature(e1 = "spin", e2="spin"),
          "*" = spin_prod_spin(e1,  e2),
          "/" = stop("1/spin not defined"),
          "^" = stop("x^spin not defined"),
-         stop(paste("binary operator \"", .Generic, "\" not defined for spin objects"))
+         stop(gettextf("binary operator %s not defined for spin objects", dQuote(.Generic)))
          )})
 
 setMethod("Arith",signature(e1 = "spin", e2="numeric"),
@@ -182,7 +181,7 @@ setMethod("Arith",signature(e1 = "spin", e2="numeric"),
          "*" = spin_prod_numeric(e1,e2),
          "/" = spin_prod_numeric(e1,1/e2),
          "^" = spin_power_numeric(e1,  e2),
-         stop(paste("binary operator \"", .Generic, "\" not defined for onions"))
+         stop(gettextf("binary operator %s not defined for spin objects", dQuote(.Generic)))
          )})
 
 setMethod("Arith",signature(e1 = "numeric", e2="spin"),
@@ -193,7 +192,7 @@ setMethod("Arith",signature(e1 = "numeric", e2="spin"),
          "*" = spin_prod_numeric(e2,e1),
          "/" = stop("1/spin not defined"),
          "^" = stop("x^spin not defined"),
-         stop(paste("binary operator \"", .Generic, "\" not defined for onions"))
+         stop(gettextf("binary operator %s not defined for spin objects", dQuote(.Generic)))
          )})
 
 

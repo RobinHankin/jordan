@@ -116,7 +116,7 @@ setMethod("as.1matrix","complex_herm_matrix",function(x,drop=TRUE){
          "*" = chm_prod_chm(e1, e2),
          "/" = chm_prod_chm(e1, chm_inverse(e2)),
          "^" = stop("chm^chm not defined"),
-         stop(paste("binary operator \"", .Generic, "\" not defined for chm"))
+         stop(gettextf("binary operator %s not defined for chm objects", dQuote(.Generic)))
          )
 }
 
@@ -127,7 +127,7 @@ setMethod("as.1matrix","complex_herm_matrix",function(x,drop=TRUE){
          "*" = jordan_prod_numeric(e1, e2),
          "/" = jordan_prod_numeric(e1, 1/e2),
          "^" = chm_power_numeric(e1, e2),
-         stop(paste("binary operator \"", .Generic, "\" not defined for chm"))
+         stop(gettextf("binary operator %s not defined for chm objects", dQuote(.Generic)))
          )
 }
 
@@ -138,7 +138,7 @@ setMethod("as.1matrix","complex_herm_matrix",function(x,drop=TRUE){
          "*" = jordan_prod_numeric(e2, e1),
          "/" = jordan_prod_numeric(chm_inverse(e2),e1),
          "^" = jordan_power_jordan(e2, e1),
-         stop(paste("binary operator \"", .Generic, "\" not defined for chm"))
+         stop(gettextf("binary operator %s not defined for chm objects", dQuote(.Generic)))
          )
 }
 
@@ -147,8 +147,7 @@ setMethod("Arith",signature(e1 = "complex_herm_matrix", e2="missing"),
             switch(.Generic,
                    "+" = e1,
                    "-" = jordan_negative(e1),
-                   stop(paste("Unary operator", .Generic,
-                              "not allowed on chm objects"))
+                   stop(gettextf("unary operator %s not defined for chm objects", dQuote(.Generic)))
                    )
           } )
 

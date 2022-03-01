@@ -86,7 +86,7 @@ setReplaceMethod("names","jordan",
   switch(.Generic,
          "==" =  out,
          "!=" = !out,
-         stop(paste("comparision operator \"", .Generic, "\" not defined for jordans"))
+         stop(gettextf("comparison operator %s not defined for albert objects", dQuote(.Generic)))
          )
 }
 
@@ -104,7 +104,7 @@ setReplaceMethod("names","jordan",
    switch(.Generic,
           "==" =  out,
           "!=" = !out,
-          stop(paste("comparision operator \"", .Generic, "\" not defined for jordans"))
+          stop(gettextf("comparison operator %s not defined for jordan objects", dQuote(.Generic)))
           )
 }
 
@@ -114,7 +114,7 @@ setReplaceMethod("names","jordan",
    switch(.Generic,
           "==" =  out,
           "!=" = !out,
-          stop(paste("comparision operator \"", .Generic, "\" not defined for jordans"))
+          stop(gettextf("comparison operator %s not defined for jordan objects", dQuote(.Generic)))
           )
 }
 
