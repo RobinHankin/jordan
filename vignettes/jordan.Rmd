@@ -17,6 +17,11 @@ knitr::opts_chunk$set(echo = TRUE)
 library("jordan")
 ```
 
+<p style="text-align: right;">
+![](`r system.file("help/figures/jordan.png", package = "jordan")`){width=10%}
+</p>
+
+
 # Jordan algebras
 
 A _Jordan algebra_ is a non-associative algebra over the reals with
