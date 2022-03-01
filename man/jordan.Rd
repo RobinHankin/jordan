@@ -45,4 +45,12 @@ quaternion_herm_matrix(1:15)
 albert(1:27)
 spin(-6,cbind(1:12,12:1))
 
+
+x <- rqhm() ; y <- rqhm() ; z <- rqhm()
+
+
+x*(y*z) - (x*y)*z         # Jordan algebra is not associative...
+(x*y)*(x*x) - x*(y*(x*x)) # but satisfies the Jordan identity
+
+
 }
