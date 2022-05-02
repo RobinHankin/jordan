@@ -33,7 +33,7 @@ setClassUnion("jordan_special", # everything except albert
               c("spin","real_symmetric_matrix", "complex_herm_matrix",
                 "quaternion_herm_matrix"))
 
-setClassUnion("index", members =  c("numeric", "logical", "character")) # taken from the Matrix package.
+# setClassUnion("index", members =  c("numeric", "logical", "character")) # taken from the Matrix package.
 
 `is.jordan` <- function(x){is(x,"jordan")}
 `as.jordan` <- function(x,class){

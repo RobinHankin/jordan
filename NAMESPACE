@@ -8,3 +8,5 @@ importFrom("onion","diag","getM","harmonize_on","harmonize_oo","i","j","k","ht",
 importFrom("methods", "as", "is", "new")
 importFrom("stats", "rnorm")
 importFrom("utils", "capture.output")
+
+importClassesFrom(Matrix,index)
