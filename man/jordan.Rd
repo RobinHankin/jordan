@@ -16,13 +16,6 @@
 \alias{numeric_compare_jordan}
 \title{Create jordan objects}
 \description{Creation methods for jordan objects}
-\usage{
-real_symmetric_matrix(M)
-complex_herm_matrix(M)
-albert(M)
-quaternion_herm_matrix(M)
-spin(a,V)
-}
 \arguments{
   \item{M}{A matrix with columns representing independent entries in a
     matrix-based Jordan algebra}
