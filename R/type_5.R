@@ -50,6 +50,10 @@ setMethod("dim","spin",function(x){ nrow(rn(x)) })
 setMethod("show", "spin", function(object){spin_show(object)})
 
 `spin_show` <- function(x){
+     if(length(x)==0){
+     cat("Null vector of", description(x,plural=TRUE),"\n")
+     return((x))
+  }
   cat("Vector of",description(x,plural=TRUE), "with entries\n")
   x <- as(x,"matrix")
   rownames(x) <- paste("[",seq_len(nrow(x))-1,"]",sep="")

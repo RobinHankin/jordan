@@ -216,6 +216,10 @@ setReplaceMethod("[",signature(x="jordan_matrix",i="index",j="missing",value="nu
 setMethod("show", "jordan_matrix", function(object){jordan_matrix_show(object)})
 
 `jordan_matrix_show` <- function(x){
+ if(length(x)==0){
+     cat("Null vector of",description(x,plural=TRUE),"\n")
+     return((x))
+  }
   cat("Vector of",description(x,plural=TRUE), "with entries\n")
   x <- as(x,"matrix")
   if(is.null(colnames(x))){
