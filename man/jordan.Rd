@@ -24,6 +24,15 @@
 \details{
   The functions documented here are the creation methods for the five
   types of jordan algebra.
+  \itemize{
+    \item\code{quaternion_herm_matrix()}
+    \item\code{complex_herm_matrix()}
+    \item\code{real_symmetric_matrix()}
+    \item\code{albert()}
+    \item\code{spin()}
+}
+
+
 }
 \value{Return jordans or Boolean as appropriate}
 \author{Robin K. S. Hankin}
