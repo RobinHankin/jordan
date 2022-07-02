@@ -1,5 +1,6 @@
 \name{random}
 \alias{ralbert}
+\alias{rjordan}
 \alias{rrsm}
 \alias{rchm}
 \alias{rqhm}
