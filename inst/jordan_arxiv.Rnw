@@ -1,0 +1,409 @@
+% -*- mode: noweb; noweb-default-code-mode: R-mode; -*-
+
+
+\documentclass{article}
+
+\usepackage{arxiv}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{amssymb}        % needed for \leqslant
+\usepackage{amsmath}        % needed for cases
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{lipsum}		% Can be removed after putting your text content
+\usepackage{graphicx}
+\usepackage[numbers]{natbib}
+\usepackage{doi}
+\usepackage{wrapfig}
+
+
+
+\title{Jordan algebra in R}
+
+%\date{September 9, 1985}	% Here you can change the date presented in the paper title
+%\date{} 					% Or removing it
+
+\author{ \href{https://orcid.org/0000-0001-5982-0415}{\includegraphics[width=0.03\textwidth]{orcid.pdf}\hspace{1mm}Robin K. S.~Hankin}\thanks{\href{https://academics.aut.ac.nz/robin.hankin}{work};  
+\href{https://www.youtube.com/watch?v=JzCX3FqDIOc&list=PL9_n3Tqzq9iWtgD8POJFdnVUCZ_zw6OiB&ab_channel=TrinTragulaGeneralRelativity}{play}} \\
+ Auckland University of Technology\\
+	\texttt{hankin.robin@gmail.com} \\
+}
+
+% Uncomment to remove the date
+%\date{}
+
+% Uncomment to override  the `A preprint' in the header
+%\renewcommand{\headeright}{Technical Report}
+%\renewcommand{\undertitle}{Technical Report}
+\renewcommand{\shorttitle}{Jordan algebra in R}
+
+%%% Add PDF metadata to help others organize their library
+%%% Once the PDF is generated, you can check the metadata with
+%%% $ pdfinfo template.pdf
+\hypersetup{
+pdftitle={Jordan algebra in R},
+pdfsubject={q-bio.NC, q-bio.QM},
+pdfauthor={Robin K. S.~Hankin},
+pdfkeywords={Jordan algebra}
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+In this short article I introduce the {\tt jordan} package which
+provides functionality for working with different types of Jordan
+algebra.tensors, alternating forms, The package is available on CRAN
+at \url{https://CRAN.R-project.org/package=stokes}.
+\end{abstract}
+
+\SweaveOpts{}
+
+
+\section{Introduction: Jordan algebras}
+
+\setlength{\intextsep}{0pt}
+\begin{wrapfigure}{r}{0.2\textwidth}
+  \begin{center}
+\includegraphics[width=1in]{jordan.png}
+  \end{center}
+\end{wrapfigure}
+
+
+
+A {\em Jordan algebra} is a non-associative algebra over the reals with
+a bilinear multiplication that satisfies the following identities:
+
+$$xy=yx$$
+
+$$(xy)(xx)=x(y(xx))$$
+
+(the second identity is known as the Jordan identity).  In literature,
+multiplication is usually indicated by juxtaposition but one sometimes
+sees $x\circ y$.  Package idiom is to use an asterisk, as in {\tt x*y}.
+Following McCrimmon~\cite{mccrimmon1978}, there are five types of
+Jordan algebras:
+
+\begin{itemize}
+\item {\bf type 1}: Real symmetric matrices, class {\tt real\_symmetric\_matrix},
+    abbreviated in the package to {\tt rsm}
+\item {\bf type 2}: Complex Hermitian matrices, class {\tt complex\_herm\_matrix},
+    abbreviated to {\tt chm}
+\item {\bf type 3}: Quaternionic Hermitian matrices, class
+    {\tt quaternion\_herm\_matrix}, abbreviated to {\tt qhm}
+\item {\bf type 4}: Albert algebras, the space of $3\times 3$
+    Hermitian octonionic matrices, class {\tt albert}
+\item {\bf type 5}: Spin factors, class {\tt spin}
+\end{itemize}
+
+(of course, the first two are special cases of the next).  The
+{\tt  jordan} package provides functionality to manipulate jordan objects
+using natural R idiom.  Objects of all these classes are stored in
+matrix form with columns being elements of the jordan algebra.  The
+first four classes are matrix-based in the sense that the algebraic
+objects are symmetric or Hermitian matrices (the S4 class is
+{\tt jordan\_matrix}).  The fifth class, spin factors, is not matrix based.
+
+\section{Matrix-based Jordan algebras, types 1,2,3}
+
+The four matrix-based Jordan algebras have elements which are square
+matrices.  The first three classes are real (symmetric) matrices,
+complex (Hermitian) matrices, and quaternionic (Hermitian); type 4 is
+considered separately at the end.  Types 1,2, and 3 all behave in the
+same way from a package idiom perspective.  Consider:
+
+<<>>=
+library(jordan)
+x <- rrsm()  # "Random Real Symmetric Matrix"
+y <- rrsm()  
+z <- rrsm()  
+x
+@ 
+
+Object `x` is a three-element vector, with each element being a
+column.  Each element corresponds to a $5\times 5$ symmetric matrix
+(because {\tt rrsm()} has {\tt d=5} by default, specifying the size of
+the matrix).  Thus each element has $5*(5+1)/2=15$ degrees of freedom,
+as indicated by the row labelling.  Addition and multiplication of a
+Jordan object with a scalar are defined:
+
+<<>>=
+x*100
+x + y*3
+x + 100
+@ 
+
+
+(the last line is motivated by analogy with {\tt M + x}, for {\tt M} a matrix
+and {\tt x} a scalar). Jordan objects may be multiplied using the rule
+$x\circ y=(xy+yx)/2$:
+
+<<>>=
+
+x*y
+@ 
+
+We may verify that the distributive law is obeyed:
+
+<<>>=
+x*(y+z) - (x*y + x*z)
+@ 
+
+
+(that is, zero to numerical precision).  Further, we may observe that
+the resulting algebra is not associative:
+
+<<>>=
+LHS <- x*(y*z)
+RHS <- (x*y)*z
+LHS-RHS
+@ 
+
+
+showing numerically that $x(yz)\neq(xy)z$.  However, the Jordan
+identity $(xy)(xx) = x(y(xx))$ is satisfied:
+
+<<>>=
+LHS <- (x*y)*(x*x)
+RHS <- x*(y*(x*x))
+LHS-RHS
+@
+
+(the entries are zero to numerical precision).  If we wish to work
+with the matrix itself, a single element may be coerced with
+{\tt as.1matrix()}:
+
+<<>>=
+M1 <- as.1matrix(x[1])
+(M2 <- as.1matrix(x[2]))
+@ 
+
+
+(in the above, observe how the matrix is indeed symmetric).  We may
+verify that the multiplication rule is indeed being correctly
+applied:
+
+<<>>=
+(M1 %*% M2 + M2 %*% M1)/2 - as.1matrix(x[1]*x[2])
+@ 
+
+
+It is also possible to verify that symmetry is closed under the Jordan
+operation:
+
+<<>>=
+jj <- as.1matrix(x[1]*x[2])
+jj-t(jj)
+@ 
+
+
+The other matrix-based Jordan algebras are similar but
+differ in the details of the coercion.  Taking quaternionic matrices:
+
+<<>>=
+as.1matrix(rqhm(n=1,d=2))
+@ 
+
+
+above we see the matrix functionality of the {\tt onion} package being
+used.  See how the matrix is Hermitian (elements {\tt [1,2]} and {\tt
+[2,1]} are conjugate; elements {\tt [1,1]} and {\tt [2,2]} are pure
+real).  Verifying the Jordan identity would be almost the same as
+above:
+
+<<>>=
+x <- rqhm()
+y <- rqhm()
+(x*y)*(x*x) - x*(y*(x*x))
+@ 
+
+
+Above, we see that the difference is very small.
+
+\section{Spin factors, type 5}
+
+The first four types of Jordan algebras are all matrix-based with
+either real, complex, quaternionic, or octonionic entries.
+
+The fifth type, spin factors, are slightly different from a package
+idiom perspective.  Mathematically, elements are of the form
+$\mathbb{R}\oplus\mathbb{R}^n$, with addition and multiplication
+defined by
+
+$$\alpha(a,\mathbf{a}) = (\alpha a,\alpha\mathbf{a})$$
+
+$$(a,\mathbf{a}) + (b,\mathbf{b}) = (a+b,\mathbf{a} + \mathbf{b})$$
+
+$$(a,\mathbf{a}) \times (b,\mathbf{b}) =
+(ab+\left\langle\mathbf{a},\mathbf{b}\right\rangle,a\mathbf{b} +
+b\mathbf{a})$$
+
+where $a,b,\alpha\in\mathbb{R}$, and
+$\mathbf{a},\mathbf{b}\in\mathbb{R}^n$.  Here
+$\left\langle\cdot,\cdot\right\rangle$ is an inner product defined on
+$\mathbb{R}^n$ (by default we have $\left\langle(x_1,\ldots,
+x_n),(y_1,\ldots, y_n)\right\rangle=\sum x_iy_i$ but this is
+configurable in the package).
+
+So if we have $\mathcal{I},\mathcal{J},\mathcal{K}$ spin factor
+elements it is clear that
+$\mathcal{I}\mathcal{J}=\mathcal{J}\mathcal{I}$ and
+$\mathcal{I}(\mathcal{J}+\mathcal{K}) = \mathcal{I}\mathcal{J} +
+\mathcal{I}\mathcal{K}$.  The Jordan identity is not as easy to see
+but we may verify all the identities numerically:
+
+
+<<>>=
+I <- rspin()
+J <- rspin()
+K <- rspin()
+I
+I*J - J*I   # commutative:
+I*(J+K) - (I*J + I*K)  # distributive:
+I*(J*K) - (I*J)*K  # not associative:
+(I*J)*(I*I) - I*(J*(I*I))  # Obeys the Jordan identity
+@ 
+
+
+\section{Albert algebras, type 4}
+
+Type 4 Jordan algebra corresponds to $3\times 3$ Hermitian matrices
+with octonions for entries.  This is class {\tt albert} in the package.
+Note that octonionic Hermitian matrices of order 4 or above do not
+satisfy the Jordan identity and are therefore not Jordan algebras:
+there is a numerical illustration of this fact in the {\tt onion} package
+vignette.  We may verify the Jordan identity for $3\times 3$
+octonionic Hermitian matrices using package class {\tt albert}:
+
+<<>>=
+x <- ralbert()
+y <- ralbert()
+x
+(x*y)*(x*x)-x*(y*(x*x)) # Jordan identity:
+@ 
+
+
+\section{Special identities}
+
+In 1963, C. M. Glennie discovered a pair of identities satisfied by
+special Jordan algebras but not the Albert algebra.  Defining
+
+\[
+U_x(y) = 2x(xy)-(xx)y
+\]
+
+\[
+\left\lbrace x,y,z\right\rbrace=
+2(x(yz)+(xy)z - (xz)y)
+\]
+ 
+(it can be shown that Jacobson's identity $U_{U_x(y)}=U_xU_yU_x$
+holds), Glennie's identities are
+
+\[
+H_8(x,y,z)=H_8(y,x,z)\qquad H_9(x,y,z)=H_9(y,x,z)
+\]
+
+(see McCrimmon 2004 for details), where
+
+\[
+H_8(x,y,z)= \left\lbrace U_x U_y(z),z, xy\right\rbrace-U_xU_yU_z(xy)
+\]
+
+and
+\[
+H_9(x,y,z)= 2U_x(z) U_{y,x}U_z(yy)-U_x U_z U_{x,y} U_y(z)
+\]
+
+\subsection{Numerical verification of Jacobson}
+
+We may verify Jacobson's identity:
+
+<<define_U_and_diff>>=
+U <- function(x){function(y){2*x*(x*y)-(x*x)*y}}
+diff <- function(x,y,z){
+     LHS <- U(x)(U(y)(U(x)(z)))
+     RHS <- U(U(x)(y))(z)
+     return(LHS-RHS)  # zero if Jacobson holds
+}
+@ 
+
+
+
+Then we may numerically verify Jacobson for type 3-5 Jordan algebras:
+
+<<jacobsonverification,cache=TRUE>>=
+diff(ralbert(),ralbert(),ralbert())  # Albert algebra obeys Jacobson:
+diff(rqhm(),rqhm(),rqhm()) # Quaternion Jordan algebra obeys Jacobson:
+diff(rspin(),rspin(),rspin()) # spin factors obey Jacobson:
+@ 
+
+
+
+showing agreement to numerical accuracy (the output is close to zero).
+We can now verify Glennie's $G_8$ and $G_9$ identities.
+
+\subsection{Numerical verification of $G_8$}
+
+<<defBH8G8>>=
+B <- function(x,y,z){2*(x*(y*z) + (x*y)*z - (x*z)*y)}  # bracket function
+H8 <- function(x,y,z){B(U(x)(U(y)(z)),z,x*y) - U(x)(U(y)(U(z)(x*y)))}
+G8 <- function(x,y,z){H8(x,y,z)-H8(y,x,z)}
+@ 
+
+
+
+and so we verify for type 3 and type 5 Jordans:
+
+<<verifyG8special,cache=TRUE>>=
+G8(rqhm(1),rqhm(1),rqhm(1))   # Quaternion Jordan algebra obeys G8:
+G8(rspin(1),rspin(1),rspin(1)) # Spin factors obey G8:
+@ 
+
+
+again showing acceptable accuracy.  The identity is *not* true for
+Albert algebras:
+
+<<nottrue,cache=TRUE>>=
+G8(ralbert(1),ralbert(1),ralbert(1)) # Albert algebra does not obey G8:
+@ 
+
+
+\subsection{Numerical verification of $G_9$}
+
+<<defineH9G9>>=
+L <- function(x){function(y){x*y}}
+U <- function(x){function(y){2*x*(x*y)-(x*x)*y}}
+U2 <- function(x,y){function(z){L(x)(L(y)(z)) + L(y)(L(x)(z)) - L(x*y)(z)}}
+H9 <- function(x,y,z){2*U(x)(z)*U2(y,x)(U(z)(y*y)) - U(x)(U(z)(U2(x,y)(U(y)(z))))}
+G9 <- function(x,y,z){H9(x,y,z)-H9(y,x,z)}
+@ 
+
+
+
+Then we may verify the `G9()` identity for type 3 Jordans:
+
+<<verifyG9identity,cache=TRUE>>=
+G9(rqhm(1),rqhm(1),rqhm(1))  # Quaternion Jordan algebra obeys G9:
+@ 
+
+
+
+However, the Albert algebra does not satisfy the identity:
+
+<<albertH9G9,cache=TRUE>>=
+G9(ralbert(1),ralbert(1),ralbert(1)) # Albert algebra does not obey G9:
+@ 
+
+
+
+
+\bibliographystyle{apalike}
+\bibliography{jordan_arxiv}
+
+\end{document}
