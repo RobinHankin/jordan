@@ -35,7 +35,7 @@
 
   (of course, the first two are special cases of the next).  The
   \code{jordan} package provides functionality to manipulate jordan
-  objects using natural R idiom.
+  objects using natural \R idiom.
 
   Objects of all these classes are stored in dataframe (technically, a
   matrix) form with columns being elements of the jordan algebra.
