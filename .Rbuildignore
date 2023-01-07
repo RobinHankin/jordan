@@ -6,4 +6,8 @@
 .gitignore
 inst/jordan_stickermaker.R
 inst/jordan_icon.tex
+inst/non_jordan.Rmd
+inst/jordan_arxiv.bib
+inst/jordan_arxiv.Rnw
+
 
