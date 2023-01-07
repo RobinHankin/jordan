@@ -231,13 +231,17 @@ setMethod("show", "jordan_matrix", function(object){jordan_matrix_show(object)})
   
   jj <- capture.output(x)
   n <- nrow(x)
-  if(sum(o) < n){
-      jj <- c(jj[seq_len(o[1]+1)],paste(rep(".",nchar(jj[1])),collapse=""),jj[(n-o[2]):(n+1)])
+  if(length(jj) > n+1){
+      print(x)
+  } else {
+      if(sum(o) < n){
+          jj <- c(jj[seq_len(o[1]+1)],paste(rep(".",nchar(jj[1])),collapse=""),jj[(n-o[2]):(n+1)])
+      }
+      for(i in jj){
+          cat(paste(i,"\n"))
+      }
   }
-  for(i in jj){
-    cat(paste(i,"\n"))
-  }
-  return(x)
+ return(x)
 }
 
 conc_pair <- function(x,y){as.jordan(cbind(as.matrix(x),as.matrix(y)),x)}
