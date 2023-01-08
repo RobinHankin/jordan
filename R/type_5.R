@@ -67,6 +67,11 @@ setMethod("show", "spin", function(object){spin_show(object)})
 
   jj <- capture.output(x)
   n <- nrow(x)
+  if(length(jj) > n+1){
+      print(x)
+      return(x)
+  }
+
   substr(jj[2],1,3) <- " r "
   if(sum(o) < (n-1)){
       jj <- c(

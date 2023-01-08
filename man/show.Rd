@@ -22,18 +22,20 @@ description(x,plural=FALSE)
     be given}
 }
 \details{
-The matrix-based algebras use a show method that modifies the row and
-column names of the underlying matrix slightly.
 
-Spin factors are displayed with the scalar component offset from the
-vector component.
+  The special algebras use a bespoke show method,
+  \code{jordan_matrix_show()} or \code{spin_show()}.  If the number of
+  elements is small, they display a concise representation and modify
+  the row and column names of the underlying matrix slightly; spin
+  factors are displayed with the scalar component offset from the vector
+  component.
 
-Print methods for special algebras are sensitive to the value of option
-\code{head_and_tail}, a two-element integer vector indicating the
-number of start lines and end lines to print.
+  Print methods for special algebras are sensitive to the value of
+  option \code{head_and_tail}, a two-element integer vector indicating
+  the number of start lines and end lines to print.
 
-Function \code{description()} gives a natural-language description of
-its argument, used in the print method.
+  Function \code{description()} gives a natural-language description of
+  its argument, used in the print method.
 
 }
 \value{Returns the argument}

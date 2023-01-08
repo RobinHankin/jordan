@@ -50,14 +50,19 @@ setClassUnion("jordan_special", # everything except albert
 }
 
 `as.identity` <- function(x){
-    switch(as.character(class(x)),
-           real_symmetric_matrix  = as.jordan(kronecker(   rsm1_to_vec(diag(nrow=nrow(x[1,drop=TRUE]))),t(rep(1,length(x)))),x),
-           complex_herm_matrix    = as.jordan(kronecker(   chm1_to_vec(diag(nrow=nrow(x[1,drop=TRUE]))),t(rep(1,length(x)))),x),
-           quaternion_herm_matrix = as.jordan(kronecker(   qhm1_to_vec(diag(nrow=nrow(x[1,drop=TRUE]))),t(rep(1,length(x)))),x),
-           albert                 = as.jordan(kronecker(albert1_to_vec(diag(nrow=nrow(x[1,drop=TRUE]))),t(rep(1,length(x)))),x),
-           spin                   = spin(a=1+0*r1(x),V=rn(x)*0),
-           stop("not recognised")
-           )
+           if(is.real_symmetric_matrix(x)){
+               return(as.jordan(kronecker(   rsm1_to_vec(diag(nrow=nrow(x[1,drop=TRUE]))),t(rep(1,length(x)))),x))
+           } else if(is.complex_herm_matrix(x)){
+               return(as.jordan(kronecker(   chm1_to_vec(diag(nrow=nrow(x[1,drop=TRUE]))),t(rep(1,length(x)))),x))
+           } else if(is.quaternion_herm_matrix(x)){
+               return(as.jordan(kronecker(   qhm1_to_vec(diag(nrow=nrow(x[1,drop=TRUE]))),t(rep(1,length(x)))),x))
+           } else if(is.albert(x)){
+               return(as.jordan(kronecker(albert1_to_vec(diag(nrow=nrow(x[1,drop=TRUE]))),t(rep(1,length(x)))),x))
+           } else if(is.spin(x)){
+               return(spin(a=1+0*r1(x),V=rn(x)*0))
+           } else {
+               stop("not recognised")
+           }
 }
 
 setAs(from="jordan",to="matrix",def=function(from){from@x})
@@ -197,15 +202,15 @@ setReplaceMethod("[",signature(x="jordan_matrix",i="index",j="missing",value="nu
 }
 
 `description` <- function(x,plural=FALSE){
-  if(class(x) == "real_symmetric_matrix"){
+  if(is.real_symmetric_matrix(x)){
     out <- ifelse(plural,"real symmetric matrices","real symmetric matrix")
-  } else if (class(x) == "complex_herm_matrix"){
+  } else if (is.complex_herm_matrix(x)){
     out <- ifelse(plural,"complex Hermitian matrices","complex Hermitian matrix")
-  } else if (class(x) == "quaternion_herm_matrix"){
+  } else if (is.quaternion_herm_matrix(x)){
     out <- ifelse(plural,"quaternionic Hermitian matrices","quaternionic Hermitian matrix")
-  } else if (class(x) == "albert"){
+  } else if (is.albert(x)){
     out <- ifelse(plural,"Albert matrices","Albert matrix")
-  } else if (class(x) == "spin"){
+  } else if (is.spin(x)){
     out <- ifelse(plural,"spin objects","spin object")
   }  else {
     stop("not recognised")
@@ -231,13 +236,17 @@ setMethod("show", "jordan_matrix", function(object){jordan_matrix_show(object)})
   
   jj <- capture.output(x)
   n <- nrow(x)
-  if(sum(o) < n){
-      jj <- c(jj[seq_len(o[1]+1)],paste(rep(".",nchar(jj[1])),collapse=""),jj[(n-o[2]):(n+1)])
+  if(length(jj) > n+1){
+      print(x)
+  } else {
+      if(sum(o) < n){
+          jj <- c(jj[seq_len(o[1]+1)],paste(rep(".",nchar(jj[1])),collapse=""),jj[(n-o[2]):(n+1)])
+      }
+      for(i in jj){
+          cat(paste(i,"\n"))
+      }
   }
-  for(i in jj){
-    cat(paste(i,"\n"))
-  }
-  return(x)
+ return(x)
 }
 
 conc_pair <- function(x,y){as.jordan(cbind(as.matrix(x),as.matrix(y)),x)}
