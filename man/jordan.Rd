@@ -32,10 +32,13 @@
     \item\code{spin()}
 }
 
+(to generate quick \dQuote{get you going} Jordan algebra objects, use
+the \code{rrsm()} family of functions, documented at \code{random.Rd}).
 
 }
 \value{Return jordans or Boolean as appropriate}
 \author{Robin K. S. Hankin}
+\seealso{\code{\link{random}}}
 \examples{
 
 A <- real_symmetric_matrix(1:10)  # vector of length 1
@@ -48,8 +51,7 @@ albert(1:27)
 spin(-6,cbind(1:12,12:1))
 
 
-x <- rqhm() ; y <- rqhm() ; z <- rqhm()
-
+x <- rrsm() ; y <- rrsm() ; z <- rrsm()  # also works with the other Jordans
 
 x*(y*z) - (x*y)*z         # Jordan algebra is not associative...
 (x*y)*(x*x) - x*(y*(x*x)) # but satisfies the Jordan identity
