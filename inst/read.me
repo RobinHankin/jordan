@@ -1,0 +1,31 @@
+File jordan_arxiv.Rnw is basically the same as the vignette
+(vignettes/jordan.Rmd) but modified for arxiv.
+
+Weave  'jordan_arxiv.Rnw' with something like
+
+R CMD Sweave jordan_arxiv.Rnw
+
+(that takes about a minute).  This will create jordan_arxiv.tex.
+
+To create the pdf, you will need to latex jordan_arxiv.tex.  For this,
+you will need a couple of auxiliary files:
+
+* arxiv.sty from https://github.com/kourgeorge/arxiv-style
+* orcid.png, from https://orcid.org/signin
+* jordan.png, the hexsticker, copied from man/figures
+* Sweave.sty, copied from the R distribution
+
+Then 
+
+pdflatex jordan_arxiv
+bibtex jordan_arxiv
+pdflatex jordan_arxiv
+pdflatex jordan_arxiv
+
+will create jordan_arxiv.pdf and jordan_arxiv.bbl
+
+These files will have to be uploaded to arxiv for it to process
+jordan_arxiv.tex; remember to upload jordan_arxiv.bbl as well.
+
+NOTE: the tex file, jordan_arxiv.tex, is NOT under version control.
+
