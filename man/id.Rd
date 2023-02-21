@@ -10,6 +10,8 @@
 \alias{qhm_id}
 \alias{spin_id}
 \alias{albert_id}
+\alias{one}
+\alias{as.one}
 \title{Multiplicative identities}
 \description{\loadmathjax
 Multiplying a jordan object by the \dfn{identity} leaves it unchanged.
