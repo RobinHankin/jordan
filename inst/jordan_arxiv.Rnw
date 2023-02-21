@@ -55,11 +55,12 @@ pdfkeywords={Jordan algebra}
 \begin{document}
 \maketitle
 
-\begin{abstract}
-In this short article I introduce the {\tt jordan} package which
-provides functionality for working with different types of Jordan
-algebra.tensors, alternating forms, The package is available on CRAN
-at \url{https://CRAN.R-project.org/package=stokes}.
+\begin{abstract} In this short article I introduce the {\tt jordan}
+package which provides functionality for working with different types
+of Jordan algebra.  I give some numerical verification of the Jordan
+identity for the five types of Jordan algebras.  The package is
+available on CRAN at \url{https://CRAN.R-project.org/package=stokes}.
+
 \end{abstract}
 
 \SweaveOpts{}
@@ -125,7 +126,7 @@ z <- rrsm()
 x
 @ 
 
-Object `x` is a three-element vector, with each element being a
+Object {\tt x} is a three-element vector, with each element being a
 column.  Each element corresponds to a $5\times 5$ symmetric matrix
 (because {\tt rrsm()} has {\tt d=5} by default, specifying the size of
 the matrix).  Thus each element has $5*(5+1)/2=15$ degrees of freedom,
@@ -193,8 +194,8 @@ applied:
 @ 
 
 
-It is also possible to verify that symmetry is closed under the Jordan
-operation:
+It is also possible to verify that symmetry is preserved under the
+Jordan operation:
 
 <<>>=
 jj <- as.1matrix(x[1]*x[2])
@@ -366,7 +367,7 @@ G8(rspin(1),rspin(1),rspin(1)) # Spin factors obey G8:
 @ 
 
 
-again showing acceptable accuracy.  The identity is *not* true for
+again showing acceptable accuracy.  The identity is {\em not} true for
 Albert algebras:
 
 <<nottrue,cache=TRUE>>=
