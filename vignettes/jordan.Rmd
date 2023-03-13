@@ -1,10 +1,8 @@
 ---
 title: "Jordan algebras in R"
 author: "Robin K. S. Hankin"
-output:
-  pdf_document: default
-  html_document:
-    df_print: paged
+output: html_vignette
+bibliography: jordan.bib
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{jordan}
@@ -24,8 +22,10 @@ library("jordan")
 
 # Jordan algebras
 
-A _Jordan algebra_ is a non-associative algebra over the reals with
-a bilinear multiplication that satisfies the following identities:
+To cite the `jordan` package in publications please use
+[@hankin2023_jordan].  A _Jordan algebra_ is a non-associative algebra
+over the reals with a bilinear multiplication that satisfies the
+following identities:
 
 $$xy=yx$$
 
@@ -34,7 +34,7 @@ $$(xy)(xx)=x(y(xx))$$
 (the second identity is known as the Jordan identity).  In literature,
 multiplication is usually indicated by juxtaposition but one sometimes
 sees $x\circ y$.  Package idiom is to use an asterisk, as in `x*y`.
-Following McCrimmon 2004, there are five types of Jordan algebras:
+Following @mccrimmon1978, there are five types of Jordan algebras:
 
 * *type 1*: Real symmetric matrices, class `real_symmetric_matrix`,
     abbreviated in the package to `rsm`
@@ -321,7 +321,5 @@ G9(ralbert(1),ralbert(1),ralbert(1)) # Albert algebra does not obey G9:
 ```
 
 
-### References
+## References
 
-K. McCrimmon 1978. "Jordan algebras and their applications" _Bulletin
-of the American Mathematical Society_, Volume 84, Number 4.
