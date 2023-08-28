@@ -95,7 +95,11 @@ setReplaceMethod("names","jordan",
          )
 }
 
-`is.zero` <- function(e1,e2=0){
+
+setGeneric("is.zero",function(x){standardGeneric("is.zero")})
+setMethod("is.zero",signature(x="jordan"),function(x){is_zero_jordan(x)})
+
+`is_zero_jordan` <- function(e1,e2=0){
   stopifnot(is.numeric(e2))
   stopifnot(length(e2)==1)
   stopifnot(round(e2)==e2)
@@ -104,7 +108,7 @@ setReplaceMethod("names","jordan",
 }
 
 `jordan_compare_numeric` <- function(e1,e2){
-   out <- is.zero(e1,e2)  # the meat
+   out <- is_zero_jordan(e1,e2)  # the meat
 
    switch(.Generic,
           "==" =  out,
@@ -114,7 +118,7 @@ setReplaceMethod("names","jordan",
 }
 
 `numeric_compare_jordan` <- function(e1,e2){
-   out <- is.zero(e2,e1) # the meat; NB e1,e2 swapped WRT jordan_compare_numeric()
+   out <- is_zero_jordan(e2,e1) # the meat; NB e1,e2 swapped WRT jordan_compare_numeric()
 
    switch(.Generic,
           "==" =  out,
