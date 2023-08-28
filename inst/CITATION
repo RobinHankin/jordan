@@ -4,12 +4,8 @@ citation(auto = meta)
 
 bibentry(bibtype = "misc",
          title = "Jordan algebra in R",
-         author = personList(
-          person(given = c("Robin","K","S"),
-		family = "Hankin",
-		email="hankin.robin@gmail.com")),
-         doi = "10.48550/ARXIV/2303.06062",
-         url = "http://arxiv.org/abs/2303.06062",
+         author = person("Robin K. S. Hankin"),
+         url = "https://arxiv.org/abs/2303.06062",
          publisher = "arXiv",
          year = {2023}
 )
