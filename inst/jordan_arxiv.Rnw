@@ -405,6 +405,6 @@ G9(ralbert(1),ralbert(1),ralbert(1)) # Albert algebra does not obey G9:
 
 
 \bibliographystyle{apalike}
-\bibliography{jordan_arxiv}
+\bibliography{jordan}
 
 \end{document}
