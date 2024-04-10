@@ -186,7 +186,7 @@ setReplaceMethod("[",signature(x="jordan_matrix",i="index",j="missing",value="nu
         D  <- jj$values
         stopifnot(is.numeric(D)) # verifies M is Hermitian
         O <- jj$vectors
-        return(emulator::quad.tform(diag(D)^n,O))
+        return(quadform::quad.tform(diag(D)^n,O))
     }
 }
 

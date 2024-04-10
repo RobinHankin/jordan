@@ -111,7 +111,7 @@ setMethod("show", "spin", function(object){spin_show(object)})
   if(is.null(getOption("quadraticform"))){
     innerprod <- function(v1,v2){colSums(v1*v2)}
   } else {
-    innerprod <- function(v1,v2){emulator::quad.3diag(quadraticform(),v1,v2)}
+    innerprod <- function(v1,v2){quadform::quad.3diag(quadraticform(),v1,v2)}
   }
   with(harmonize_spin_spin(e1,e2),{
     return(spin(a=s1*s2 + innerprod(v1,v2), V=sweep(v2,2,s1,"*")+sweep(v1,2,s2,"*")))})

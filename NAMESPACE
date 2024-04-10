@@ -2,7 +2,7 @@ exportPattern("^[^\\.]")
 
 import("mathjaxr")
 
-importFrom(emulator,quad.3form,quad.tform)
+importFrom(quadform, quad.tform, quad.3diag)
 importFrom("onion","diag","getM","harmonize_on","harmonize_oo","i","j","k","ht","onionmat","as.quaternion","cprod","as.octonion","herm_onion_mat","is.onionmat","is.quaternion","is.octonion")
 
 importFrom("methods", "as", "is", "new")
