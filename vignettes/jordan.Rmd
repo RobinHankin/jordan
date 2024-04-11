@@ -20,10 +20,8 @@ library("jordan")
 </p>
 
 
-# Jordan algebras
-
 To cite the `jordan` package in publications please use
-[@hankin2023_jordan].  A _Jordan algebra_ is a non-associative algebra
+@hankin2023_jordan.  A _Jordan algebra_ is a non-associative algebra
 over the reals with a bilinear multiplication that satisfies the
 following identities:
 
