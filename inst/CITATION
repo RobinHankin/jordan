@@ -5,7 +5,7 @@ citation(auto = meta)
 bibentry(bibtype = "misc",
          title = "Jordan algebra in R",
          author = person("Robin K. S. Hankin"),
-         url = "https://arxiv.org/abs/2303.06062",
+         url = "https://arxiv.org/abs/2303.06062v1",
          publisher = "arXiv",
          year = {2023}
 )

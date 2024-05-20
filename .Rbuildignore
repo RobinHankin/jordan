@@ -4,6 +4,7 @@
 ^\.travis\.yml$
 .Rhistory
 .gitignore
+^CITATION.cff$
 inst/jordan_stickermaker.R
 inst/jordan_icon.tex
 inst/non_jordan.Rmd
