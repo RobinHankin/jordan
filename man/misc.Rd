@@ -28,7 +28,8 @@ harmonize_spin_spin(e1,e2)
   
   The harmonize functions \code{harmonize_spin_numeric()} and
   \code{harmonize_spin_spin()} work for spin objects for the
-  matrix-based classes \code{emulator::harmonize_foo()} is used.
+  matrix-based classes \code{onion::harmonize_oo()} and
+  \code{onion::harmonize_on()} are used.
 
 }
 \value{These are mostly low-level helper functions; they not
