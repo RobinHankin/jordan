@@ -82,7 +82,7 @@ x + 100
 
 (the last line is motivated by analogy with `M + x`, for `M` a matrix
 and `x` a scalar). Jordan objects may be multiplied using the rule
-$x\circ y=(xy+yx)/2$:
+$x\bullet y=(xy+yx)/2$:
 
 ```{r}
 x*y
