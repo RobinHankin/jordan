@@ -7,18 +7,18 @@
 \description{
 \packageDescription{jordan}
 }
-\details{\loadmathjax
+\details{
 
   A \dfn{Jordan algebra} is a non-associative algebra over the reals
   with a multiplication that satisfies the following identities:
 
-  \mjsdeqn{xy=yx}
+  \deqn{xy=yx}
 
-  \mjsdeqn{(xy)(xx) = x(y(xx))}
+  \deqn{(xy)(xx) = x(y(xx))}
 
   (the second identity is known as the Jordan identity).  In literature
   one usually indicates multiplication by juxtaposition but one
-  sometimes sees \mjeqn{x\circ y}{x o y}.  Package idiom is to use an
+  sometimes sees \eqn{x\circ y}{x o y}.  Package idiom is to use an
   asterisk, as in \code{x*y}.  There are five types of Jordan algebras:
 
   \enumerate{
@@ -28,7 +28,7 @@
     abbreviated to \code{chm}
     \item Quaternionic Hermitian matrices, class
     \code{quaternion_herm_matrix}, abbreviated to \code{qhm}
-    \item Albert algebras, the space of \mjeqn{3\times 3}{3*3}
+    \item Albert algebras, the space of \eqn{3\times 3}{3*3}
     octonionic matrices, class \code{albert}
     \item Spin factors, class \code{spin}
   }
@@ -53,7 +53,7 @@
 
   Algebraically, the matrix form of \code{jordan_matrix} objects is
   redundant (for example, a \code{real_symmetric_matrix} of size
-  \mjeqn{n\times n}{n*n} has only \mjseqn{n(n+1)/2} independent entries,
+  \eqn{n\times n}{n*n} has only \eqn{n(n+1)/2} independent entries,
   corresponding to the upper triangular elements).
   
 }

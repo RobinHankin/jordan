@@ -13,7 +13,7 @@
 \alias{one}
 \alias{as.one}
 \title{Multiplicative identities}
-\description{\loadmathjax
+\description{
 Multiplying a jordan object by the \dfn{identity} leaves it unchanged.
 }
 \usage{
@@ -40,7 +40,7 @@ spin_id(n=3,d=5)
   and type, but comprising identity elements.
 
   Class \code{spin} has identity
-  \mjeqn{\left(1,\mathbf{0}\right)}{(1,0)}.
+  \eqn{\left(1,\mathbf{0}\right)}{(1,0)}.
 
 }
 \value{A jordan object is returned.}
