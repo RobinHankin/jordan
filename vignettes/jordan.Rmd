@@ -21,9 +21,11 @@ set.seed(0)
 knitr::include_graphics(system.file("help/figures/jordan.png", package = "jordan"))
 ```
 To cite the `jordan` package in publications please use
-@hankin2023_jordan.  A _Jordan algebra_ is a non-associative algebra
-over the reals with a bilinear multiplication that satisfies the
-following identities:
+@hankin2023_jordan.  Jordan algebras were originally introduced by
+Pascual Jordan in 1933 as an attempt to axiomatize observables in
+quantum mechanics.  Formally, a _Jordan algebra_ is a non-associative
+algebra over the reals with a bilinear multiplication that satisfies
+the following identities:
 
 $$xy=yx$$
 
