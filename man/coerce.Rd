@@ -62,9 +62,11 @@ matrix1_to_jordan(x)
 }
 \details{
 
-  The numeral \dQuote{1} in a function name means a single element,
-  usually a matrix.
-
+  The numeral \dQuote{1} in a function name means that it operates on,
+  or returns, a single element, usually a matrix.  Thus function
+  \code{as.1matrix()} is used to convert a jordan object to a list of
+  matrices.  Length one jordan objects are converted to a matrix.
+  
   Functions \code{vec_to_rsm1()} et seq convert a numeric vector to a
   (symmetric, complex, quaternion, octonion) matrix, that is, elements
   of a matrix-based Jordan algebra.
@@ -75,10 +77,6 @@ matrix1_to_jordan(x)
   symmetry is performed (the lower triangular components, and non-real
   components of the diagonal, are discarded).
 
-  Function \code{as.1matrix()} is used to convert a jordan object to a
-  list of matrices.  Length one jordan objects are converted to a
-  matrix.
-
   Functions \code{as.real_symmetric_matrix()},
   \code{as.complex_herm_matrix()}, \code{as.quaternion_herm_matrix()}
   and \code{as.albert()} take a numeric matrix and return a
@@ -86,7 +84,6 @@ matrix1_to_jordan(x)
 
   Functions \code{numeric_to_real_symmetric_matrix()} have not been
   coded up yet.
-
 
   Function \code{matrix1_to_jordan()} takes a matrix and returns a
   length-1 (matrix based) Jordan vector.  It uses the class of the
