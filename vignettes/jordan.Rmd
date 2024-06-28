@@ -31,7 +31,7 @@ $$(xy)(xx)=x(y(xx))$$
 
 (the second identity is known as the Jordan identity).  In literature,
 multiplication is usually indicated by juxtaposition but one sometimes
-sees $x\circ y$.  Package idiom is to use an asterisk, as in `x*y`.
+sees $x\bullet y$.  Package idiom is to use an asterisk, as in `x*y`.
 Following @mccrimmon1978, there are five types of Jordan algebras:
 
 * *type 1*: Real symmetric matrices, class `real_symmetric_matrix`,
