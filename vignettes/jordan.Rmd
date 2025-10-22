@@ -3,6 +3,7 @@ title: "Jordan algebras in R"
 author: "Robin K. S. Hankin"
 output: html_vignette
 bibliography: jordan.bib
+link-citations: true
 vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteIndexEntry{jordan}
