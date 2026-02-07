@@ -169,11 +169,24 @@ setMethod("[", signature(x="complex_herm_matrix", i="index", j="missing", drop="
               }
           } )
               
-setReplaceMethod("[", signature(x="complex_herm_matrix", i="index", j="missing", value="complex_herm_matrix"),  # matches rsm equivalent
+setReplaceMethod("[",
+                 signature(
+                     x = "complex_herm_matrix",
+                     i = "index", j = "missing",
+                     value = "complex_herm_matrix"
+                 ),  # matches rsm equivalent
                  function(x, i, j, value){
-                   out <- as.matrix(x)
-                   out[,i] <- as.matrix(value)  # the meat
-                   return(as.jordan(out,x))
+                     out <- as.matrix(x)
+                     out[,i] <- as.matrix(value)  # the meat
+                     return(as.jordan(out,x))
                  } )
 
-setReplaceMethod("[", signature(x="complex_herm_matrix", i="index", j="ANY", value="ANY"), function(x, i, j, value){stop("second argument redundant")})  # matches rsm equivalent
+setReplaceMethod("[",
+                 signature(
+                     x = "complex_herm_matrix",
+                     i = "index", j = "ANY",
+                     value="ANY"
+                 ),
+                 function(x, i, j, value){
+                     stop("second argument redundant")
+                 } )  # matches rsm equivalent

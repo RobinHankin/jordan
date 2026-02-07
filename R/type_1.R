@@ -138,7 +138,7 @@ setMethod("as.1matrix", "real_symmetric_matrix", function(x, drop=TRUE){
          )
 }
 
-setMethod("Arith",signature(e1 = "real_symmetric_matrix", e2="missing"),
+setMethod("Arith", signature(e1 = "real_symmetric_matrix", e2="missing"),
           function(e1, e2){
             switch(.Generic,
                    "+" = e1,
@@ -151,11 +151,16 @@ setMethod("Arith", signature(e1="real_symmetric_matrix" , e2="real_symmetric_mat
 setMethod("Arith", signature(e1="real_symmetric_matrix" , e2="numeric"              ),    rsm_arith_numeric)
 setMethod("Arith", signature(e1="numeric"               , e2="real_symmetric_matrix"),numeric_arith_rsm    )
 
-setMethod("[", signature(x="real_symmetric_matrix", i="index", j="missing", drop="logical"),
+setMethod("[",
+          signature(
+              x = "real_symmetric_matrix",
+              i = "index", j = "missing",
+              drop="logical"
+          ),
           function(x, i, j, drop){
-              out <- as.matrix(x)[,i,drop=FALSE]
+              out <- as.matrix(x)[, i, drop=FALSE]
               if(drop){
-                  if(ncol(out)==1){
+                  if(ncol(out) == 1){
                       return(vec_to_rsm1(c(out)))
                   } else {
                       stop("for >1 element, use as.list()")
@@ -165,9 +170,14 @@ setMethod("[", signature(x="real_symmetric_matrix", i="index", j="missing", drop
               }
           } )
               
-setReplaceMethod("[", signature(x="real_symmetric_matrix", i="index", j="missing", value="real_symmetric_matrix"),
+setReplaceMethod("[",
+                 signature(
+                     x = "real_symmetric_matrix",
+                     i = "index", j = "missing",
+                     value = "real_symmetric_matrix"
+                 ),
                  function(x, i, j, value){
-                   out <- as.matrix(x)
-                   out[,i] <- as.matrix(value)  # the meat
-                   return(as.jordan(out, x))
+                     out <- as.matrix(x)
+                     out[,i] <- as.matrix(value)  # the meat
+                     return(as.jordan(out, x))
                  } )
