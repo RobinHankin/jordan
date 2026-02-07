@@ -6,13 +6,13 @@
 
 `is.real_symmetric_matrix` <- function(x){inherits(x, "real_symmetric_matrix")}
 
-`r_to_n_rsm` <- function(r){(sqrt(1+4*r)-1)/2}
-`n_to_r_rsm` <- function(n){n*(n+1)/2}
+`r_to_n_rsm` <- function(r){(sqrt(1+4*r)-1) / 2}
+`n_to_r_rsm` <- function(n){n*(n+1) / 2}
 
 `is_ok_rsm` <- function(r){ # 'r' = number of rows in [rowwise] matrix
     jj <- sqrt(1 + 8*r)
     if(jj == round(jj)){
-        return((jj+1)/2) # size of nxn real matrix
+        return((jj+1) / 2) # size of nxn real matrix
     } else {
         stop("not correct")
     }
@@ -55,21 +55,21 @@ setValidity("real_symmetric_matrix", valid_rsm)
 
 `vec_to_rsm1` <- function(x){
    r <- length(x)
-   n <- (sqrt(1+8*r)-1)/2
+   n <- (sqrt(1+8*r)-1) / 2
    stopifnot(n == round(n))
    out <- matrix(0, n, n)
    out[upper.tri(out, TRUE)] <- x
    out <- out + t(out)
-   diag(out) <- diag(out)/2
+   diag(out) <- diag(out) / 2
    return(out)
 }
 
-`rsm1_to_vec` <- function(M){M[upper.tri(M,TRUE)]}
+`rsm1_to_vec` <- function(M){M[upper.tri(M, TRUE)]}
 
-`vec_rsmprod_vec` <- function(x,y){
+`vec_rsmprod_vec` <- function(x, y){
     x <- vec_to_rsm1(x)
     y <- vec_to_rsm1(y)
-    jj <- (cprod(x,y)+cprod(y, x))/2
+    jj <- (cprod(x,y)+cprod(y, x)) / 2
     return(rsm1_to_vec(jj))
 }
 
