@@ -6,13 +6,13 @@
 
 `is.real_symmetric_matrix` <- function(x){inherits(x, "real_symmetric_matrix")}
 
-`r_to_n_rsm` <- function(r){(sqrt(1+4*r)-1)/2}
-`n_to_r_rsm` <- function(n){n*(n+1)/2}
+`r_to_n_rsm` <- function(r){(sqrt(1+4*r)-1) / 2}
+`n_to_r_rsm` <- function(n){n*(n+1) / 2}
 
 `is_ok_rsm` <- function(r){ # 'r' = number of rows in [rowwise] matrix
     jj <- sqrt(1 + 8*r)
     if(jj == round(jj)){
-        return((jj+1)/2) # size of nxn real matrix
+        return((jj+1) / 2) # size of nxn real matrix
     } else {
         stop("not correct")
     }
@@ -55,21 +55,21 @@ setValidity("real_symmetric_matrix", valid_rsm)
 
 `vec_to_rsm1` <- function(x){
    r <- length(x)
-   n <- (sqrt(1+8*r)-1)/2
+   n <- (sqrt(1+8*r)-1) / 2
    stopifnot(n == round(n))
    out <- matrix(0, n, n)
    out[upper.tri(out, TRUE)] <- x
    out <- out + t(out)
-   diag(out) <- diag(out)/2
+   diag(out) <- diag(out) / 2
    return(out)
 }
 
-`rsm1_to_vec` <- function(M){M[upper.tri(M,TRUE)]}
+`rsm1_to_vec` <- function(M){M[upper.tri(M, TRUE)]}
 
-`vec_rsmprod_vec` <- function(x,y){
+`vec_rsmprod_vec` <- function(x, y){
     x <- vec_to_rsm1(x)
     y <- vec_to_rsm1(y)
-    jj <- (cprod(x,y)+cprod(y, x))/2
+    jj <- (cprod(x,y)+cprod(y, x)) / 2
     return(rsm1_to_vec(jj))
 }
 
@@ -138,7 +138,7 @@ setMethod("as.1matrix", "real_symmetric_matrix", function(x, drop=TRUE){
          )
 }
 
-setMethod("Arith",signature(e1 = "real_symmetric_matrix", e2="missing"),
+setMethod("Arith", signature(e1 = "real_symmetric_matrix", e2="missing"),
           function(e1, e2){
             switch(.Generic,
                    "+" = e1,
@@ -151,11 +151,16 @@ setMethod("Arith", signature(e1="real_symmetric_matrix" , e2="real_symmetric_mat
 setMethod("Arith", signature(e1="real_symmetric_matrix" , e2="numeric"              ),    rsm_arith_numeric)
 setMethod("Arith", signature(e1="numeric"               , e2="real_symmetric_matrix"),numeric_arith_rsm    )
 
-setMethod("[", signature(x="real_symmetric_matrix", i="index", j="missing", drop="logical"),
+setMethod("[",
+          signature(
+              x = "real_symmetric_matrix",
+              i = "index", j = "missing",
+              drop="logical"
+          ),
           function(x, i, j, drop){
-              out <- as.matrix(x)[,i,drop=FALSE]
+              out <- as.matrix(x)[, i, drop=FALSE]
               if(drop){
-                  if(ncol(out)==1){
+                  if(ncol(out) == 1){
                       return(vec_to_rsm1(c(out)))
                   } else {
                       stop("for >1 element, use as.list()")
@@ -165,9 +170,14 @@ setMethod("[", signature(x="real_symmetric_matrix", i="index", j="missing", drop
               }
           } )
               
-setReplaceMethod("[", signature(x="real_symmetric_matrix", i="index", j="missing", value="real_symmetric_matrix"),
+setReplaceMethod("[",
+                 signature(
+                     x = "real_symmetric_matrix",
+                     i = "index", j = "missing",
+                     value = "real_symmetric_matrix"
+                 ),
                  function(x, i, j, value){
-                   out <- as.matrix(x)
-                   out[,i] <- as.matrix(value)  # the meat
-                   return(as.jordan(out, x))
+                     out <- as.matrix(x)
+                     out[,i] <- as.matrix(value)  # the meat
+                     return(as.jordan(out, x))
                  } )
