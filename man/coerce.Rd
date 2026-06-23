@@ -106,5 +106,7 @@ matrix1_to_jordan(cprod(matrix(rnorm(35),7,5)))
 matrix1_to_jordan(matrix(c(1,1+1i,1-1i,3),2,2))
 matrix1_to_jordan(Oil + matrix(1,3,3))
 
+1:4 %notin% 2:10 # checks to see if CICD uses new R version
+
 
 }
