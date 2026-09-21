@@ -16,10 +16,28 @@
 \alias{numeric_compare_jordan}
 \title{Create jordan objects}
 \description{Creation methods for jordan objects}
+
+
+\usage{
+is.real_symmetric_matrix(x)
+is.quaternion_herm_matrix(x)
+quaternion_herm_matrix(M)
+complex_herm_matrix(M)
+is.complex_herm_matrix(x)
+real_symmetric_matrix(M)
+albert(M)
+is.albert(x)
+is.jordan(x)
+as.spin(x, d)
+is.spin(x)
+spin(a, V)
+}
 \arguments{
   \item{M}{A matrix with columns representing independent entries in a
     matrix-based Jordan algebra}
-  \item{a,V}{Scalar and vector components of a spin factor}
+  \item{x}{Object to be tested}
+  \item{a, V}{Scalar and vector components of a spin factor}
+  \item{d}{Dimensionality of vector component of a spin factor}
 }
 \details{
   The functions documented here are the creation methods for the five
