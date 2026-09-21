@@ -16,8 +16,6 @@
 \alias{numeric_compare_jordan}
 \title{Create jordan objects}
 \description{Creation methods for jordan objects}
-
-
 \usage{
 is.real_symmetric_matrix(x)
 is.quaternion_herm_matrix(x)
